@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
     spec.cert_chain = [Gem.default_cert_path]
   end
 
+  spec.add_dependency "refinements", "~> 3.0"
   spec.add_development_dependency "rake", "~> 11.0"
   spec.add_development_dependency "gemsmith", "~> 7.7"
   spec.add_development_dependency "pry", "~> 0.10"
