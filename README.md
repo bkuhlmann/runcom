@@ -62,11 +62,11 @@ Add the following to your Gemfile:
 
 Start by leveraging the `Runcom::Configuration` object as follows:
 
-    configuration = Runcom::Configuration file_name: ".examplerc"
+    configuration = Runcom::Configuration.new file_name: ".examplerc"
 
 There is optional support for default settings too:
 
-    configuration = Runcom::Configuration file_name: ".examplerc", defaults: {name: "Example"}
+    configuration = Runcom::Configuration.new file_name: ".examplerc", defaults: {name: "Example"}
 
 Default settings will be overwitten if matching local or global setting keys are detected. Order of
 precedence is determined as follows:
