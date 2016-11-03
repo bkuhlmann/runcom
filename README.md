@@ -7,12 +7,14 @@
 [![Travis CI Status](https://secure.travis-ci.org/bkuhlmann/runcom.svg)](https://travis-ci.org/bkuhlmann/runcom)
 [![Patreon](https://img.shields.io/badge/patreon-donate-brightgreen.svg)](https://www.patreon.com/bkuhlmann)
 
+A [run command manager](https://en.wikipedia.org/wiki/Run_commands) for command line interfaces
+(CLI). It manages/resolves local or global resource (i.e. `.<program>rc`) settings for CLIs.
+
 <!-- Tocer[start]: Auto-generated, don't remove. -->
 
 # Table of Contents
 
 - [Features](#features)
-- [Screencasts](#screencasts)
 - [Requirements](#requirements)
 - [Setup](#setup)
 - [Usage](#usage)
@@ -28,7 +30,10 @@
 
 # Features
 
-# Screencasts
+- Loads local or global YAML resource configurations.
+- Automatically detects and resolves local or global resource configurations.
+- Provides support for merging of nested/complex configurations.
+- Supports hash representation of configuration.
 
 # Requirements
 
@@ -54,6 +59,26 @@ Add the following to your Gemfile:
     gem "runcom"
 
 # Usage
+
+Start by leveraging the `Runcom::Configuration` object as follows:
+
+    configuration = Runcom::Configuration file_name: ".examplerc"
+
+There is optional support for default settings too:
+
+    configuration = Runcom::Configuration file_name: ".examplerc", defaults: {name: "Example"}
+
+Default settings will be overwitten if matching local or global setting keys are detected. Order of
+precedence is determined as follows:
+
+0. Local (i.e. `<current working directory>/.examplerc`)
+0. Global (i.e. `$HOME/.examplerc`)
+0. Defaults (i.e. `{}` unless specified upon initialization).
+
+If multiple settings are detected, only the first one found will be used.
+
+For further details, study the public interface as provided by the
+[`Runcom::Configuration`](lib/runcom/configuration.rb) object.
 
 # Tests
 
