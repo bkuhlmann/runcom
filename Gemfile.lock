@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    runcom (0.1.0)
+    runcom (0.2.0)
       refinements (~> 3.0)
 
 GEM
