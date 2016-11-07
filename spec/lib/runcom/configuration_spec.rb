@@ -156,7 +156,7 @@ RSpec.describe Runcom::Configuration, :temp_dir do
     let(:local_dir) { File.join temp_dir, "local" }
     let(:local_file) { File.join local_dir, file_name }
     let(:global_defaults) { {remove: {comments: "# encoding: UTF-8"}} }
-    let(:local_defaults) { {add: {comments: "#! /usr/bin/ruby"}} }
+    let(:local_defaults) { {add: {comments: "#! /usr/bin/env ruby"}} }
     subject { described_class.new file_name: file_name }
 
     context "when using global path" do
