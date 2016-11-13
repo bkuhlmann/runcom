@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    runcom (0.2.0)
-      refinements (~> 3.0)
+    runcom (0.3.0)
+      refinements (~> 3.1)
 
 GEM
   remote: https://rubygems.org/
@@ -35,7 +35,7 @@ GEM
     equalizer (0.0.11)
     ffi (1.9.14)
     formatador (0.2.5)
-    gemsmith (7.7.0)
+    gemsmith (8.0.0)
       milestoner (~> 4.0)
       pragmater (~> 2.0)
       refinements (~> 3.0)
@@ -102,7 +102,7 @@ GEM
       codeclimate-engine-rb (~> 0.4.0)
       parser (~> 2.3.1, >= 2.3.1.2)
       rainbow (~> 2.0)
-    refinements (3.0.0)
+    refinements (3.1.0)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -156,7 +156,7 @@ PLATFORMS
 DEPENDENCIES
   climate_control (~> 0.0)
   codeclimate-test-reporter (~> 1.0)
-  gemsmith (~> 7.7)
+  gemsmith (~> 8.0)
   guard-rspec (~> 4.7)
   pry (~> 0.10)
   pry-byebug (~> 3.4)
