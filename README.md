@@ -37,7 +37,7 @@ A [run command manager](https://en.wikipedia.org/wiki/Run_commands) for command 
 
 # Requirements
 
-0. [Ruby 2.3.1](https://www.ruby-lang.org)
+0. [Ruby 2.4.x](https://www.ruby-lang.org)
 
 # Setup
 

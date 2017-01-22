@@ -11,6 +11,7 @@ begin
   RuboCop::RakeTask.new
 rescue LoadError => error
   puts error.message
+  require "bundler/gem_tasks"
 end
 
 task default: %w[spec reek rubocop]
