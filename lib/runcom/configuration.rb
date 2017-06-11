@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "pathname"
 require "yaml"
 require "refinements/hashes"
 
@@ -8,30 +9,12 @@ module Runcom
   class Configuration
     using Refinements::Hashes
 
-    def initialize file_name:, defaults: {}
-      @file_name = file_name
+    attr_reader :path
+
+    def initialize project_name:, file_name: "configuration.yml", defaults: {}
+      @path = Pathname "#{XDG::Configuration.computed_dir}/#{project_name}/#{file_name}"
       @defaults = defaults
       @settings = defaults.deep_merge load_settings
-    end
-
-    def local?
-      File.exist? local_path
-    end
-
-    def global?
-      File.exist? global_path
-    end
-
-    def local_path
-      File.join Dir.pwd, file_name
-    end
-
-    def global_path
-      File.join ENV["HOME"], file_name
-    end
-
-    def computed_path
-      local? ? local_path : global_path
     end
 
     def merge custom_settings
@@ -44,10 +27,10 @@ module Runcom
 
     private
 
-    attr_reader :file_name, :defaults, :settings
+    attr_reader :file_path, :defaults, :settings
 
     def load_settings
-      yaml = YAML.load_file computed_path
+      yaml = YAML.load_file path
       yaml.is_a?(Hash) ? yaml : {}
     rescue
       defaults
