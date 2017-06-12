@@ -1,3 +1,11 @@
+# v1.0.0 (2017-06-11)
+
+- Added Circle CI support.
+- Added XDG_CONFIG_HOME support.
+- Updated Rakefile to temporarily disable Gemsmith support.
+- Updated gem dependencies.
+- Removed Travis CI support.
+
 # v0.6.0 (2017-05-06)
 
 - Fixed Travis CI configuration to not update gems.
