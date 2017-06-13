@@ -11,9 +11,16 @@ RSpec.describe Runcom::Configuration, :temp_dir do
   before { FileUtils.mkdir_p config_dir }
 
   describe "#path" do
-    it "answers default path" do
+    it "answers configuration file when path exists" do
+      FileUtils.touch config_path
       ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
         expect(subject.path).to eq(config_path)
+      end
+    end
+
+    it "answers nil when path doesn't exist" do
+      ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
+        expect(subject.path).to eq(nil)
       end
     end
   end

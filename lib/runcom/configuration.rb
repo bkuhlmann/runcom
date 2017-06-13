@@ -12,7 +12,7 @@ module Runcom
     attr_reader :path
 
     def initialize project_name:, file_name: "configuration.yml", defaults: {}
-      @path = Pathname "#{XDG::Configuration.computed_dir}/#{project_name}/#{file_name}"
+      @path = load_path project_name, file_name
       @defaults = defaults
       @settings = defaults.deep_merge load_settings
     end
@@ -27,7 +27,12 @@ module Runcom
 
     private
 
-    attr_reader :file_path, :defaults, :settings
+    attr_reader :paths, :defaults, :settings
+
+    def load_path project, file
+      paths = XDG::Configuration.computed_dirs.map { |root| Pathname "#{root}/#{project}/#{file}" }
+      paths.find(&:exist?)
+    end
 
     def load_settings
       yaml = YAML.load_file path
