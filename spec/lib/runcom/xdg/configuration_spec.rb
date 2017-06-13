@@ -67,15 +67,4 @@ RSpec.describe Runcom::XDG::Configuration do
       end
     end
   end
-
-  describe ".computed_dir", :temp_dir do
-    let(:test_dir) { Pathname "#{temp_dir}/config" }
-    before { FileUtils.mkdir_p test_dir }
-
-    it "answers computed directory" do
-      ClimateControl.modify XDG_CONFIG_HOME: test_dir.to_s do
-        expect(described_class.computed_dir).to eq(test_dir)
-      end
-    end
-  end
 end

@@ -21,10 +21,6 @@ module Runcom
         directories = dirs.unshift(home_dir).map { |directory| Pathname(directory).expand_path }
         directories.select(&:exist?)
       end
-
-      def self.computed_dir
-        computed_dirs.first
-      end
     end
   end
 end
