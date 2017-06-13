@@ -22,7 +22,7 @@ Read on for further details.
 - [Setup](#setup)
 - [Usage](#usage)
   - [`Runcom::Configuration`](#runcomconfiguration)
-  - [XDG Configurations](#xdg-configurations)
+  - [XDG](#xdg)
     - [`$XDG_CONFIG_DIRS`](#xdg_config_dirs)
     - [`$XDG_CONFIG_HOME`](#xdg_config_home)
     - [Variable Priority](#variable-priority)
@@ -75,6 +75,9 @@ Add the following to your Gemfile:
 
 ## `Runcom::Configuration`
 
+This object provides support for loading custom CLI configurations directly from the command line or
+from custom locations. It is meant to be used within your CLI program(s).
+
 An object can be initialized as follows:
 
     configuration = Runcom::Configuration.new project_name: "example"
@@ -103,7 +106,7 @@ The computed path of the configuration can be asked for as well:
 For further details, study the public interface as provided by the
 [`Runcom::Configuration`](lib/runcom/configuration.rb) object.
 
-## XDG Configurations
+## XDG
 
 This gem leverages the XDG `$XDG_CONFIG_DIRS` and `$XDG_CONFIG_HOME` environment variables which are
 used to compute the configuration path (as mentioned above). The following details how to take
@@ -141,11 +144,11 @@ This is the environment variable you'll want to use the most as it takes precide
 Configuration path precedence is determined in the following order (with the first taking highest
 priority):
 
-0. `$XDG_CONFIG_HOME` - Will be used if defined *and* an exists on the local file system. Otherwise,
+0. `$XDG_CONFIG_HOME` - Will be used if defined *and* exists on the local file system. Otherwise,
    falls back to the `$XDG_CONFIG_DIRS` array.
 0. `$XDG_CONFIG_DIRS` - Iterates through defined directories starting with the first one defined
    (highest priority). It will choose the first directory, in priority, that exists on the file
-   system while skipping those that don't exist.
+   system while skipping any that don't exist.
 
 # Tests
 
