@@ -1,3 +1,8 @@
+# v1.1.0 (2017-06-12)
+
+- Fixed loading of path.
+- Removed computed directory.
+
 # v1.0.0 (2017-06-11)
 
 - Added Circle CI support.
