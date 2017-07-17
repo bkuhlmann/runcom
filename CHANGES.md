@@ -1,3 +1,13 @@
+# v1.2.0 (2017-07-16)
+
+- Added Git Cop code quality task.
+- Updated CONTRIBUTING documentation.
+- Updated GitHub templates.
+- Updated README headers.
+- Updated README usage documentation.
+- Updated gem dependencies.
+- Updated to Gemsmith 10.0.0.
+
 # v1.1.0 (2017-06-12)
 
 - Fixed loading of path.
