@@ -10,6 +10,17 @@ RSpec.describe Runcom::Configuration, :temp_dir do
   subject { described_class.new project_name: project_name }
   before { FileUtils.mkdir_p config_dir }
 
+  describe "#initialize" do
+    let(:xdg_dir) { Pathname "#{Bundler.root}/spec/support" }
+
+    it "raises base error" do
+      ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
+        result = -> { described_class.new project_name: "fixtures", file_name: "invalid.yml" }
+        expect(&result).to raise_error(Runcom::Errors::Syntax)
+      end
+    end
+  end
+
   describe "#path" do
     it "answers configuration file when path exists" do
       FileUtils.touch config_path

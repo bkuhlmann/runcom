@@ -14,7 +14,7 @@ module Runcom
     def initialize project_name:, file_name: "configuration.yml", defaults: {}
       @path = load_path project_name, file_name
       @defaults = defaults
-      @settings = defaults.deep_merge load_settings
+      @settings = defaults.deep_merge process_settings
     end
 
     def merge custom_settings
@@ -37,6 +37,12 @@ module Runcom
     def load_settings
       yaml = YAML.load_file path
       yaml.is_a?(Hash) ? yaml : {}
+    end
+
+    def process_settings
+      load_settings
+    rescue Psych::SyntaxError => error
+      raise Errors::Syntax, error.message
     rescue
       defaults
     end
