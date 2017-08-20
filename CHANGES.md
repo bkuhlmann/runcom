@@ -1,3 +1,11 @@
+# v1.3.0 (2017-08-20)
+
+- Fixed errors with loading of invalid YAML configurations.
+- Added base error.
+- Added dynamic formatting of RSpec output.
+- Added syntax error.
+- Updated to Gemsmith 10.2.0.
+
 # v1.2.0 (2017-07-16)
 
 - Added Git Cop code quality task.
