@@ -43,7 +43,7 @@ module Runcom
       load_settings
     rescue Psych::SyntaxError => error
       raise Errors::Syntax, error.message
-    rescue
+    rescue StandardError
       defaults
     end
   end
