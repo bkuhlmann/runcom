@@ -1,3 +1,11 @@
+# v1.4.0 (2017-10-29)
+
+- Added Bundler Audit gem.
+- Updated to Rubocop 0.50.0.
+- Updated to Rubocop 0.51.0.
+- Updated to Ruby 2.4.2.
+- Removed Pry State gem.
+
 # v1.3.0 (2017-08-20)
 
 - Fixed errors with loading of invalid YAML configurations.
