@@ -42,7 +42,7 @@ RSpec.describe Runcom::Configuration, :temp_dir do
         {
           add: {
             comments: "encoding: UTF-8",
-            whitelist: [".gemspec"]
+            includes: [".gemspec"]
           }
         }
       end
@@ -51,7 +51,7 @@ RSpec.describe Runcom::Configuration, :temp_dir do
         {
           add: {
             comments: "encoding: UTF-8",
-            whitelist: [".gemspec"]
+            includes: [".gemspec"]
           }
         }
       end
@@ -68,11 +68,11 @@ RSpec.describe Runcom::Configuration, :temp_dir do
         {
           add: {
             comments: "",
-            whitelist: []
+            includes: []
           },
           remove: {
             comments: "",
-            whitelist: []
+            includes: []
           }
         }
       end
@@ -80,7 +80,7 @@ RSpec.describe Runcom::Configuration, :temp_dir do
       let :custom_settings do
         {
           add: {
-            whitelist: [".gemspec"]
+            includes: [".gemspec"]
           },
           remove: {
             comments: "# encoding: UTF-8"
@@ -94,11 +94,11 @@ RSpec.describe Runcom::Configuration, :temp_dir do
         modified_settings = {
           add: {
             comments: "",
-            whitelist: [".gemspec"]
+            includes: [".gemspec"]
           },
           remove: {
             comments: "# encoding: UTF-8",
-            whitelist: []
+            includes: []
           }
         }
 
@@ -138,7 +138,7 @@ RSpec.describe Runcom::Configuration, :temp_dir do
         {
           remove: {
             comments: "# frozen_string_literal: true",
-            whitelist: []
+            includes: []
           }
         }
       end
@@ -147,7 +147,7 @@ RSpec.describe Runcom::Configuration, :temp_dir do
         {
           remove: {
             comments: "# encoding: UTF-8",
-            whitelist: []
+            includes: []
           }
         }
       end
