@@ -18,7 +18,7 @@ module Runcom
       end
 
       def self.computed_dirs
-        directories = dirs.unshift(home_dir).map { |directory| Pathname(directory).expand_path }
+        directories = dirs.prepend(home_dir).map { |directory| Pathname(directory).expand_path }
         directories.select(&:exist?)
       end
     end
