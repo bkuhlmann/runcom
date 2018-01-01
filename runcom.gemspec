@@ -19,12 +19,12 @@ Gem::Specification.new do |spec|
   end
 
   spec.required_ruby_version = "~> 2.5"
-  spec.add_dependency "refinements", "~> 4.2"
+  spec.add_dependency "refinements", "~> 5.0"
   spec.add_development_dependency "bundler-audit", "~> 0.6"
   spec.add_development_dependency "climate_control", "~> 0.1"
   spec.add_development_dependency "codeclimate-test-reporter", "~> 1.0"
-  spec.add_development_dependency "gemsmith", "~> 10.4"
-  spec.add_development_dependency "git-cop", "~> 1.7"
+  # spec.add_development_dependency "gemsmith", "~> 10.4"
+  # spec.add_development_dependency "git-cop", "~> 1.7"
   spec.add_development_dependency "guard-rspec", "~> 4.7"
   spec.add_development_dependency "pry", "~> 0.10"
   spec.add_development_dependency "pry-byebug", "~> 3.5"
