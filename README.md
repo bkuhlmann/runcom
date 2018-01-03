@@ -5,7 +5,6 @@
 [![Code Climate Test Coverage](https://api.codeclimate.com/v1/badges/129b7ea524a0f5a6a805/test_coverage)](https://codeclimate.com/github/bkuhlmann/runcom/test_coverage)
 [![Gemnasium Status](https://gemnasium.com/bkuhlmann/runcom.svg)](https://gemnasium.com/bkuhlmann/runcom)
 [![Circle CI Status](https://circleci.com/gh/bkuhlmann/runcom.svg?style=svg)](https://circleci.com/gh/bkuhlmann/runcom)
-[![Patreon](https://img.shields.io/badge/patreon-donate-brightgreen.svg)](https://www.patreon.com/bkuhlmann)
 
 Runcom (a.k.a. [Run Command](https://en.wikipedia.org/wiki/Run_commands)) provides common
 functionality for Command Line Interfaces (CLIs) in which to manage global, local, or multiple
