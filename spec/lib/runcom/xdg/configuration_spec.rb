@@ -33,14 +33,14 @@ RSpec.describe Runcom::XDG::Configuration do
   describe ".computed_dirs", :temp_dir do
     let(:home_dir) { Pathname %(#{ENV["HOME"]}/.config) }
     let(:test_dir) { Pathname "#{temp_dir}/test" }
-    before { FileUtils.mkdir_p test_dir }
+
+    before do
+      FileUtils.mkdir_p(home_dir) if ENV["CI"] == "true"
+      FileUtils.mkdir_p test_dir
+    end
 
     it "answers default array" do
-      if ENV["CI"] == "true"
-        expect(described_class.computed_dirs).to contain_exactly(home_dir, Pathname("/etc/xdg"))
-      else
-        expect(described_class.computed_dirs).to contain_exactly(home_dir)
-      end
+      expect(described_class.computed_dirs).to contain_exactly(home_dir)
     end
 
     it "answers custom array" do

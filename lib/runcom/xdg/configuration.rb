@@ -6,7 +6,7 @@ module Runcom
   module XDG
     # Represents X Desktop Group (XGD) configuration support. XGD is also known as
     # [Free Desktop](https://www.freedesktop.org). Here is the exact
-    # [specification](https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html) being
+    # [specification](https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html) used
     # for this implementation.
     class Configuration
       def self.home_dir
