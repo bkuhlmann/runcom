@@ -13,6 +13,12 @@ Gem::Specification.new do |spec|
   spec.summary = "A run command manager for command line interfaces."
   spec.license = "Apache-2.0"
 
+  spec.metadata = {
+    "source_code_uri" => "https://github.com/bkuhlmann/runcom",
+    "changelog_uri" => "https://github.com/bkuhlmann/runcom/blob/master/CHANGES.md",
+    "bug_tracker_uri" => "https://github.com/bkuhlmann/runcom/issues"
+  }
+
   spec.signing_key = Gem.default_key_path
   spec.cert_chain = [Gem.default_cert_path]
 
@@ -29,7 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 12.3"
   spec.add_development_dependency "reek", "~> 4.8"
   spec.add_development_dependency "rspec", "~> 3.7"
-  spec.add_development_dependency "rubocop", "~> 0.53"
+  spec.add_development_dependency "rubocop", "~> 0.54"
 
   spec.files = Dir["lib/**/*"]
   spec.extra_rdoc_files = Dir["README*", "LICENSE*"]
