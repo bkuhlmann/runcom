@@ -9,12 +9,17 @@ module Runcom
   class Configuration
     using Refinements::Hashes
 
-    attr_reader :path
+    DEFAULT_FILE_NAME = "configuration.yml"
 
-    def initialize project_name:, file_name: "configuration.yml", defaults: {}
-      @path = load_path project_name, file_name
+    def initialize project_name:, file_name: DEFAULT_FILE_NAME, defaults: {}
+      @project_name = project_name
+      @file_name = file_name
       @defaults = defaults
       @settings = defaults.deep_merge process_settings
+    end
+
+    def path
+      paths.find(&:exist?)
     end
 
     def merge custom_settings
@@ -27,17 +32,7 @@ module Runcom
 
     private
 
-    attr_reader :paths, :defaults, :settings
-
-    def load_path project, file
-      paths = XDG::Configuration.computed_dirs.map { |root| Pathname "#{root}/#{project}/#{file}" }
-      paths.find(&:exist?)
-    end
-
-    def load_settings
-      yaml = YAML.load_file path
-      yaml.is_a?(Hash) ? yaml : {}
-    end
+    attr_reader :project_name, :file_name, :defaults, :settings
 
     def process_settings
       load_settings
@@ -45,6 +40,17 @@ module Runcom
       raise Errors::Syntax, error.message
     rescue StandardError
       defaults
+    end
+
+    def load_settings
+      yaml = YAML.load_file path
+      yaml.is_a?(Hash) ? yaml : {}
+    end
+
+    def paths
+      XDG::Configuration.computed_dirs.map do |root|
+        Pathname "#{root}/#{project_name}/#{file_name}"
+      end
     end
   end
 end
