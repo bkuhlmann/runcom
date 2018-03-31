@@ -22,8 +22,8 @@ module Runcom
       paths.find(&:exist?)
     end
 
-    def merge custom_settings
-      settings.deep_merge custom_settings
+    def merge other
+      self.class.new name, file_name: file_name, defaults: settings.deep_merge(other.to_h)
     end
 
     # :reek:FeatureEnvy

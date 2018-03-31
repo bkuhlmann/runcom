@@ -58,13 +58,24 @@ RSpec.describe Runcom::Configuration, :temp_dir do
 
       it "merges custom settings" do
         ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-          expect(subject.merge(custom_settings)).to eq(merged_settings)
+          expect(subject.merge(custom_settings).to_h).to eq(merged_settings)
         end
+      end
+
+      it "merges custom configuration" do
+        ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
+          custom_configuration = described_class.new name, defaults: custom_settings
+          expect(subject.merge(custom_settings)).to eq(custom_configuration)
+        end
+      end
+
+      it "answers new configuration" do
+        expect(subject.merge(custom_settings)).to be_a(Runcom::Configuration)
       end
     end
 
     context "with custom settings" do
-      let :default_settings do
+      let :original_settings do
         {
           add: {
             comments: "",
@@ -88,10 +99,8 @@ RSpec.describe Runcom::Configuration, :temp_dir do
         }
       end
 
-      subject { described_class.new name, defaults: default_settings }
-
-      it "merges custom settings" do
-        modified_settings = {
+      let :modified_settings do
+        {
           add: {
             comments: "",
             includes: [".gemspec"]
@@ -101,10 +110,25 @@ RSpec.describe Runcom::Configuration, :temp_dir do
             includes: []
           }
         }
+      end
 
+      subject { described_class.new name, defaults: original_settings }
+
+      it "merges custom settings" do
         ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-          expect(subject.merge(custom_settings)).to eq(modified_settings)
+          expect(subject.merge(custom_settings).to_h).to eq(modified_settings)
         end
+      end
+
+      it "merges custom configuration" do
+        ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
+          modified_configuration = described_class.new name, defaults: modified_settings
+          expect(subject.merge(custom_settings)).to eq(modified_configuration)
+        end
+      end
+
+      it "answers new configuration" do
+        expect(subject.merge(custom_settings)).to be_a(Runcom::Configuration)
       end
     end
   end
