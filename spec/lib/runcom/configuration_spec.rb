@@ -3,11 +3,11 @@
 require "spec_helper"
 
 RSpec.describe Runcom::Configuration, :temp_dir do
-  let(:project_name) { "test" }
+  let(:name) { "test" }
   let(:xdg_dir) { Pathname "#{temp_dir}/.config" }
-  let(:config_dir) { Pathname "#{xdg_dir}/#{project_name}" }
+  let(:config_dir) { Pathname "#{xdg_dir}/#{name}" }
   let(:config_path) { Pathname "#{config_dir}/configuration.yml" }
-  subject { described_class.new project_name: project_name }
+  subject { described_class.new name }
   before { FileUtils.mkdir_p config_dir }
 
   describe "#initialize" do
@@ -15,7 +15,7 @@ RSpec.describe Runcom::Configuration, :temp_dir do
 
     it "raises base error" do
       ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-        result = -> { described_class.new project_name: "fixtures", file_name: "invalid.yml" }
+        result = -> { described_class.new "fixtures", file_name: "invalid.yml" }
         expect(&result).to raise_error(Runcom::Errors::Syntax)
       end
     end
@@ -88,7 +88,7 @@ RSpec.describe Runcom::Configuration, :temp_dir do
         }
       end
 
-      subject { described_class.new project_name: project_name, defaults: default_settings }
+      subject { described_class.new name, defaults: default_settings }
 
       it "merges custom settings" do
         modified_settings = {
@@ -128,22 +128,22 @@ RSpec.describe Runcom::Configuration, :temp_dir do
   end
 
   describe "#==" do
-    let(:similar) { described_class.new project_name: project_name }
-    let(:different) { described_class.new project_name: "different" }
+    let(:similar) { described_class.new name }
+    let(:different) { described_class.new name: "different" }
 
     it_behaves_like "a value object"
   end
 
   describe "#eql?" do
-    let(:similar) { described_class.new project_name: project_name }
-    let(:different) { described_class.new project_name: "different" }
+    let(:similar) { described_class.new name }
+    let(:different) { described_class.new name: "different" }
 
     it_behaves_like "a value object"
   end
 
   describe "#equal?" do
-    let(:similar) { described_class.new project_name: project_name }
-    let(:different) { described_class.new project_name: "different" }
+    let(:similar) { described_class.new name }
+    let(:different) { described_class.new name: "different" }
 
     it "is equal with same instances" do
       expect(subject).to equal(subject)
@@ -163,7 +163,7 @@ RSpec.describe Runcom::Configuration, :temp_dir do
   end
 
   describe "#hash" do
-    let(:similar) { described_class.new project_name: project_name }
+    let(:similar) { described_class.new name }
 
     it "is equal with same instances" do
       expect(subject.hash).to eq(subject.hash)
@@ -174,17 +174,17 @@ RSpec.describe Runcom::Configuration, :temp_dir do
     end
 
     it "isn't equal with different project name" do
-      different = described_class.new project_name: "different"
+      different = described_class.new name: "different"
       expect(subject.hash).to_not eq(different.hash)
     end
 
     it "isn't equal with different file name" do
-      different = described_class.new project_name: project_name, file_name: "different"
+      different = described_class.new name, file_name: "different"
       expect(subject.hash).to_not eq(different.hash)
     end
 
     it "isn't equal with different defaults" do
-      different = described_class.new project_name: project_name, defaults: {test: "example"}
+      different = described_class.new name, defaults: {test: "example"}
       expect(subject.hash).to_not eq(different.hash)
     end
 
@@ -236,7 +236,7 @@ RSpec.describe Runcom::Configuration, :temp_dir do
         }
       end
 
-      subject { described_class.new project_name: project_name, defaults: defaults }
+      subject { described_class.new name, defaults: defaults }
 
       it "answers merged hash" do
         File.open(config_path, "w") { |file| file << configuration.to_yaml }

@@ -11,8 +11,8 @@ module Runcom
 
     DEFAULT_FILE_NAME = "configuration.yml"
 
-    def initialize project_name:, file_name: DEFAULT_FILE_NAME, defaults: {}
-      @project_name = project_name
+    def initialize name, file_name: DEFAULT_FILE_NAME, defaults: {}
+      @name = name
       @file_name = file_name
       @defaults = defaults
       @settings = defaults.deep_merge process_settings
@@ -34,7 +34,7 @@ module Runcom
     alias eql? ==
 
     def hash
-      [project_name, file_name, to_h, self.class].hash
+      [name, file_name, to_h, self.class].hash
     end
 
     def to_h
@@ -43,7 +43,7 @@ module Runcom
 
     private
 
-    attr_reader :project_name, :file_name, :defaults, :settings
+    attr_reader :name, :file_name, :defaults, :settings
 
     def process_settings
       load_settings
@@ -60,7 +60,7 @@ module Runcom
 
     def paths
       XDG::Configuration.computed_dirs.map do |root|
-        Pathname "#{root}/#{project_name}/#{file_name}"
+        Pathname "#{root}/#{name}/#{file_name}"
       end
     end
   end
