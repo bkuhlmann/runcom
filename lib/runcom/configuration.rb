@@ -26,6 +26,17 @@ module Runcom
       settings.deep_merge custom_settings
     end
 
+    # :reek:FeatureEnvy
+    def == other
+      other.is_a?(Configuration) && hash == other.hash
+    end
+
+    alias eql? ==
+
+    def hash
+      [project_name, file_name, to_h, self.class].hash
+    end
+
     def to_h
       settings
     end

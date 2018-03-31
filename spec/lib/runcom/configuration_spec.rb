@@ -109,6 +109,90 @@ RSpec.describe Runcom::Configuration, :temp_dir do
     end
   end
 
+  shared_examples_for "a value object" do
+    it "is equal with same instances" do
+      expect(subject).to eq(subject)
+    end
+
+    it "is equal with similar construction" do
+      expect(subject).to eq(similar)
+    end
+
+    it "isn't equal with different values" do
+      expect(subject).to_not eq(different)
+    end
+
+    it "isn't equal with different type" do
+      expect(subject).to_not eq("different")
+    end
+  end
+
+  describe "#==" do
+    let(:similar) { described_class.new project_name: project_name }
+    let(:different) { described_class.new project_name: "different" }
+
+    it_behaves_like "a value object"
+  end
+
+  describe "#eql?" do
+    let(:similar) { described_class.new project_name: project_name }
+    let(:different) { described_class.new project_name: "different" }
+
+    it_behaves_like "a value object"
+  end
+
+  describe "#equal?" do
+    let(:similar) { described_class.new project_name: project_name }
+    let(:different) { described_class.new project_name: "different" }
+
+    it "is equal with same instances" do
+      expect(subject).to equal(subject)
+    end
+
+    it "isn't equal with similar construction" do
+      expect(subject).to_not equal(similar)
+    end
+
+    it "isn't equal with different values" do
+      expect(subject).to_not equal(different)
+    end
+
+    it "isn't equal with different type" do
+      expect(subject).to_not equal("different")
+    end
+  end
+
+  describe "#hash" do
+    let(:similar) { described_class.new project_name: project_name }
+
+    it "is equal with same instances" do
+      expect(subject.hash).to eq(subject.hash)
+    end
+
+    it "is equal with similar construction" do
+      expect(subject.hash).to eq(similar.hash)
+    end
+
+    it "isn't equal with different project name" do
+      different = described_class.new project_name: "different"
+      expect(subject.hash).to_not eq(different.hash)
+    end
+
+    it "isn't equal with different file name" do
+      different = described_class.new project_name: project_name, file_name: "different"
+      expect(subject.hash).to_not eq(different.hash)
+    end
+
+    it "isn't equal with different defaults" do
+      different = described_class.new project_name: project_name, defaults: {test: "example"}
+      expect(subject.hash).to_not eq(different.hash)
+    end
+
+    it "isn't equal with different type" do
+      expect(subject.hash).to_not eq("different".hash)
+    end
+  end
+
   describe "#to_h" do
     it "answers custom hash when configuration file exists" do
       custom = {remove: {comments: "# encoding: UTF-8"}}
