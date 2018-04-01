@@ -17,13 +17,14 @@ Read on for further details.
 
   - [Features](#features)
   - [Requirements](#requirements)
-- [Setup](#setup)
+  - [Setup](#setup)
   - [Usage](#usage)
     - [`Runcom::Configuration`](#runcomconfiguration)
     - [XDG](#xdg)
       - [`$XDG_CONFIG_DIRS`](#xdg_config_dirs)
       - [`$XDG_CONFIG_HOME`](#xdg_config_home)
       - [Variable Priority](#variable-priority)
+    - [Examples](#examples)
   - [Tests](#tests)
   - [Versioning](#versioning)
   - [Code of Conduct](#code-of-conduct)
@@ -50,7 +51,7 @@ Read on for further details.
 
 0. [Ruby 2.5.x](https://www.ruby-lang.org)
 
-# Setup
+## Setup
 
 Type the following to install:
 
@@ -142,6 +143,49 @@ priority):
 0. `$XDG_CONFIG_DIRS` - Iterates through defined directories starting with the first one defined
    (highest priority). It will choose the first directory, in priority, that exists on the file
    system while skipping any that don't exist.
+
+### Examples
+
+One of the best use cases of this gem is when it is combined with an environment switcher like
+[direnv](https://direnv.net) where you can define a custom `XDG_CONFIG_HOME` for your specific
+project.
+
+With `direnv` installed, you could have the following project structure:
+
+    /example
+      /.config/test/configuration.yml
+      /.envrc
+
+The `.envrc` file could then have this setting:
+
+    export XDG_CONFIG_HOME=".config"
+
+This would end up pointing to the `/example/.config` folder of the current project, as shown above,
+instead of `~/.config` (which is the default behavior). While running code within this project, you
+could initialize your configuration object like this:
+
+    configuration = Runcom::Configuration.new "test"
+
+The `configuration` object would have the following path due `direnv` setting your `XDG_CONFIG_HOME`
+to your current project:
+
+    configuration.path # "~/.config/test/configuration.yml"
+
+If you need further examples of gems that use this gem, check out the following:
+
+- [Gemsmith](https://github.com/bkuhlmann/gemsmith) - A command line interface for smithing new Ruby
+  gems.
+- [Milestoner](https://github.com/bkuhlmann/milestoner) - A command line interface for releasing Git
+  repository milestones.
+- [Git Cop](https://github.com/bkuhlmann/git-cop) - Enforces consistent Git commits.
+- [Tocer](https://github.com/bkuhlmann/tocer) - A command line interface for generating table of
+  contents for Markdown files.
+- [Pragmater](https://github.com/bkuhlmann/pragmater) - A command line interface for
+  managing/formatting source file pragma comments.
+- [Sublime Text Kit](https://github.com/bkuhlmann/sublime_text_kit) - A command line interface for
+  managing Sublime Text metadata.
+- [Pennyworth](https://github.com/bkuhlmann/pennyworth) - A command line interface that enhances and
+  extends Alfred with Ruby support.
 
 ## Tests
 
