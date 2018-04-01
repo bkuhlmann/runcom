@@ -1,3 +1,23 @@
+# v3.0.0 (2018-04-01)
+
+- Fixed XDG configuration spec failures for CI builds.
+- Fixed gemspec issues with missing gem signing key/certificate.
+- Added gemspec metadata for source, changes, and issue tracker URLs.
+- Updated README license information.
+- Updated configuration merge to be immutable.
+- Updated configuration to be value object.
+- Updated gem dependencies.
+- Updated to Circle CI 2.0.0 configuration.
+- Updated to Refinements 5.1.0.
+- Updated to Rubocop 0.53.0.
+- Updated to Ruby 2.5.1.
+- Removed Circle CI Bundler cache.
+- Removed Gemnasium support.
+- Removed Patreon badge from README.
+- Removed configuration project name keyword argument (use name instead).
+- Refactored configuration path construction.
+- Refactored temp dir shared context as a pathname.
+
 # v2.0.1 (2018-01-01)
 
 - Updated to Gemsmith 11.0.0.

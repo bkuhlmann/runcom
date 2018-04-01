@@ -69,24 +69,28 @@ from custom locations. It is meant to be used within your CLI program(s).
 
 An object can be initialized as follows:
 
-    configuration = Runcom::Configuration.new project_name: "example"
+    configuration = Runcom::Configuration.new "example"
 
 The default file name for a configuration is `configuration.yml` but a custom name can be used if
 desired:
 
-    configuration = Runcom::Configuration.new project_name: "example", file_name: "example.yml"
+    configuration = Runcom::Configuration.new "example", file_name: "example.yml"
 
 Default settings can be initialized as well:
 
-    configuration = Runcom::Configuration.new project_name: "example", defaults: {name: "Example"}
+    configuration = Runcom::Configuration.new "example", defaults: {name: "Example"}
 
 Once a configuration has been initialized, a hash representation can be obtained:
 
     configuration.to_h
 
-A configuration can be merged with another hash (handy for runtime overrides)
+A configuration can be merged with another hash (handy for runtime overrides):
 
     updated_configuration = configuration.merge {name: "Updated Name"}
+
+A configuration can also be merged with another configuration:
+
+    updated_configuration = configuration.merge Runcom::Configuration.new("other", defaults: {a: 1})
 
 The computed path of the configuration can be asked for as well:
 
