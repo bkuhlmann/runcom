@@ -1,3 +1,11 @@
+# 3.1.0 (2018-05-01)
+
+- Added documentation examples and example projects.
+- Updated project changes to use semantic versions.
+- Updated to Gemsmith 12.0.0.
+- Updated to Git Cop 2.2.0.
+- Updated to Refinements 5.2.0.
+
 # 3.0.0 (2018-04-01)
 
 - Fixed XDG configuration spec failures for CI builds.
