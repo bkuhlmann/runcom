@@ -49,7 +49,7 @@ Read on for further details.
 
 ## Requirements
 
-0. [Ruby 2.5.x](https://www.ruby-lang.org)
+1. [Ruby 2.5.x](https://www.ruby-lang.org)
 
 ## Setup
 
@@ -138,9 +138,9 @@ This is the environment variable you'll want to use the most as it takes precide
 Configuration path precedence is determined in the following order (with the first taking highest
 priority):
 
-0. `$XDG_CONFIG_HOME` - Will be used if defined *and* exists on the local file system. Otherwise,
+1. `$XDG_CONFIG_HOME` - Will be used if defined *and* exists on the local file system. Otherwise,
    falls back to the `$XDG_CONFIG_DIRS` array.
-0. `$XDG_CONFIG_DIRS` - Iterates through defined directories starting with the first one defined
+1. `$XDG_CONFIG_DIRS` - Iterates through defined directories starting with the first one defined
    (highest priority). It will choose the first directory, in priority, that exists on the file
    system while skipping any that don't exist.
 
