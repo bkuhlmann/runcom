@@ -3,11 +3,13 @@
 require "spec_helper"
 
 RSpec.describe Runcom::Configuration, :temp_dir do
+  subject(:configuration) { described_class.new name }
+
   let(:name) { "test" }
   let(:xdg_dir) { Pathname "#{temp_dir}/.config" }
   let(:config_dir) { Pathname "#{xdg_dir}/#{name}" }
   let(:config_path) { Pathname "#{config_dir}/configuration.yml" }
-  subject { described_class.new name }
+
   before { FileUtils.mkdir_p config_dir }
 
   describe "#initialize" do
@@ -25,13 +27,13 @@ RSpec.describe Runcom::Configuration, :temp_dir do
     it "answers configuration file when path exists" do
       FileUtils.touch config_path
       ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-        expect(subject.path).to eq(config_path)
+        expect(configuration.path).to eq(config_path)
       end
     end
 
     it "answers nil when path doesn't exist" do
       ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-        expect(subject.path).to eq(nil)
+        expect(configuration.path).to eq(nil)
       end
     end
   end
@@ -58,23 +60,25 @@ RSpec.describe Runcom::Configuration, :temp_dir do
 
       it "merges custom settings" do
         ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-          expect(subject.merge(custom_settings).to_h).to eq(merged_settings)
+          expect(configuration.merge(custom_settings).to_h).to eq(merged_settings)
         end
       end
 
       it "merges custom configuration" do
         ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
           custom_configuration = described_class.new name, defaults: custom_settings
-          expect(subject.merge(custom_settings)).to eq(custom_configuration)
+          expect(configuration.merge(custom_settings)).to eq(custom_configuration)
         end
       end
 
       it "answers new configuration" do
-        expect(subject.merge(custom_settings)).to be_a(Runcom::Configuration)
+        expect(configuration.merge(custom_settings)).to be_a(Runcom::Configuration)
       end
     end
 
     context "with custom settings" do
+      subject(:configuration) { described_class.new name, defaults: original_settings }
+
       let :original_settings do
         {
           add: {
@@ -112,42 +116,40 @@ RSpec.describe Runcom::Configuration, :temp_dir do
         }
       end
 
-      subject { described_class.new name, defaults: original_settings }
-
       it "merges custom settings" do
         ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-          expect(subject.merge(custom_settings).to_h).to eq(modified_settings)
+          expect(configuration.merge(custom_settings).to_h).to eq(modified_settings)
         end
       end
 
       it "merges custom configuration" do
         ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
           modified_configuration = described_class.new name, defaults: modified_settings
-          expect(subject.merge(custom_settings)).to eq(modified_configuration)
+          expect(configuration.merge(custom_settings)).to eq(modified_configuration)
         end
       end
 
       it "answers new configuration" do
-        expect(subject.merge(custom_settings)).to be_a(Runcom::Configuration)
+        expect(configuration.merge(custom_settings)).to be_a(Runcom::Configuration)
       end
     end
   end
 
   shared_examples_for "a value object" do
     it "is equal with same instances" do
-      expect(subject).to eq(subject)
+      expect(configuration).to eq(configuration)
     end
 
     it "is equal with similar construction" do
-      expect(subject).to eq(similar)
+      expect(configuration).to eq(similar)
     end
 
     it "isn't equal with different values" do
-      expect(subject).to_not eq(different)
+      expect(configuration).to_not eq(different)
     end
 
     it "isn't equal with different type" do
-      expect(subject).to_not eq("different")
+      expect(configuration).to_not eq("different")
     end
   end
 
@@ -170,19 +172,19 @@ RSpec.describe Runcom::Configuration, :temp_dir do
     let(:different) { described_class.new name: "different" }
 
     it "is equal with same instances" do
-      expect(subject).to equal(subject)
+      expect(configuration).to equal(configuration)
     end
 
     it "isn't equal with similar construction" do
-      expect(subject).to_not equal(similar)
+      expect(configuration).to_not equal(similar)
     end
 
     it "isn't equal with different values" do
-      expect(subject).to_not equal(different)
+      expect(configuration).to_not equal(different)
     end
 
     it "isn't equal with different type" do
-      expect(subject).to_not equal("different")
+      expect(configuration).to_not equal("different")
     end
   end
 
@@ -190,30 +192,30 @@ RSpec.describe Runcom::Configuration, :temp_dir do
     let(:similar) { described_class.new name }
 
     it "is equal with same instances" do
-      expect(subject.hash).to eq(subject.hash)
+      expect(configuration.hash).to eq(configuration.hash)
     end
 
     it "is equal with similar construction" do
-      expect(subject.hash).to eq(similar.hash)
+      expect(configuration.hash).to eq(similar.hash)
     end
 
     it "isn't equal with different project name" do
       different = described_class.new name: "different"
-      expect(subject.hash).to_not eq(different.hash)
+      expect(configuration.hash).to_not eq(different.hash)
     end
 
     it "isn't equal with different file name" do
       different = described_class.new name, file_name: "different"
-      expect(subject.hash).to_not eq(different.hash)
+      expect(configuration.hash).to_not eq(different.hash)
     end
 
     it "isn't equal with different defaults" do
       different = described_class.new name, defaults: {test: "example"}
-      expect(subject.hash).to_not eq(different.hash)
+      expect(configuration.hash).to_not eq(different.hash)
     end
 
     it "isn't equal with different type" do
-      expect(subject.hash).to_not eq("different".hash)
+      expect(configuration.hash).to_not eq("different".hash)
     end
   end
 
@@ -223,18 +225,20 @@ RSpec.describe Runcom::Configuration, :temp_dir do
 
       ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
         File.open(config_path, "w") { |file| file << custom.to_yaml }
-        expect(subject.to_h).to eq(custom)
+        expect(configuration.to_h).to eq(custom)
       end
     end
 
     it "answers default hash when configuration file doesn't exist" do
       ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-        expect(subject.to_h).to eq({})
+        expect(configuration.to_h).to eq({})
       end
     end
 
     context "with configuration file and custom defaults" do
-      let :configuration do
+      subject(:configuration) { described_class.new name, defaults: defaults }
+
+      let :original do
         {
           remove: {
             comments: "# encoding: UTF-8"
@@ -260,13 +264,11 @@ RSpec.describe Runcom::Configuration, :temp_dir do
         }
       end
 
-      subject { described_class.new name, defaults: defaults }
-
       it "answers merged hash" do
-        File.open(config_path, "w") { |file| file << configuration.to_yaml }
+        File.open(config_path, "w") { |file| file << original.to_yaml }
 
         ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-          expect(subject.to_h).to eq(merged)
+          expect(configuration.to_h).to eq(merged)
         end
       end
     end
