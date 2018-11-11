@@ -145,11 +145,11 @@ RSpec.describe Runcom::Configuration, :temp_dir do
     end
 
     it "isn't equal with different values" do
-      expect(configuration).to_not eq(different)
+      expect(configuration).not_to eq(different)
     end
 
     it "isn't equal with different type" do
-      expect(configuration).to_not eq("different")
+      expect(configuration).not_to eq("different")
     end
   end
 
@@ -176,15 +176,15 @@ RSpec.describe Runcom::Configuration, :temp_dir do
     end
 
     it "isn't equal with similar construction" do
-      expect(configuration).to_not equal(similar)
+      expect(configuration).not_to equal(similar)
     end
 
     it "isn't equal with different values" do
-      expect(configuration).to_not equal(different)
+      expect(configuration).not_to equal(different)
     end
 
     it "isn't equal with different type" do
-      expect(configuration).to_not equal("different")
+      expect(configuration).not_to equal("different")
     end
   end
 
@@ -201,21 +201,21 @@ RSpec.describe Runcom::Configuration, :temp_dir do
 
     it "isn't equal with different project name" do
       different = described_class.new name: "different"
-      expect(configuration.hash).to_not eq(different.hash)
+      expect(configuration.hash).not_to eq(different.hash)
     end
 
     it "isn't equal with different file name" do
       different = described_class.new name, file_name: "different"
-      expect(configuration.hash).to_not eq(different.hash)
+      expect(configuration.hash).not_to eq(different.hash)
     end
 
     it "isn't equal with different defaults" do
       different = described_class.new name, defaults: {test: "example"}
-      expect(configuration.hash).to_not eq(different.hash)
+      expect(configuration.hash).not_to eq(different.hash)
     end
 
     it "isn't equal with different type" do
-      expect(configuration.hash).to_not eq("different".hash)
+      expect(configuration.hash).not_to eq("different".hash)
     end
   end
 
