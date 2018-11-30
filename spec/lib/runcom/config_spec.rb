@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Runcom::Configuration, :temp_dir do
+RSpec.describe Runcom::Config, :temp_dir do
   subject(:configuration) { described_class.new name }
 
   let(:name) { "test" }
@@ -35,6 +35,15 @@ RSpec.describe Runcom::Configuration, :temp_dir do
       ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
         expect(configuration.path).to eq(nil)
       end
+    end
+  end
+
+  describe "#paths" do
+    it "answers all path" do
+      expect(configuration.paths).to contain_exactly(
+        Pathname(%(#{ENV["HOME"]}/.config/test/configuration.yml)),
+        Pathname("/etc/xdg/test/configuration.yml")
+      )
     end
   end
 
@@ -72,7 +81,7 @@ RSpec.describe Runcom::Configuration, :temp_dir do
       end
 
       it "answers new configuration" do
-        expect(configuration.merge(custom_settings)).to be_a(Runcom::Configuration)
+        expect(configuration.merge(custom_settings)).to be_a(Runcom::Config)
       end
     end
 
@@ -130,7 +139,7 @@ RSpec.describe Runcom::Configuration, :temp_dir do
       end
 
       it "answers new configuration" do
-        expect(configuration.merge(custom_settings)).to be_a(Runcom::Configuration)
+        expect(configuration.merge(custom_settings)).to be_a(Runcom::Config)
       end
     end
   end
