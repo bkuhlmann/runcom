@@ -42,8 +42,8 @@ further details.
 
 ## Features
 
-- Provides an embedded `XDG::Environment` implementation that strictly adheres to the XDG Base
-  Directory Specification which provides access to the following environment settings:
+- Provides an embedded `XDG::Environment` implementation that strictly adheres to the *XDG Base
+  Directory Specification* which provides access to the following environment settings:
   - `$XDG_CACHE_HOME`
   - `$XDG_CONFIG_HOME`
   - `$XDG_CONFIG_DIRS`
@@ -57,7 +57,7 @@ further details.
 
 ## Requirements
 
-1. [Ruby 2.6.x](https://www.ruby-lang.org)
+1. [Ruby 2.6.x](https://www.ruby-lang.org).
 
 ## Setup
 

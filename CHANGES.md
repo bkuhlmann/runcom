@@ -1,3 +1,32 @@
+# 4.0.0 (2019-01-01)
+
+- Fixed Circle CI cache for Ruby version.
+- Fixed Markdown ordered list numbering.
+- Fixed Rubocop RSpec/NamedSubject issues.
+- Fixed Rubocop RSpec/NotToNot issues.
+- Added Circle CI Bundler cache.
+- Added Rubocop RSpec gem.
+- Added XDG cache.
+- Added XDG data.
+- Added XDG environment.
+- Added cache.
+- Added combined paths.
+- Added data.
+- Added directory paths.
+- Added friendly paths.
+- Added key-value pair (KVP).
+- Added standard paths.
+- Updated Circle CI Code Climate test reporting.
+- Updated README documentation with new API.
+- Updated Semantic Versioning links to be HTTPS.
+- Updated to Contributor Covenant Code of Conduct 1.4.1.
+- Updated to RSpec 3.8.0.
+- Updated to Reek 5.0.
+- Updated to Refinements 6.0.0.
+- Updated to Rubocop 0.62.0.
+- Updated to Ruby 2.6.0.
+- Refactored configuration to be initialized.
+
 # 3.1.0 (2018-05-01)
 
 - Added documentation examples and example projects.
