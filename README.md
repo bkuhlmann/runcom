@@ -21,6 +21,7 @@ further details.
   - [Usage](#usage)
     - [XDG](#xdg)
       - [Overview](#overview)
+      - [Variable Defaults](#variable-defaults)
       - [Variable Behavior](#variable-behavior)
         - [`$XDG_*_DIRS`](#xdg__dirs)
         - [`$XDG_*_HOME`](#xdg__home)
@@ -91,8 +92,12 @@ Provides an API that strictly adheres to the *XDG Base Directory Specification*.
     xdg.data_home # <= Answers computed `$XDG_DATA_HOME` value.
     xdg.data_dirs # <= Answers computed `$XDG_DATA_DIRS` value.
 
-`Runcom::XDG::Environment` wraps the following objects which can be used individually if you don't
-want to load the entire environment:
+The *computed* value, in this case, is either the user-defined value of the key or the default
+value, per specification, when the key is not defined or empty. For more on this, scroll down to the
+*Variable Defaults* section to learn more.
+
+The `Runcom::XDG::Environment` wraps the following objects which can be used individually if you
+don't want to load the entire environment:
 
     cache = Runcom::XDG::Cache.new
     config = Runcom::XDG::Config.new
@@ -106,42 +111,93 @@ following messages:
 - `#all` - Answers an array of *all* directories as computed from the combined `$XDG_*_HOME` and
   `$XDG_*_DIRS` values (with `$XDG_*_HOME` prefixed at the start of the array).
 
+#### Variable Defaults
+
+The *XDG Base Directory Specification* defines environment variables and associated default values
+when not defined or empty. The following defaults, per specification, are implemented by the
+`Runcom::XDG` objects:
+
+- `$XDG_CACHE_HOME="$HOME/.cache"`
+- `$XDG_CONFIG_HOME="$HOME/.config"`
+- `$XDG_CONFIG_DIRS="/etc/xdg"`
+- `$XDG_DATA_HOME="$HOME/.local/share"`
+- `$XDG_DATA_DIRS="/usr/local/share/:/usr/share/"`
+- `$XDG_RUNTIME_DIR`
+
+The `$XDG_RUNTIME_DIR` deserves special mention as it's not, *currently*, implemented as part of
+this gem because it is more user/environment specific. Here is how the `$XDG_RUNTIME_DIR` is meant
+to be used should you choose to use it:
+
+- *Must* reference user-specific non-essential runtime files and other file objects (such as
+  sockets, named pipes, etc.)
+- *Must* be owned by the user with *only* the user having read and write access to it.
+- *Must* have a Unix access mode of `0700`.
+- *Must* be bound to the user when logging in.
+- *Must* be removed when the user logs out.
+- *Must* be pointed to the same directory when the user logs in more than once.
+- *Must* exist from first login to last logout on the system and not removed in between.
+- *Must* not allow files in the directory to survive reboot or a full logout/login cycle.
+- *Must* keep the directory on the local file system and not shared with any other file systems.
+- *Must* keep the directory fully-featured by the standards of the operating system. Specifically,
+  on Unix-like operating systems AF_UNIX sockets, symbolic links, hard links, proper permissions,
+  file locking, sparse files, memory mapping, file change notifications, a reliable hard link count
+  must be supported, and no restrictions on the file name character set should be imposed. Files in
+  this directory *may* be subjected to periodic clean-up. To ensure files are not removed,
+  they should have their access time timestamp modified at least once every 6 hours of monotonic
+  time or the 'sticky' bit should be set on the file.
+- When not set, applications should fall back to a replacement directory with similar capabilities
+  and print a warning message. Applications should use this directory for communication and
+  synchronization purposes and should not place larger files in it, since it might reside in runtime
+  memory and cannot necessarily be swapped out to disk.
+
 #### Variable Behavior
 
-The behavior of all XDG environment variables can be lumped into two categories of `$XDG_*_HOME` and
-`$XDG_*_DIRS` behavior. Each is described below.
+The behavior of most XDG environment variables can be lumped into two categories:
+
+- `$XDG_*_HOME`
+- `$XDG_*_DIRS`
+
+Each is described in detail below.
 
 ##### `$XDG_*_DIRS`
 
-This variable is used to define a colon delimited list of configuration directories. The order is
-important as the first directory defined will take precedent over the following directory and so
-forth. Example:
+These variables are used to define a colon (`:`) delimited list of directories. Order is important
+as the first directory defined will take precedent over the following directory and so forth. For
+example, here is a situation where the `XDG_CONFIG_DIRS` key has a custom value:
 
     XDG_CONFIG_DIRS="/example/one/.config:/example/two/.settings:/example/three/.configuration"
 
-    # Yields the following array:
+    # Yields the following, colon delimited, array:
     [
       "/example/one/.config",
       "/example/two/.settings",
       "/example/three/.configuration"
     ]
 
-In the above example, the `"/example/one/.config"` path will take highest priority since it was
+In the above example, the `"/example/one/.config"` path takes *highest* priority since it was
 defined first.
-
-When the `$XDG_CONFIG_DIRS` is not defined, it will default to the following array: `["/etc/xdg"]`.
-Other `$XDG_*_DIRS` variables share similar behavior.
 
 ##### `$XDG_*_HOME`
 
-This is the environment variable you'll want to use the most as it takes precidence over
-`$XDG_*_DIRS` environment variable. When not defined, it defaults to `$HOME/.config` which is
-generally want you want. Other `$XDG_*_HOME` variables share similar behavior.
+These variables take precidence over the corresponding `$XDG_*_DIRS` environment variables. Using a
+modified version of the `$XDG_*_DIRS` example, shown above, we could have the following setup:
+
+    XDG_CONFIG_HOME="/example/priority"
+    XDG_CONFIG_DIRS="/example/one/.config:/example/two/.settings"
+
+    # Yields the following, colon delimited, array:
+    [
+      "/example/priority",
+      "/example/one/.config",
+      "/example/two/.settings"
+    ]
+
+Due to `XDG_CONFIG_HOME` taking precidence over the `XDG_CONFIG_DIRS`, the path with the *highest*
+priority in this example is: `"/example/priority"`.
 
 #### Variable Priority
 
-Configuration path precedence is determined in the following order (with the first taking highest
-priority):
+Path precedence is determined in the following order (with the first taking highest priority):
 
 1. `$XDG_*_HOME` - Will be used if defined. Otherwise, falls back to specification default.
 1. `$XDG_*_DIRS` - Iterates through directories in order defined (with first taking highest
@@ -150,8 +206,8 @@ priority):
 ### Runcom
 
 Provides wrapper objects around the `XDG` objects which extends and enhances beyond what is found in
-the *XDG Base Directory Specification*. This includes preference of local over global
-configurations by default as well as other conveniences.
+the *XDG Base Directory Specification*. This includes preference of local over global configurations
+by default as well as other conveniences.
 
 #### Overview
 
@@ -164,18 +220,17 @@ instantiate each object individually:
 
 Each of the above objects share the same basic API:
 
-- `#path` - Answers first existing file system path first computed by the `$XDG_*_HOME` value
-  followed by each computed `$XDG_*_DIRS` value in the order defined.
+- `#path` - Answers first *existing* file system path computed by `$XDG_*_HOME` followed
+  by each computed `$XDG_*_DIRS` path in order defined.
 - `#paths` - Answers all file system paths which is the combined `$XDG_*_HOME` and `$XDG_*_DIRS`
-  values in the order defined.
+  values in order defined. These paths *may* or *may not* exist on the file system.
 
 #### Variable Priority
 
-Configuration path precedence is determined in the following order (with the first taking highest
-priority):
+Path precedence is determined in the following order (with the first taking highest priority):
 
 1. **Local Configuration** - If a `$XDG_*_HOME` or `$XDG_*_DIRS` path relative to the current
-   working directory is detected, it will take preference over the global configuration. This is the
+   working directory is detected, it will take precedence over the global configuration. This is the
    same behavior as found in Git where the local `.git/config` takes precedence over the global
    `~/.gitconfig`.
 1. **Global Configuration** - When a local configuration isn't found, the global configuration is
@@ -221,7 +276,7 @@ For further details, study the public interface as provided by the
 
 ### Examples
 
-If you need further examples of gems that use this gem, check out the following:
+If you need examples of gems that leverage this gem, see the following:
 
 - [Gemsmith](https://github.com/bkuhlmann/gemsmith) - A command line interface for smithing new Ruby
   gems.
