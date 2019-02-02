@@ -1,3 +1,11 @@
+# 4.1.0 (2019-02-01)
+
+- Added variable default documentation.
+- Updated to Gemsmith 13.0.0.
+- Updated to Git Cop 3.0.0.
+- Updated to Rubocop 0.63.0.
+- Updated to Ruby 2.6.1.
+
 # 4.0.0 (2019-01-01)
 
 - Fixed Circle CI cache for Ruby version.
