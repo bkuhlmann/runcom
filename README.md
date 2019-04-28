@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="runcom.png" alt="Runcom Icon"/>
+</p>
+
 # Runcom
 
 [![Gem Version](https://badge.fury.io/rb/runcom.svg)](http://badge.fury.io/rb/runcom)
