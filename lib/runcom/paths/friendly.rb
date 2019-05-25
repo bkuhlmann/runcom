@@ -12,12 +12,13 @@ module Runcom
       delegate %i[key value default] => :standard
 
       def initialize pair, environment = ENV
-        @standard = Standard.new pair, environment
+        @standard = XDG::Paths::Standard.new pair, environment
       end
 
       def dynamic
-        path = String value
-        File.exist?(path) ? Pathname(path).expand_path : standard.dynamic
+        String(value).then do |path|
+          File.exist?(path) ? Pathname(path).expand_path : standard.dynamic
+        end
       end
 
       private

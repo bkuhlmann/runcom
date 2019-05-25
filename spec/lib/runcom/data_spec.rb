@@ -34,7 +34,7 @@ RSpec.describe Runcom::Data, :temp_dir do
     context "with custom arguments" do
       subject :data do
         described_class.new name: "test",
-                            home: Runcom::Paths::Standard,
+                            home: XDG::Paths::Standard,
                             environment: Hash.new
       end
 
@@ -43,7 +43,7 @@ RSpec.describe Runcom::Data, :temp_dir do
       end
 
       it "answers custom home path" do
-        expect(data.home).to eq(Runcom::Paths::Standard)
+        expect(data.home).to eq(XDG::Paths::Standard)
       end
 
       it "answers custom environment" do

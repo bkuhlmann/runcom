@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
   spec.homepage = "https://github.com/bkuhlmann/runcom"
-  spec.summary = "A run command manager for command line interfaces."
+  spec.summary = "An XDG enhanced run command manager for command line interfaces (CLIs)."
   spec.license = "Apache-2.0"
 
   spec.metadata = {
@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = "~> 2.6"
   spec.add_dependency "refinements", "~> 6.0"
+  spec.add_dependency "xdg", "~> 3.0"
   spec.add_development_dependency "bundler-audit", "~> 0.6"
   spec.add_development_dependency "climate_control", "~> 0.1"
   spec.add_development_dependency "gemsmith", "~> 13.0"

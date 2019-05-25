@@ -7,7 +7,7 @@ RSpec.describe Runcom::Cache, :temp_dir do
 
   let(:name) { "test" }
   let(:cache_dir) { Pathname "#{temp_dir}/.cache/#{name}" }
-  let(:home) { Runcom::Pair.new "HOME", "/home" }
+  let(:home) { XDG::Pair.new "HOME", "/home" }
   let(:environment) { home.to_env.merge "XDG_CACHE_HOME" => cache_dir }
 
   describe "#initialize" do
@@ -30,7 +30,7 @@ RSpec.describe Runcom::Cache, :temp_dir do
     context "with custom arguments" do
       subject :cache do
         described_class.new name: "test",
-                            home: Runcom::Paths::Standard,
+                            home: XDG::Paths::Standard,
                             environment: Hash.new
       end
 
@@ -39,7 +39,7 @@ RSpec.describe Runcom::Cache, :temp_dir do
       end
 
       it "answers custom home path" do
-        expect(cache.home).to eq(Runcom::Paths::Standard)
+        expect(cache.home).to eq(XDG::Paths::Standard)
       end
 
       it "answers custom environment" do

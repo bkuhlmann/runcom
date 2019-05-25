@@ -5,8 +5,8 @@ require "spec_helper"
 RSpec.describe Runcom::Paths::Friendly do
   subject(:path) { described_class.new pair, environment }
 
-  let(:pair) { Runcom::Pair.new "TEST", "test" }
-  let(:home) { Runcom::Pair.new "HOME", "/home" }
+  let(:pair) { XDG::Pair.new "TEST", "test" }
+  let(:home) { XDG::Pair.new "HOME", "/home" }
   let(:environment) { home.to_env }
 
   describe "#key" do
