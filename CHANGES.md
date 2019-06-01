@@ -1,3 +1,14 @@
+# 5.0.0 (2019-06-01)
+
+- Fixed RSpec/ContextWording issues.
+- Added Reek configuration.
+- Updated contributing documentation.
+- Updated to Reek 5.4.0.
+- Updated to Rubocop 0.69.0.
+- Updated to Rubocop Performance 1.3.0.
+- Updated to Rubocop RSpec 1.33.0.
+- Refactored implementation to use XDG gem.
+
 # 4.2.1 (2019-05-01)
 
 - Added Rubocop Performance gem.
