@@ -1,3 +1,10 @@
+# 5.0.1 (2019-07-01)
+
+- Updated to Gemsmith 13.5.0.
+- Updated to Git Cop 3.5.0.
+- Updated to Rubocop Performance 1.4.0.
+- Refactored RSpec helper support requirements.
+
 # 5.0.0 (2019-06-01)
 
 - Fixed RSpec/ContextWording issues.
