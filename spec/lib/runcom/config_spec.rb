@@ -81,7 +81,7 @@ RSpec.describe Runcom::Config, :temp_dir do
       end
 
       it "answers new configuration" do
-        expect(configuration.merge(custom_settings)).to be_a(Runcom::Config)
+        expect(configuration.merge(custom_settings)).to be_a(described_class)
       end
     end
 
@@ -139,7 +139,7 @@ RSpec.describe Runcom::Config, :temp_dir do
       end
 
       it "answers new configuration" do
-        expect(configuration.merge(custom_settings)).to be_a(Runcom::Config)
+        expect(configuration.merge(custom_settings)).to be_a(described_class)
       end
     end
   end
