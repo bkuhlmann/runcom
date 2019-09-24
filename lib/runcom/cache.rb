@@ -3,11 +3,16 @@
 module Runcom
   # A developer friendly wrapper of XDG cache.
   Cache = Struct.new :name, :home, :environment, keyword_init: true do
+    extend Forwardable
+
+    delegate %i[inspect] => :cache
+
     def initialize *arguments
       super
 
       self[:home] ||= Runcom::Paths::Friendly
       self[:environment] ||= ENV
+      @cache = XDG::Cache.new home: home, environment: environment
       freeze
     end
 
@@ -16,7 +21,11 @@ module Runcom
     end
 
     def paths
-      XDG::Cache.new(home: home, environment: environment).all
+      cache.all
     end
+
+    private
+
+    attr_reader :cache
   end
 end

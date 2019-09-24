@@ -64,4 +64,10 @@ RSpec.describe Runcom::Cache, :temp_dir do
       expect(cache.paths).to contain_exactly(cache_dir)
     end
   end
+
+  describe "#inspect" do
+    it "answers environment settings" do
+      expect(cache.inspect).to eq("XDG_CACHE_HOME=#{cache_dir}")
+    end
+  end
 end
