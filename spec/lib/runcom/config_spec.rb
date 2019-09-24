@@ -3,45 +3,43 @@
 require "spec_helper"
 
 RSpec.describe Runcom::Config, :temp_dir do
-  subject(:configuration) { described_class.new name }
+  subject(:configuration) { described_class.new name, environment: environment }
 
   let(:name) { "test" }
-  let(:xdg_dir) { Pathname "#{temp_dir}/.config" }
-  let(:config_dir) { Pathname "#{xdg_dir}/#{name}" }
-  let(:config_path) { Pathname "#{config_dir}/configuration.yml" }
+  let(:environment) { home.to_env.merge "XDG_CONFIG_HOME" => config_home }
+  let(:config_path) { Pathname "#{config_home}/#{name}/configuration.yml" }
+  let(:config_home) { Pathname "#{temp_dir}/.config" }
+  let(:home) { XDG::Pair.new "HOME", "/home" }
 
-  before { FileUtils.mkdir_p config_dir }
+  before { FileUtils.mkdir_p config_path.parent }
 
   describe "#initialize" do
-    let(:xdg_dir) { Pathname "#{Bundler.root}/spec/support" }
+    let(:config_home) { Pathname "#{Bundler.root}/spec/support" }
 
     it "raises base error" do
-      ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-        result = -> { described_class.new "fixtures", file_name: "invalid.yml" }
-        expect(&result).to raise_error(Runcom::Errors::Syntax)
+      result = lambda do
+        described_class.new "fixtures", environment: environment, file_name: "invalid.yml"
       end
+
+      expect(&result).to raise_error(Runcom::Errors::Syntax)
     end
   end
 
   describe "#path" do
     it "answers configuration file when path exists" do
       FileUtils.touch config_path
-      ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-        expect(configuration.path).to eq(config_path)
-      end
+      expect(configuration.path).to eq(config_path)
     end
 
     it "answers nil when path doesn't exist" do
-      ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-        expect(configuration.path).to eq(nil)
-      end
+      expect(configuration.path).to eq(nil)
     end
   end
 
   describe "#paths" do
     it "answers all path" do
       expect(configuration.paths).to contain_exactly(
-        Pathname(%(#{ENV["HOME"]}/.config/test/configuration.yml)),
+        Pathname("#{config_home}/test/configuration.yml"),
         Pathname("/etc/xdg/test/configuration.yml")
       )
     end
@@ -68,16 +66,15 @@ RSpec.describe Runcom::Config, :temp_dir do
       end
 
       it "merges custom settings" do
-        ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-          expect(configuration.merge(custom_settings).to_h).to eq(merged_settings)
-        end
+        expect(configuration.merge(custom_settings).to_h).to eq(merged_settings)
       end
 
       it "merges custom configuration" do
-        ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-          custom_configuration = described_class.new name, defaults: custom_settings
-          expect(configuration.merge(custom_settings)).to eq(custom_configuration)
-        end
+        custom_configuration = described_class.new name,
+                                                   environment: environment,
+                                                   defaults: custom_settings
+
+        expect(configuration.merge(custom_settings)).to eq(custom_configuration)
       end
 
       it "answers new configuration" do
@@ -86,7 +83,9 @@ RSpec.describe Runcom::Config, :temp_dir do
     end
 
     context "with custom settings" do
-      subject(:configuration) { described_class.new name, defaults: original_settings }
+      subject :configuration do
+        described_class.new name, environment: environment, defaults: original_settings
+      end
 
       let :original_settings do
         {
@@ -126,16 +125,12 @@ RSpec.describe Runcom::Config, :temp_dir do
       end
 
       it "merges custom settings" do
-        ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-          expect(configuration.merge(custom_settings).to_h).to eq(modified_settings)
-        end
+        expect(configuration.merge(custom_settings).to_h).to eq(modified_settings)
       end
 
       it "merges custom configuration" do
-        ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-          modified_configuration = described_class.new name, defaults: modified_settings
-          expect(configuration.merge(custom_settings)).to eq(modified_configuration)
-        end
+        modified_configuration = described_class.new name, defaults: modified_settings
+        expect(configuration.merge(custom_settings)).to eq(modified_configuration)
       end
 
       it "answers new configuration" do
@@ -231,21 +226,19 @@ RSpec.describe Runcom::Config, :temp_dir do
   describe "#to_h" do
     it "answers custom hash when configuration file exists" do
       custom = {remove: {comments: "# encoding: UTF-8"}}
+      File.open(config_path, "w") { |file| file << custom.to_yaml }
 
-      ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-        File.open(config_path, "w") { |file| file << custom.to_yaml }
-        expect(configuration.to_h).to eq(custom)
-      end
+      expect(configuration.to_h).to eq(custom)
     end
 
     it "answers default hash when configuration file doesn't exist" do
-      ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-        expect(configuration.to_h).to eq({})
-      end
+      expect(configuration.to_h).to eq({})
     end
 
     context "with configuration file and custom defaults" do
-      subject(:configuration) { described_class.new name, defaults: defaults }
+      subject :configuration do
+        described_class.new name, environment: environment, defaults: defaults
+      end
 
       let :original do
         {
@@ -275,11 +268,14 @@ RSpec.describe Runcom::Config, :temp_dir do
 
       it "answers merged hash" do
         File.open(config_path, "w") { |file| file << original.to_yaml }
-
-        ClimateControl.modify XDG_CONFIG_HOME: xdg_dir.to_s do
-          expect(configuration.to_h).to eq(merged)
-        end
+        expect(configuration.to_h).to eq(merged)
       end
+    end
+  end
+
+  describe "#inspect" do
+    it "answers environment settings" do
+      expect(configuration.inspect).to eq("XDG_CONFIG_HOME=#{config_home} XDG_CONFIG_DIRS=/etc/xdg")
     end
   end
 end

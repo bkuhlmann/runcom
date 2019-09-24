@@ -4,28 +4,35 @@ require "pathname"
 require "yaml"
 require "refinements/hashes"
 
+# :reek:TooManyInstanceVariables
 module Runcom
   # A developer friendly wrapper of XDG config.
   class Config
+    extend Forwardable
     using Refinements::Hashes
 
     DEFAULT_FILE_NAME = "configuration.yml"
 
-    def initialize name, file_name: DEFAULT_FILE_NAME, defaults: {}
+    delegate %i[inspect] => :config
+
+    # rubocop:disable Metrics/ParameterLists
+    def initialize name, environment: ENV, file_name: DEFAULT_FILE_NAME, defaults: {}
       @name = name
+      @environment = environment
       @file_name = file_name
       @defaults = defaults
+      @config = XDG::Config.new home: Runcom::Paths::Friendly, environment: environment
       @settings = defaults.deep_merge process_settings
+      freeze
     end
+    # rubocop:enable Metrics/ParameterLists
 
     def path
       paths.find(&:exist?)
     end
 
     def paths
-      XDG::Config.new(home: Runcom::Paths::Friendly).all.map do |root|
-        Pathname "#{root}/#{name}/#{file_name}"
-      end
+      config.all.map { |root| Pathname "#{root}/#{name}/#{file_name}" }
     end
 
     def merge other
@@ -49,7 +56,7 @@ module Runcom
 
     private
 
-    attr_reader :name, :file_name, :defaults, :settings
+    attr_reader :name, :environment, :file_name, :defaults, :settings, :config
 
     def process_settings
       load_settings
