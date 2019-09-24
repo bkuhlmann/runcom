@@ -57,4 +57,20 @@ RSpec.describe Runcom::Paths::Friendly do
       end
     end
   end
+
+  describe "#inspect" do
+    context "with custom pair" do
+      it "answers key and value" do
+        expect(path.inspect).to eq("TEST=/home/test")
+      end
+    end
+
+    context "with empty pair" do
+      let(:pair) { XDG::Pair.new }
+
+      it "answers value only" do
+        expect(path.inspect).to eq("/home")
+      end
+    end
+  end
 end

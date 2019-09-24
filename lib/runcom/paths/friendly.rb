@@ -21,6 +21,10 @@ module Runcom
         end
       end
 
+      def inspect
+        [standard.key, dynamic].compact.join XDG::PAIR_DELIMITER
+      end
+
       private
 
       attr_reader :standard
