@@ -74,4 +74,12 @@ RSpec.describe Runcom::Data, :temp_dir do
       )
     end
   end
+
+  describe "#inspect" do
+    it "answers environment settings" do
+      expect(data.inspect).to eq(
+        "XDG_DATA_HOME=#{home_dir} XDG_DATA_DIRS=#{temp_dir}/one:#{temp_dir}/two"
+      )
+    end
+  end
 end

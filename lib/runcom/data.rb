@@ -5,11 +5,16 @@ require "pathname"
 module Runcom
   # A developer friendly wrapper of XDG data.
   Data = Struct.new :name, :home, :environment, keyword_init: true do
+    extend Forwardable
+
+    delegate %i[inspect] => :data
+
     def initialize *arguments
       super
 
       self[:home] ||= Runcom::Paths::Friendly
       self[:environment] ||= ENV
+      @data = XDG::Data.new home: home, environment: environment
       freeze
     end
 
@@ -18,9 +23,11 @@ module Runcom
     end
 
     def paths
-      XDG::Data.new(home: home, environment: environment).all.map do |root|
-        Pathname "#{root}/#{name}"
-      end
+      data.all.map { |root| Pathname "#{root}/#{name}" }
     end
+
+    private
+
+    attr_reader :data
   end
 end
