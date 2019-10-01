@@ -1,3 +1,12 @@
+# 5.1.0 (2019-10-01)
+
+- Added cache inspection.
+- Added config inspection.
+- Added data inspection.
+- Added friendly path inspection.
+- Updated to XDG 3.1.0.
+- Removed Climate Control gem.
+
 # 5.0.2 (2019-09-01)
 
 - Updated to Rubocop 0.73.0.
