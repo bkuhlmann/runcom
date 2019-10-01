@@ -4,7 +4,6 @@ require "bundler/setup"
 require "simplecov"
 require "pry"
 require "pry-byebug"
-require "climate_control"
 require "runcom"
 
 SimpleCov.start
