@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
   spec.homepage = "https://github.com/bkuhlmann/runcom"
-  spec.summary = "An XDG enhanced run command manager for command line interfaces (CLIs)."
+  spec.summary = "An XDG enhanced run command manager for command line interfaces."
   spec.license = "Apache-2.0"
 
   spec.metadata = {
