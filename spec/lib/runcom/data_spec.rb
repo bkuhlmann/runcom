@@ -3,9 +3,11 @@
 require "spec_helper"
 
 RSpec.describe Runcom::Data, :temp_dir do
-  subject(:data) { described_class.new name: "test", environment: environment }
+  subject(:data) { described_class.new path, context: context }
 
-  let(:home_dir) { "#{temp_dir}/data" }
+  let(:path) { Pathname "test/example.txt" }
+  let(:home_dir) { temp_dir.join "data" }
+  let(:context) { Runcom::Context.new xdg: XDG::Data, environment: environment }
   let :environment do
     {
       "HOME" => "/home",
@@ -14,63 +16,39 @@ RSpec.describe Runcom::Data, :temp_dir do
     }
   end
 
-  describe "#initialize" do
-    context "with default arguments" do
-      subject(:data) { described_class.new }
-
-      it "answers default name" do
-        expect(data.name).to eq(nil)
-      end
-
-      it "answers default home path" do
-        expect(data.home).to eq(Runcom::Paths::Home)
-      end
-
-      it "answers default environment" do
-        expect(data.environment).to eq(ENV)
-      end
-    end
-
-    context "with custom arguments" do
-      subject :data do
-        described_class.new name: "test",
-                            home: XDG::Paths::Standard,
-                            environment: Hash.new
-      end
-
-      it "answers custom name" do
-        expect(data.name).to eq("test")
-      end
-
-      it "answers custom home path" do
-        expect(data.home).to eq(XDG::Paths::Standard)
-      end
-
-      it "answers custom environment" do
-        expect(data.environment).to eq(Hash.new)
-      end
+  describe "#relative" do
+    it "answers relative path" do
+      expect(data.relative).to eq(path)
     end
   end
 
-  describe "#path" do
-    it "answers path when it exists" do
-      path = Pathname "#{home_dir}/test"
-      FileUtils.mkdir_p path
-
-      expect(data.path).to eq(path)
-    end
-
-    it "answers nil when path doesn't exist" do
-      expect(data.path).to eq(nil)
+  describe "#namespace" do
+    it "answers namespace" do
+      expect(data.namespace).to eq(Pathname("test"))
     end
   end
 
-  describe "#paths" do
+  describe "#file_name" do
+    it "answers file name" do
+      expect(data.file_name).to eq(Pathname("example.txt"))
+    end
+  end
+
+  describe "#current" do
+    it "answers file path when it exists" do
+      file_path = home_dir.join path
+      FileUtils.mkpath file_path
+
+      expect(data.current).to eq(file_path)
+    end
+  end
+
+  describe "#all" do
     it "answers all paths" do
-      expect(data.paths).to contain_exactly(
-        Pathname("#{home_dir}/test"),
-        Pathname("#{temp_dir}/one/test"),
-        Pathname("#{temp_dir}/two/test")
+      expect(data.all).to contain_exactly(
+        home_dir.join(path),
+        temp_dir.join("one", path),
+        temp_dir.join("two", path)
       )
     end
   end

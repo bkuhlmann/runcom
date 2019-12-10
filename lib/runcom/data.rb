@@ -1,33 +1,22 @@
 # frozen_string_literal: true
 
-require "pathname"
+require "forwardable"
 
 module Runcom
   # A developer friendly wrapper of XDG data.
-  Data = Struct.new :name, :home, :environment, keyword_init: true do
+  class Data
     extend Forwardable
 
-    delegate %i[inspect] => :data
+    DEFAULT_CONTEXT = Context.new xdg: XDG::Data
 
-    def initialize *arguments
-      super
+    delegate %i[relative namespace file_name current all inspect] => :common
 
-      self[:home] ||= Runcom::Paths::Home
-      self[:environment] ||= ENV
-      @data = XDG::Data.new home: home, environment: environment
-      freeze
-    end
-
-    def path
-      paths.find(&:exist?)
-    end
-
-    def paths
-      data.all.map { |root| Pathname "#{root}/#{name}" }
+    def initialize path, context: DEFAULT_CONTEXT
+      @common = Paths::Common.new path, context: context
     end
 
     private
 
-    attr_reader :data
+    attr_reader :common
   end
 end
