@@ -3,71 +3,54 @@
 require "spec_helper"
 
 RSpec.describe Runcom::Cache, :temp_dir do
-  subject(:cache) { described_class.new name: name, environment: environment }
+  subject(:cache) { described_class.new path, context: context }
 
-  let(:name) { "test" }
-  let(:cache_dir) { Pathname "#{temp_dir}/.cache/#{name}" }
-  let(:home) { XDG::Pair.new "HOME", "/home" }
-  let(:environment) { home.to_env.merge "XDG_CACHE_HOME" => cache_dir }
+  let(:path) { Pathname "test/example.txt" }
+  let(:home_dir) { temp_dir.join ".cache" }
+  let(:context) { Runcom::Context.new xdg: XDG::Cache, environment: environment }
+  let :environment do
+    {
+      "HOME" => "/home",
+      "XDG_CACHE_HOME" => home_dir
+    }
+  end
 
-  describe "#initialize" do
-    context "with default arguments" do
-      subject(:cache) { described_class.new }
-
-      it "answers default name" do
-        expect(cache.name).to eq(nil)
-      end
-
-      it "answers default home path" do
-        expect(cache.home).to eq(Runcom::Paths::Home)
-      end
-
-      it "answers default environment" do
-        expect(cache.environment).to eq(ENV)
-      end
-    end
-
-    context "with custom arguments" do
-      subject :cache do
-        described_class.new name: "test",
-                            home: XDG::Paths::Standard,
-                            environment: Hash.new
-      end
-
-      it "answers custom name" do
-        expect(cache.name).to eq("test")
-      end
-
-      it "answers custom home path" do
-        expect(cache.home).to eq(XDG::Paths::Standard)
-      end
-
-      it "answers custom environment" do
-        expect(cache.environment).to eq(Hash.new)
-      end
+  describe "#relative" do
+    it "answers relative path" do
+      expect(cache.relative).to eq(path)
     end
   end
 
-  describe "#path" do
-    it "answers path when it exists" do
-      FileUtils.mkdir_p cache_dir
-      expect(cache.path).to eq(cache_dir)
-    end
-
-    it "answers nil when path doesn't exist" do
-      expect(cache.path).to eq(nil)
+  describe "#namespace" do
+    it "answers namespace" do
+      expect(cache.namespace).to eq(Pathname("test"))
     end
   end
 
-  describe "#paths" do
+  describe "#file_name" do
+    it "answers file name" do
+      expect(cache.file_name).to eq(Pathname("example.txt"))
+    end
+  end
+
+  describe "#current" do
+    it "answers file path when it exists" do
+      file_path = home_dir.join path
+      FileUtils.mkpath file_path
+
+      expect(cache.current).to eq(file_path)
+    end
+  end
+
+  describe "#all" do
     it "answers all paths" do
-      expect(cache.paths).to contain_exactly(cache_dir)
+      expect(cache.all).to contain_exactly(home_dir.join(path))
     end
   end
 
   describe "#inspect" do
     it "answers environment settings" do
-      expect(cache.inspect).to eq("XDG_CACHE_HOME=#{cache_dir}")
+      expect(cache.inspect).to eq("XDG_CACHE_HOME=#{home_dir}")
     end
   end
 end

@@ -1,31 +1,22 @@
 # frozen_string_literal: true
 
+require "forwardable"
+
 module Runcom
   # A developer friendly wrapper of XDG cache.
-  Cache = Struct.new :name, :home, :environment, keyword_init: true do
+  class Cache
     extend Forwardable
 
-    delegate %i[inspect] => :cache
+    DEFAULT_CONTEXT = Context.new xdg: XDG::Cache
 
-    def initialize *arguments
-      super
+    delegate %i[relative namespace file_name current all inspect] => :common
 
-      self[:home] ||= Runcom::Paths::Home
-      self[:environment] ||= ENV
-      @cache = XDG::Cache.new home: home, environment: environment
-      freeze
-    end
-
-    def path
-      paths.find(&:exist?)
-    end
-
-    def paths
-      cache.all
+    def initialize path, context: DEFAULT_CONTEXT
+      @common = Paths::Common.new path, context: context
     end
 
     private
 
-    attr_reader :cache
+    attr_reader :common
   end
 end
