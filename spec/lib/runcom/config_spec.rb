@@ -3,44 +3,65 @@
 require "spec_helper"
 
 RSpec.describe Runcom::Config, :temp_dir do
-  subject(:configuration) { described_class.new name, environment: environment }
+  subject(:configuration) { described_class.new path, defaults: defaults, context: context }
 
-  let(:name) { "test" }
-  let(:environment) { home.to_env.merge "XDG_CONFIG_HOME" => config_home }
-  let(:config_path) { Pathname "#{config_home}/#{name}/configuration.yml" }
-  let(:config_home) { Pathname "#{temp_dir}/.config" }
-  let(:home) { XDG::Pair.new "HOME", "/home" }
+  let(:path) { Pathname "test/configuration.yml" }
+  let(:config_path) { config_home.join path }
+  let(:config_home) { temp_dir.join ".config" }
 
-  before { FileUtils.mkdir_p config_path.parent }
+  let :environment do
+    {
+      "HOME" => "/home",
+      "XDG_CONFIG_HOME" => config_home,
+      "XDG_CONFIG_DIRS" => "#{temp_dir}/one:#{temp_dir}/two"
+    }
+  end
+
+  let(:defaults) { {} }
+  let(:context) { Runcom::Context.new xdg: XDG::Config, environment: environment }
+
+  before { FileUtils.mkpath config_path.parent }
 
   describe "#initialize" do
-    let(:config_home) { Pathname "#{Bundler.root}/spec/support" }
+    let(:config_home) { Bundler.root.join "spec", "support" }
 
     it "raises base error" do
-      result = lambda do
-        described_class.new "fixtures", environment: environment, file_name: "invalid.yml"
-      end
-
+      result = -> { described_class.new Pathname("fixtures/invalid.yml"), context: context }
       expect(&result).to raise_error(Runcom::Errors::Syntax)
     end
   end
 
-  describe "#path" do
-    it "answers configuration file when path exists" do
-      FileUtils.touch config_path
-      expect(configuration.path).to eq(config_path)
-    end
-
-    it "answers nil when path doesn't exist" do
-      expect(configuration.path).to eq(nil)
+  describe "#relative" do
+    it "answers relative path" do
+      expect(configuration.relative).to eq(path)
     end
   end
 
-  describe "#paths" do
-    it "answers all path" do
-      expect(configuration.paths).to contain_exactly(
-        Pathname("#{config_home}/test/configuration.yml"),
-        Pathname("/etc/xdg/test/configuration.yml")
+  describe "#namespace" do
+    it "answers namespace" do
+      expect(configuration.namespace).to eq(Pathname("test"))
+    end
+  end
+
+  describe "#file_name" do
+    it "answers file name" do
+      expect(configuration.file_name).to eq(Pathname("configuration.yml"))
+    end
+  end
+
+  describe "#current" do
+    it "answers configuration file when path exists" do
+      FileUtils.mkpath config_path
+      expect(configuration.current).to eq(config_path)
+    end
+  end
+
+  describe "#all" do
+    it "answers all paths" do
+      expect(configuration.all).to contain_exactly(
+        config_home.join("test", "configuration.yml"),
+        temp_dir.join("one", "test", "configuration.yml"),
+        temp_dir.join("two", "test", "configuration.yml")
       )
     end
   end
@@ -70,10 +91,7 @@ RSpec.describe Runcom::Config, :temp_dir do
       end
 
       it "merges custom configuration" do
-        custom_configuration = described_class.new name,
-                                                   environment: environment,
-                                                   defaults: custom_settings
-
+        custom_configuration = described_class.new path, defaults: custom_settings, context: context
         expect(configuration.merge(custom_settings)).to eq(custom_configuration)
       end
 
@@ -83,9 +101,7 @@ RSpec.describe Runcom::Config, :temp_dir do
     end
 
     context "with custom settings" do
-      subject :configuration do
-        described_class.new name, environment: environment, defaults: original_settings
-      end
+      let(:defaults) { original_settings }
 
       let :original_settings do
         {
@@ -129,8 +145,9 @@ RSpec.describe Runcom::Config, :temp_dir do
       end
 
       it "merges custom configuration" do
-        modified_configuration = described_class.new name, defaults: modified_settings
-        expect(configuration.merge(custom_settings)).to eq(modified_configuration)
+        expect(configuration.merge(custom_settings)).to eq(
+          described_class.new(path, defaults: modified_settings, context: context)
+        )
       end
 
       it "answers new configuration" do
@@ -158,22 +175,22 @@ RSpec.describe Runcom::Config, :temp_dir do
   end
 
   describe "#==" do
-    let(:similar) { described_class.new name }
-    let(:different) { described_class.new name: "different" }
+    let(:similar) { described_class.new path }
+    let(:different) { described_class.new "different" }
 
     it_behaves_like "a value object"
   end
 
   describe "#eql?" do
-    let(:similar) { described_class.new name }
-    let(:different) { described_class.new name: "different" }
+    let(:similar) { described_class.new path }
+    let(:different) { described_class.new "different" }
 
     it_behaves_like "a value object"
   end
 
   describe "#equal?" do
-    let(:similar) { described_class.new name }
-    let(:different) { described_class.new name: "different" }
+    let(:similar) { described_class.new path }
+    let(:different) { described_class.new "different" }
 
     it "is equal with same instances" do
       expect(configuration).to equal(configuration)
@@ -193,7 +210,7 @@ RSpec.describe Runcom::Config, :temp_dir do
   end
 
   describe "#hash" do
-    let(:similar) { described_class.new name }
+    let(:similar) { described_class.new path }
 
     it "is equal with same instances" do
       expect(configuration.hash).to eq(configuration.hash)
@@ -203,18 +220,18 @@ RSpec.describe Runcom::Config, :temp_dir do
       expect(configuration.hash).to eq(similar.hash)
     end
 
-    it "isn't equal with different project name" do
-      different = described_class.new name: "different"
+    it "isn't equal with different namespace" do
+      different = described_class.new "different"
       expect(configuration.hash).not_to eq(different.hash)
     end
 
     it "isn't equal with different file name" do
-      different = described_class.new name, file_name: "different"
+      different = described_class.new Pathname("different")
       expect(configuration.hash).not_to eq(different.hash)
     end
 
     it "isn't equal with different defaults" do
-      different = described_class.new name, defaults: {test: "example"}
+      different = described_class.new path, defaults: {a: 1}
       expect(configuration.hash).not_to eq(different.hash)
     end
 
@@ -226,7 +243,7 @@ RSpec.describe Runcom::Config, :temp_dir do
   describe "#to_h" do
     it "answers custom hash when configuration file exists" do
       custom = {remove: {comments: "# encoding: UTF-8"}}
-      File.open(config_path, "w") { |file| file << custom.to_yaml }
+      File.write config_path, custom.to_yaml
 
       expect(configuration.to_h).to eq(custom)
     end
@@ -236,10 +253,6 @@ RSpec.describe Runcom::Config, :temp_dir do
     end
 
     context "with configuration file and custom defaults" do
-      subject :configuration do
-        described_class.new name, environment: environment, defaults: defaults
-      end
-
       let :original do
         {
           remove: {
@@ -267,7 +280,7 @@ RSpec.describe Runcom::Config, :temp_dir do
       end
 
       it "answers merged hash" do
-        File.open(config_path, "w") { |file| file << original.to_yaml }
+        File.write config_path, original.to_yaml
         expect(configuration.to_h).to eq(merged)
       end
     end
@@ -275,7 +288,9 @@ RSpec.describe Runcom::Config, :temp_dir do
 
   describe "#inspect" do
     it "answers environment settings" do
-      expect(configuration.inspect).to eq("XDG_CONFIG_HOME=#{config_home} XDG_CONFIG_DIRS=/etc/xdg")
+      expect(configuration.inspect).to eq(
+        "XDG_CONFIG_HOME=#{config_home} XDG_CONFIG_DIRS=#{temp_dir}/one:#{temp_dir}/two"
+      )
     end
   end
 end

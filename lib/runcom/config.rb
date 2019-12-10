@@ -1,42 +1,27 @@
 # frozen_string_literal: true
 
-require "pathname"
 require "yaml"
 require "refinements/hashes"
 
-# :reek:TooManyInstanceVariables
 module Runcom
   # A developer friendly wrapper of XDG config.
   class Config
     extend Forwardable
     using Refinements::Hashes
 
-    DEFAULT_FILE_NAME = "configuration.yml"
+    DEFAULT_CONTEXT = Context.new xdg: XDG::Config
 
-    delegate %i[inspect] => :config
+    delegate %i[relative namespace file_name current all inspect] => :common
 
-    # rubocop:disable Metrics/ParameterLists
-    def initialize name, environment: ENV, file_name: DEFAULT_FILE_NAME, defaults: {}
-      @name = name
-      @environment = environment
-      @file_name = file_name
-      @defaults = defaults
-      @config = XDG::Config.new home: Runcom::Paths::Home, environment: environment
+    def initialize path, defaults: {}, context: DEFAULT_CONTEXT
+      @common = Paths::Common.new path, context: context
+      @context = context
       @settings = defaults.deep_merge process_settings
       freeze
     end
-    # rubocop:enable Metrics/ParameterLists
-
-    def path
-      paths.find(&:exist?)
-    end
-
-    def paths
-      config.all.map { |root| Pathname "#{root}/#{name}/#{file_name}" }
-    end
 
     def merge other
-      self.class.new name, file_name: file_name, defaults: settings.deep_merge(other.to_h)
+      self.class.new common.relative, defaults: settings.deep_merge(other.to_h), context: context
     end
 
     # :reek:FeatureEnvy
@@ -47,7 +32,7 @@ module Runcom
     alias eql? ==
 
     def hash
-      [name, file_name, to_h, self.class].hash
+      [common.relative, to_h, self.class].hash
     end
 
     def to_h
@@ -56,18 +41,19 @@ module Runcom
 
     private
 
-    attr_reader :name, :environment, :file_name, :defaults, :settings, :config
+    attr_reader :common, :context, :settings
 
     def process_settings
       load_settings
     rescue Psych::SyntaxError => error
       raise Errors::Syntax, error.message
     rescue StandardError
-      defaults
+      context.defaults
+      {}
     end
 
     def load_settings
-      yaml = YAML.load_file path
+      yaml = YAML.load_file common.current
       yaml.is_a?(Hash) ? yaml : {}
     end
   end
