@@ -23,7 +23,7 @@ RSpec.describe Runcom::Data, :temp_dir do
       end
 
       it "answers default home path" do
-        expect(data.home).to eq(Runcom::Paths::Friendly)
+        expect(data.home).to eq(Runcom::Paths::Home)
       end
 
       it "answers default environment" do

@@ -10,7 +10,7 @@ module Runcom
     def initialize *arguments
       super
 
-      self[:home] ||= Runcom::Paths::Friendly
+      self[:home] ||= Runcom::Paths::Home
       self[:environment] ||= ENV
       @cache = XDG::Cache.new home: home, environment: environment
       freeze

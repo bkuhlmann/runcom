@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Runcom::Paths::Friendly do
+RSpec.describe Runcom::Paths::Home do
   subject(:path) { described_class.new pair, environment }
 
   let(:pair) { XDG::Pair.new "TEST", "test" }

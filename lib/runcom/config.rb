@@ -21,7 +21,7 @@ module Runcom
       @environment = environment
       @file_name = file_name
       @defaults = defaults
-      @config = XDG::Config.new home: Runcom::Paths::Friendly, environment: environment
+      @config = XDG::Config.new home: Runcom::Paths::Home, environment: environment
       @settings = defaults.deep_merge process_settings
       freeze
     end

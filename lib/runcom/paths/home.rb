@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require "forwardable"
+require "pathname"
 
 module Runcom
   module Paths
-    # A XDG home path with a loose adherence to XDG specification by preferring local path if it
-    # exists, otherwise defaulting to standard computed path.
-    class Friendly
+    # A XDG home path that prefers local over global path.
+    class Home
       extend Forwardable
 
       delegate %i[key value default] => :standard
