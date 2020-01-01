@@ -1,3 +1,26 @@
+# 6.0.0 (2020-01-01)
+
+- Added common path.
+- Added context.
+- Added gem console.
+- Fixed SimpleCov setup in RSpec spec helper.
+- Removed unnecessary Bash script documentation.
+- Updated cache to use common path.
+- Updated config to use common path.
+- Updated data to use common path.
+- Updated friendly path as home path.
+- Updated gem summary.
+- Updated Pry development dependencies.
+- Updated to Refinments 7.0.0.
+- Updated to Rubocop 0.77.0.
+- Updated to Rubocop 0.78.0.
+- Updated to Rubocop Performance 1.5.0.
+- Updated to Rubocop Rake 0.5.0.
+- Updated to Rubocop RSpec 1.37.0.
+- Updated to Ruby 2.7.0.
+- Updated to SimpleCov 0.17.0.
+- Updated to XDG 4.0.0.
+
 # 5.1.1 (2019-11-01)
 
 - Added Rubocop Rake support.
