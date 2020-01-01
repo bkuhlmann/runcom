@@ -12,7 +12,7 @@ module Runcom
       delegate %i[key value default] => :standard
 
       def initialize pair, environment = ENV
-        @standard = XDG::Paths::Standard.new pair, environment
+        @standard = XDG::Paths::Home.new pair, environment
       end
 
       def dynamic

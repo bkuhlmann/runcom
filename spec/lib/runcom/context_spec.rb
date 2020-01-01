@@ -13,12 +13,12 @@ RSpec.describe Runcom::Context do
     end
 
     it "answers custom context" do
-      context = described_class.new home: XDG::Paths::Standard,
+      context = described_class.new home: XDG::Paths::Home,
                                     environment: {b: 2},
                                     xdg: XDG::Config
 
       expect(context).to have_attributes(
-        home: XDG::Paths::Standard,
+        home: XDG::Paths::Home,
         environment: {b: 2},
         xdg: XDG::Config
       )
