@@ -54,7 +54,7 @@ the [XDG](https://github.com/bkuhlmann/xdg) implementation.
 
 ## Requirements
 
-1. [Ruby 2.6.x](https://www.ruby-lang.org).
+1. [Ruby 2.7.x](https://www.ruby-lang.org).
 
 ## Setup
 
