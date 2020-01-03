@@ -76,16 +76,32 @@ implementation.
 While there isn't an environment convenience object as found in the `XDG` namespace, you can
 instantiate each object individually:
 
-    cache = Runcom::Cache.new
-    config = Runcom::Config.new
-    data = Runcom::Data.new
+    cache = Runcom::Cache.new "example/data.json"
+    config = Runcom::Config.new "example/configuration.yml"
+    data = Runcom::Data.new "example/store.dat"
 
-Each of the above objects share the same basic API:
+Each of the above objects share the same API:
 
-- `#path` - Answers first *existing* file system path computed by `$XDG_*_HOME` followed
-  by each computed `$XDG_*_DIRS` path in order defined.
-- `#paths` - Answers all file system paths which is the combined `$XDG_*_HOME` and `$XDG_*_DIRS`
+- `#relative` - Answers the relative path from which the object was constructed.
+- `#namespace` - Answers the relative namespace as a pathname object from which the object was
+  constructed. The namespace must be identical across the cache, config, and data objects as this is
+  what uniquely identifies and organizes all files associated with your program.
+- `#file_name` - Answers the file name from which the object was constructed.
+- `#current` - Answers first *existing* file system path computed by `$XDG_*_HOME` followed by each
+  computed `$XDG_*_DIRS` path in order defined. Otherwise, `nil` is answered back.
+- `#all` - Answers all file system paths which is the combined `$XDG_*_HOME` and `$XDG_*_DIRS`
   values in order defined. These paths *may* or *may not* exist on the file system.
+- `#inspect` - Answers a string representation of default XDG home and directory paths for debugging
+  purposes.
+
+Using the `cache` object (created above) as an example, here is what each method answers back:
+
+    cache.relative # => #<Pathname:example/data.json>
+    cache.namespace # #<Pathname:example>
+    cache.file_name # #<Pathname:data.json>
+    cache.current # #<Pathname:/Users/bkuhlmann/.cache/example/data.json>
+    cache.all # [#<Pathname:/Users/bkuhlmann/.cache/example/data.json>]
+    cache.inspect # "XDG_CACHE_HOME=/Users/bkuhlmann/.cache"
 
 #### Variable Priority
 
@@ -104,18 +120,13 @@ The `Runcom::Config` deserves additional highlighting as it provides support for
 configurations directly from the command line or from custom locations. It is meant to be used
 within your program(s).
 
-An object can be initialized as follows:
+An object is initialized as follows:
 
-    configuration = Runcom::Config.new "example"
-
-The default file name for a configuration is `configuration.yml` but a custom name can be used if
-desired:
-
-    configuration = Runcom::Config.new "example", file_name: "example.yml"
+    configuration = Runcom::Config.new "example/configuration.yml"
 
 Default settings can be initialized as well:
 
-    configuration = Runcom::Config.new "example", defaults: {name: "Example"}
+    configuration = Runcom::Config.new "example/configuration.yml", defaults: {name: "Example"}
 
 Once a configuration has been initialized, a hash representation can be obtained:
 
@@ -129,9 +140,9 @@ A configuration can also be merged with another configuration:
 
     updated_configuration = configuration.merge Runcom::Config.new("other", defaults: {a: 1})
 
-The computed path of the configuration can be asked for as well:
+The current path of the configuration can be asked for as well:
 
-    configuration.path # "~/.config/example/configuration.yml"
+    configuration.current # "~/.config/example/configuration.yml"
 
 For further details, study the public interface as provided by the
 [`Runcom::Config`](lib/runcom/config.rb) object.
