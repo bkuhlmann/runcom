@@ -12,7 +12,7 @@ module Runcom
     end
 
     def self.version
-      "6.0.0"
+      "6.0.1"
     end
 
     def self.version_label
