@@ -20,6 +20,8 @@ the [XDG](https://github.com/bkuhlmann/xdg) implementation.
   - [Features](#features)
   - [Requirements](#requirements)
   - [Setup](#setup)
+    - [Production](#production)
+    - [Development](#development)
   - [Usage](#usage)
       - [Overview](#overview)
       - [Variable Priority](#variable-priority)
@@ -56,13 +58,27 @@ the [XDG](https://github.com/bkuhlmann/xdg) implementation.
 
 ## Setup
 
-Type the following to install:
+### Production
+
+To install, run:
 
     gem install runcom
 
 Add the following to your Gemfile:
 
     gem "runcom"
+
+### Development
+
+To contribute, run:
+
+    git clone https://github.com/bkuhlmann/runcom.git
+    cd runcom
+    bin/setup
+
+You can also use the IRB console for direct access to all objects:
+
+    bin/console
 
 ## Usage
 
