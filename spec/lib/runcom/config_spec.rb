@@ -156,7 +156,10 @@ RSpec.describe Runcom::Config, :temp_dir do
     end
   end
 
-  shared_examples_for "a value object" do
+  describe "#==" do
+    let(:similar) { described_class.new path }
+    let(:different) { described_class.new "different" }
+
     it "is equal with same instances" do
       expect(configuration).to eq(configuration)
     end
@@ -174,18 +177,25 @@ RSpec.describe Runcom::Config, :temp_dir do
     end
   end
 
-  describe "#==" do
-    let(:similar) { described_class.new path }
-    let(:different) { described_class.new "different" }
-
-    it_behaves_like "a value object"
-  end
-
   describe "#eql?" do
     let(:similar) { described_class.new path }
     let(:different) { described_class.new "different" }
 
-    it_behaves_like "a value object"
+    it "is equal with same instances" do
+      expect(configuration).to eql(configuration)
+    end
+
+    it "is equal with similar construction" do
+      expect(configuration).to eql(similar)
+    end
+
+    it "isn't equal with different values" do
+      expect(configuration).not_to eql(different)
+    end
+
+    it "isn't equal with different type" do
+      expect(configuration).not_to eql("different")
+    end
   end
 
   describe "#equal?" do
