@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="runcom.png" alt="Runcom Icon"/>
+  <img src="https://www.alchemists.io/images/projects/runcom/icon.png" alt="Runcom Icon"/>
 </p>
 
 # Runcom
