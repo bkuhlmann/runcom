@@ -3,20 +3,9 @@
 module Runcom
   # Gem identity information.
   module Identity
-    def self.name
-      "runcom"
-    end
-
-    def self.label
-      "Runcom"
-    end
-
-    def self.version
-      "6.0.1"
-    end
-
-    def self.version_label
-      "#{label} #{version}"
-    end
+    NAME = "runcom"
+    LABEL = "Runcom"
+    VERSION = "6.0.1"
+    VERSION_LABEL = "#{LABEL} #{VERSION}"
   end
 end

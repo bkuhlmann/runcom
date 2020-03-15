@@ -3,8 +3,8 @@
 require_relative "lib/runcom/identity"
 
 Gem::Specification.new do |spec|
-  spec.name = Runcom::Identity.name
-  spec.version = Runcom::Identity.version
+  spec.name = Runcom::Identity::NAME
+  spec.version = Runcom::Identity::VERSION
   spec.platform = Gem::Platform::RUBY
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
