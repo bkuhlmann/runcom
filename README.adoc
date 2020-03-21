@@ -1,0 +1,234 @@
+:toc: macro
+:toclevels: 5
+:figure-caption!:
+
+= Runcom
+
+[link=http://badge.fury.io/rb/runcom]
+image::https://badge.fury.io/rb/runcom.svg[Gem Version]
+[link=https://circleci.com/gh/bkuhlmann/runcom]
+image::https://circleci.com/gh/bkuhlmann/runcom.svg?style=svg[Circle CI Status]
+
+Runcom (short for link:https://en.wikipedia.org/wiki/Run_commands[Run Command]) provides common
+functionality for Command Line Interfaces (CLIs) in which to manage global, local, or multiple
+caches, configurations, or data in general. It does this by leveraging the
+https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html[XDG Base Directory
+Specification] built atop the link:https://www.alchemists.io/projects/xdg[XDG] implementation.
+
+toc::[]
+
+== Features
+
+* Wraps the link:https://www.alchemists.io/projects/xdg[XDG] implementation which provides access to
+  the following environment variables:
+** `+$XDG_CACHE_HOME+`
+** `+$XDG_CONFIG_HOME+`
+** `+$XDG_CONFIG_DIRS+`
+** `+$XDG_DATA_HOME+`
+** `+$XDG_DATA_DIRS+`
+* Enhances the XDG cache, config, and data implementation. For the config, the following is
+  supported:
+** Supports loading of CLI-specific http://yaml.org[YAML] configuration file.
+** Supports loading and merging of nested/complex configurations.
+** Supports hash representation of configuration.
+
+== Requirements
+
+. https://www.ruby-lang.org[Ruby 2.7.x].
+
+== Setup
+
+=== Production
+
+To install, run:
+
+[source,bash]
+----
+gem install runcom
+----
+
+Add the following to your Gemfile:
+
+[source,ruby]
+----
+gem "runcom"
+----
+
+=== Development
+
+To contribute, run:
+
+[source,bash]
+----
+git clone https://github.com/bkuhlmann/runcom.git
+cd runcom
+bin/setup
+----
+
+You can also use the IRB console for direct access to all objects:
+
+[source,bash]
+----
+bin/console
+----
+
+== Usage
+
+The following describes the enhancements built atop the
+link:https://www.alchemists.io/projects/xdg[XDG] implementation.
+
+=== Overview
+
+While there isn’t an environment convenience object as found in the `+XDG+` namespace, you can
+instantiate each object individually:
+
+[source,ruby]
+----
+cache = Runcom::Cache.new "example/data.json"
+config = Runcom::Config.new "example/configuration.yml"
+data = Runcom::Data.new "example/store.dat"
+----
+
+Each of the above objects share the same API:
+
+* `#relative` - Answers the relative path from which the object was constructed.
+* `#namespace` - Answers the relative namespace as a pathname object from which the object was
+  constructed. The namespace must be identical across the cache, config, and data objects as this is
+  what uniquely identifies and organizes all files associated with your program.
+* `#file_name` - Answers the file name from which the object was constructed.
+* `#current` - Answers first _existing_ file system path computed by `$XDG_*_HOME` followed by each
+  computed `$XDG_*_DIRS` path in order defined. Otherwise, `nil` is answered back.
+* `#all` - Answers all file system paths which is the combined `$XDG_*_HOME` and
+  `$XDG_*_DIRS` values in order defined. These paths _may_ or _may not_ exist on the file system.
+* `#inspect` - Answers a string representation of default XDG home and directory paths for debugging
+  purposes.
+
+Using the `cache` object (created above) as an example, here is what each method answers back:
+
+[source,ruby]
+----
+cache.relative # => #<Pathname:example/data.json>
+cache.namespace # #<Pathname:example>
+cache.file_name # #<Pathname:data.json>
+cache.current # #<Pathname:/Users/bkuhlmann/.cache/example/data.json>
+cache.all # [#<Pathname:/Users/bkuhlmann/.cache/example/data.json>]
+cache.inspect # "XDG_CACHE_HOME=/Users/bkuhlmann/.cache"
+----
+
+=== Variable Priority
+
+Path precedence is determined in the following order (with the first taking highest priority):
+
+. *Local Configuration* - If a `$XDG_*_HOME` or `$XDG_*_DIRS` path relative to the
+  current working directory is detected, it will take precedence over the global configuration.
+  This is the same behavior as found in Git where the local `.git/config` takes precedence over the
+  global `$HOME/.gitconfig`.
+. *Global Configuration* - When a local configuration isn’t found, the global configuration is used
+  as defined by the _XDG Base Directory Specification_.
+
+=== Configuration Specialization
+
+The `Runcom::Config` deserves additional highlighting as it provides support for loading custom
+CLI configurations directly from the command line or from custom locations. It is meant to be used
+within your program(s).
+
+An object is initialized as follows:
+
+[source,ruby]
+----
+configuration = Runcom::Config.new "example/configuration.yml"
+----
+
+Default settings can be initialized as well:
+
+[source,ruby]
+----
+configuration = Runcom::Config.new "example/configuration.yml", defaults: {name: "Example"}
+----
+
+Once a configuration has been initialized, a hash representation can be obtained:
+
+[source,ruby]
+----
+configuration.to_h
+----
+
+A configuration can be merged with another hash (handy for runtime overrides):
+
+[source,ruby]
+----
+updated_configuration = configuration.merge {name: "Updated Name"}
+----
+
+A configuration can also be merged with another configuration:
+
+[source,ruby]
+----
+updated_configuration = configuration.merge Runcom::Config.new("other", defaults: {a: 1})
+----
+
+The current path of the configuration can be asked for as well:
+
+[source,ruby]
+----
+configuration.current # "~/.config/example/configuration.yml"
+----
+
+For further details, study the public interface as provided by the
+link:lib/runcom/config.rb[`Runcom::Config`] object.
+
+=== Examples
+
+Examples of gems built atop this gem are:
+
+* link:https://www.alchemists.io/projects/gemsmith[Gemsmith] - A command line interface for smithing
+  new Ruby gems.
+* link:https://www.alchemists.io/projects/git-cop[Git Cop] - Enforces consistent Git commits.
+* link:https://www.alchemists.io/projects/milestoner[Milestoner] - A command line interface for
+  releasing Git repository milestones.
+* link:https://www.alchemists.io/projects/pennyworth[Pennyworth] - A command line interface that
+  enhances and extends link:https://www.alfredapp.com[Alfred] with Ruby support.
+* link:https://www.alchemists.io/projects/pragmater[Pragmater] - A command line interface for
+  managing/formatting source file pragma comments.
+* link:https://www.alchemists.io/projects/sublime_text_kit[Sublime Text Kit] - A command line
+  interface for managing Sublime Text metadata.
+* link:https://www.alchemists.io/projects/tocer[Tocer] - A command line interface for generating
+  table of contents for Markdown files.
+
+== Tests
+
+To test, run:
+
+[source,bash]
+----
+bundle exec rake
+----
+
+== Versioning
+
+Read link:https://semver.org[Semantic Versioning] for details. Briefly, it means:
+
+* Major (X.y.z) - Incremented for any backwards incompatible public API changes.
+* Minor (x.Y.z) - Incremented for new, backwards compatible, public API enhancements/fixes.
+* Patch (x.y.Z) - Incremented for small, backwards compatible, bug fixes.
+
+== Code of Conduct
+
+Please note that this project is released with a link:CODE_OF_CONDUCT.adoc[CODE OF CONDUCT]. By
+participating in this project you agree to abide by its terms.
+
+== Contributions
+
+Read link:CONTRIBUTING.adoc[CONTRIBUTING] for details.
+
+== License
+
+Read link:LICENSE.adoc[LICENSE] for details.
+
+== History
+
+Read link:CHANGES.adoc[CHANGES] for details.
+
+== Credits
+
+Engineered by link:https://www.alchemists.io/team/brooke_kuhlmann.html[Brooke Kuhlmann].
