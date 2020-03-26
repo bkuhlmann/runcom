@@ -8,14 +8,15 @@ Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
-  spec.homepage = "https://github.com/bkuhlmann/runcom"
+  spec.homepage = "https://www.alchemists.io/projects/runcom"
   spec.summary = "An XDG enhanced run command manager for command line interfaces."
   spec.license = "Apache-2.0"
 
   spec.metadata = {
-    "source_code_uri" => "https://github.com/bkuhlmann/runcom",
-    "changelog_uri" => "https://github.com/bkuhlmann/runcom/blob/master/CHANGES.md",
-    "bug_tracker_uri" => "https://github.com/bkuhlmann/runcom/issues"
+    "bug_tracker_uri" => "https://github.com/bkuhlmann/runcom/issues",
+    "changelog_uri" => "https://www.alchemists.io/projects/runcom/changes.html",
+    "documentation_uri" => "https://www.alchemists.io/projects/runcom",
+    "source_code_uri" => "https://github.com/bkuhlmann/runcom"
   }
 
   spec.signing_key = Gem.default_key_path
