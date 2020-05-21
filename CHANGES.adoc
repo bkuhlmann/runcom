@@ -1,18 +1,25 @@
 = Changes
 
+== 6.1.1 (2020-05-21)
+
+- Updated Pry gem dependencies
+- Updated README credit URL
+- Updated Rubocop gem dependencies
+- Updated to Refinements 7.4.0
+
 == 6.1.0 (2020-04-01)
 
-- Fixed RSpec/RepeatedExampleGroupBody issue
-- Added README production and development setup instructions
-- Updated documentation to ASCII Doc format
-- Updated gem identity to use constants
-- Updated gemspec URLs
-- Updated gemspec to require relative path
-- Updated to Code of Conduct 2.0.0
-- Updated to Reek 6.0.0
-- Updated to Ruby 2.7.1
-- Removed Code Climate support
-- Removed README images
+* Fixed RSpec/RepeatedExampleGroupBody issue
+* Added README production and development setup instructions
+* Updated documentation to ASCII Doc format
+* Updated gem identity to use constants
+* Updated gemspec URLs
+* Updated gemspec to require relative path
+* Updated to Code of Conduct 2.0.0
+* Updated to Reek 6.0.0
+* Updated to Ruby 2.7.1
+* Removed Code Climate support
+* Removed README images
 
 == 6.0.1 (2020-02-01)
 
