@@ -34,7 +34,7 @@ toc::[]
 
 == Requirements
 
-. https://www.ruby-lang.org[Ruby 2.7.x].
+. https://www.ruby-lang.org[Ruby]
 
 == Setup
 
