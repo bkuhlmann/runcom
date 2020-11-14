@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = "~> 2.7"
   spec.add_dependency "refinements", "~> 7.14"
-  spec.add_dependency "xdg", "~> 4.0"
+  spec.add_dependency "xdg", "~> 4.4"
   spec.add_development_dependency "bundler-audit", "~> 0.7"
   spec.add_development_dependency "bundler-leak", "~> 0.2"
   # spec.add_development_dependency "gemsmith", "~> 14.2"
