@@ -2,8 +2,10 @@
 
 require "spec_helper"
 
-RSpec.describe Runcom::Paths::Common, :temp_dir do
+RSpec.describe Runcom::Paths::Common do
   subject(:custom) { described_class.new path, context: context }
+
+  include_context "with temporary directory"
 
   let(:path) { "test/example.txt" }
   let(:context) { Runcom::Context.new xdg: XDG::Data, environment: environment }

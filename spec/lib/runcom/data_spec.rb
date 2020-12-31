@@ -2,8 +2,10 @@
 
 require "spec_helper"
 
-RSpec.describe Runcom::Data, :temp_dir do
+RSpec.describe Runcom::Data do
   subject(:data) { described_class.new path, context: context }
+
+  include_context "with temporary directory"
 
   let(:path) { Pathname "test/example.txt" }
   let(:home_dir) { temp_dir.join "data" }

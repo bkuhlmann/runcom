@@ -5,6 +5,8 @@ require "spec_helper"
 RSpec.describe Runcom::Paths::Home do
   subject(:path) { described_class.new pair, environment }
 
+  include_context "with temporary directory"
+
   let(:pair) { XDG::Pair.new "TEST", "test" }
   let(:home) { XDG::Pair.new "HOME", "/home" }
   let(:environment) { home.to_env }
@@ -44,7 +46,7 @@ RSpec.describe Runcom::Paths::Home do
       end
     end
 
-    context "with existing path", :temp_dir do
+    context "with existing path" do
       let(:environment) { home.to_env.merge pair.to_env }
       let(:test_path) { temp_dir.join "test" }
 

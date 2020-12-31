@@ -2,8 +2,10 @@
 
 require "spec_helper"
 
-RSpec.describe Runcom::Config, :temp_dir do
+RSpec.describe Runcom::Config do
   subject(:configuration) { described_class.new path, defaults: defaults, context: context }
+
+  include_context "with temporary directory"
 
   let(:path) { Pathname "test/configuration.yml" }
   let(:config_path) { config_home.join path }
