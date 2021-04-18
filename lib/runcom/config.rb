@@ -31,13 +31,9 @@ module Runcom
 
     alias eql? ==
 
-    def hash
-      [common.relative, to_h, self.class].hash
-    end
+    def hash = [common.relative, to_h, self.class].hash
 
-    def to_h
-      settings
-    end
+    def to_h = settings
 
     private
 

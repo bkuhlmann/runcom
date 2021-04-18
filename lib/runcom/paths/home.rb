@@ -21,9 +21,7 @@ module Runcom
         end
       end
 
-      def inspect
-        [standard.key, dynamic].compact.join XDG::PAIR_DELIMITER
-      end
+      def inspect = [standard.key, dynamic].compact.join(XDG::PAIR_DELIMITER)
 
       private
 

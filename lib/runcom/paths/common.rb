@@ -18,29 +18,19 @@ module Runcom
         @context = context
       end
 
-      def namespace
-        relative.parent
-      end
+      def namespace = relative.parent
 
-      def file_name
-        relative.basename
-      end
+      def file_name = relative.basename
 
-      def current
-        all.find(&:exist?)
-      end
+      def current = all.find(&:exist?)
 
-      def all
-        xdg.all.map { |root| root.join relative }
-      end
+      def all = xdg.all.map { |root| root.join relative }
 
       private
 
       attr_reader :context
 
-      def xdg
-        context.xdg
-      end
+      def xdg = context.xdg
     end
   end
 end
