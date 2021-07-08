@@ -162,10 +162,6 @@ RSpec.describe Runcom::Config do
     let(:similar) { described_class.new path }
     let(:different) { described_class.new "different" }
 
-    it "is equal with same instances" do
-      expect(configuration).to eq(configuration)
-    end
-
     it "is equal with similar construction" do
       expect(configuration).to eq(similar)
     end
@@ -182,10 +178,6 @@ RSpec.describe Runcom::Config do
   describe "#eql?" do
     let(:similar) { described_class.new path }
     let(:different) { described_class.new "different" }
-
-    it "is equal with same instances" do
-      expect(configuration).to eql(configuration)
-    end
 
     it "is equal with similar construction" do
       expect(configuration).to eql(similar)
@@ -204,10 +196,6 @@ RSpec.describe Runcom::Config do
     let(:similar) { described_class.new path }
     let(:different) { described_class.new "different" }
 
-    it "is equal with same instances" do
-      expect(configuration).to equal(configuration)
-    end
-
     it "isn't equal with similar construction" do
       expect(configuration).not_to equal(similar)
     end
@@ -223,10 +211,6 @@ RSpec.describe Runcom::Config do
 
   describe "#hash" do
     let(:similar) { described_class.new path }
-
-    it "is equal with same instances" do
-      expect(configuration.hash).to eq(configuration.hash)
-    end
 
     it "is equal with similar construction" do
       expect(configuration.hash).to eq(similar.hash)
