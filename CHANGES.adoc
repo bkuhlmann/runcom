@@ -1,5 +1,13 @@
 = Changes
 
+== 7.1.2 (2021-08-07)
+
+* Fixed Rubocop Layout/RedundantLineBreak issue - Brooke Kuhlmann
+* Fixed Rubocop RSpec/IdenticalEqualityAssertion issues - Brooke Kuhlmann
+* Updated to Rubocop 1.14.0 - Brooke Kuhlmann
+* Updated to Ruby 3.0.2 - Brooke Kuhlmann
+* Removed Bundler Audit - Brooke Kuhlmann
+
 == 7.1.1 (2021-04-18)
 
 * Added Ruby garbage collection compaction - Brooke Kuhlmann

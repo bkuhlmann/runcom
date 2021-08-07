@@ -5,7 +5,7 @@ module Runcom
   module Identity
     NAME = "runcom"
     LABEL = "Runcom"
-    VERSION = "7.1.1"
+    VERSION = "7.1.2"
     VERSION_LABEL = "#{LABEL} #{VERSION}"
   end
 end
