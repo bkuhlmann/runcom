@@ -15,7 +15,8 @@ Runcom (short for link:https://en.wikipedia.org/wiki/Run_commands[Run Command]) 
 functionality for Command Line Interfaces (CLIs) in which to manage global, local, or multiple
 caches, configurations, or data in general. It does this by leveraging the
 https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html[XDG Base Directory
-Specification] built atop the link:https://www.alchemists.io/projects/xdg[XDG] implementation.
+Specification] built atop the link:https://www.alchemists.io/projects/xdg[XDG] implementation. In
+other words, Runcom is an advanced version of XDG.
 
 toc::[]
 
