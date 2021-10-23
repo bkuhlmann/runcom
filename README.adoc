@@ -164,9 +164,11 @@ link:lib/runcom/config.rb[`Runcom::Config`] object.
 
 Examples of gems built atop this gem are:
 
+* link:https://www.alchemists.io/projects/rubysmith[Rubysmith] - A command line interface for
+  smithing Ruby projects.
 * link:https://www.alchemists.io/projects/gemsmith[Gemsmith] - A command line interface for smithing
   new Ruby gems.
-* link:https://www.alchemists.io/projects/git-cop[Git Cop] - Enforces consistent Git commits.
+* link:https://www.alchemists.io/projects/git-lint[Git Lint] - Enforces consistent Git commits.
 * link:https://www.alchemists.io/projects/milestoner[Milestoner] - A command line interface for
   releasing Git repository milestones.
 * link:https://www.alchemists.io/projects/pennyworth[Pennyworth] - A command line interface that
