@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email = ["brooke@alchemists.io"]
   spec.homepage = "https://www.alchemists.io/projects/runcom"
   spec.summary = "An XDG enhanced run command manager for command line interfaces."
-  spec.license = "Apache-2.0"
+  spec.license = "Hippocratic-3.0"
 
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/bkuhlmann/runcom/issues",
