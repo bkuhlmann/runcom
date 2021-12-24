@@ -2,8 +2,6 @@
 
 require "xdg"
 require "runcom/identity"
-require "runcom/errors/base"
-require "runcom/errors/syntax"
 require "runcom/error"
 require "runcom/paths/home"
 require "runcom/paths/common"
