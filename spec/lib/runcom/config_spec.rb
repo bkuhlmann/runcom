@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe Runcom::Config do
+  using Refinements::Pathnames
+
   subject(:configuration) { described_class.new path, defaults: defaults, context: context }
 
   include_context "with temporary directory"
@@ -22,7 +24,7 @@ RSpec.describe Runcom::Config do
   let(:defaults) { {} }
   let(:context) { Runcom::Context.new xdg: XDG::Config, environment: environment }
 
-  before { FileUtils.mkpath config_path.parent }
+  before { config_path.parent.make_path }
 
   describe "#initialize" do
     let(:config_home) { Bundler.root.join "spec", "support" }
@@ -53,7 +55,7 @@ RSpec.describe Runcom::Config do
 
   describe "#current" do
     it "answers configuration file when path exists" do
-      FileUtils.mkpath config_path
+      config_path.make_path
       expect(configuration.current).to eq(config_path)
     end
   end

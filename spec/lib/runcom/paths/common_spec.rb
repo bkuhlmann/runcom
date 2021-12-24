@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe Runcom::Paths::Common do
+  using Refinements::Pathnames
+
   subject(:custom) { described_class.new path, context: context }
 
   include_context "with temporary directory"
@@ -79,9 +81,7 @@ RSpec.describe Runcom::Paths::Common do
 
   describe "#current" do
     it "answers path when path exists" do
-      file_path = temp_dir.join "test", "example.txt"
-      FileUtils.mkpath file_path
-
+      file_path = temp_dir.join("test/example.txt").make_path
       expect(custom.current).to eq(file_path)
     end
 

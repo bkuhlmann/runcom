@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe Runcom::Cache do
+  using Refinements::Pathnames
+
   subject(:cache) { described_class.new path, context: context }
 
   include_context "with temporary directory"
@@ -37,9 +39,7 @@ RSpec.describe Runcom::Cache do
 
   describe "#current" do
     it "answers file path when it exists" do
-      file_path = home_dir.join path
-      FileUtils.mkpath file_path
-
+      file_path = home_dir.join(path).make_path
       expect(cache.current).to eq(file_path)
     end
   end

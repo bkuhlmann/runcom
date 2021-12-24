@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe Runcom::Paths::Home do
+  using Refinements::Pathnames
+
   subject(:path) { described_class.new pair, environment }
 
   include_context "with temporary directory"
@@ -50,7 +52,7 @@ RSpec.describe Runcom::Paths::Home do
       let(:environment) { home.to_env.merge pair.to_env }
       let(:test_path) { temp_dir.join "test" }
 
-      before { FileUtils.mkdir_p test_path }
+      before { test_path.make_path }
 
       it "answers dynamic path" do
         Dir.chdir temp_dir do
