@@ -241,7 +241,7 @@ RSpec.describe Runcom::Config do
   describe "#to_h" do
     it "answers custom hash when configuration file exists" do
       custom = {remove: {comments: "# encoding: UTF-8"}}
-      File.write config_path, custom.to_yaml
+      config_path.write custom.to_yaml
 
       expect(configuration.to_h).to eq(custom)
     end
@@ -278,7 +278,7 @@ RSpec.describe Runcom::Config do
       end
 
       it "answers merged hash" do
-        File.write config_path, original.to_yaml
+        config_path.write original.to_yaml
         expect(configuration.to_h).to eq(merged)
       end
     end

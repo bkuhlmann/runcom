@@ -16,9 +16,8 @@ module Runcom
       end
 
       def dynamic
-        String(value).then do |path|
-          File.exist?(path) ? Pathname(path).expand_path : standard.dynamic
-        end
+        String(value).then { |path| Pathname path }
+                     .then { |path| path.exist? ? path.expand_path : standard.dynamic }
       end
 
       def inspect = [standard.key, dynamic].compact.join(XDG::PAIR_DELIMITER)
