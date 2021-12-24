@@ -25,9 +25,7 @@ module Runcom
     end
 
     # :reek:FeatureEnvy
-    def == other
-      other.is_a?(Config) && hash == other.hash
-    end
+    def ==(other) = other.is_a?(Config) && (hash == other.hash)
 
     alias eql? ==
 
