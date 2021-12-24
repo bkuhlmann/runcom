@@ -31,7 +31,7 @@ RSpec.describe Runcom::Config do
 
     it "raises base error" do
       result = -> { described_class.new Pathname("fixtures/invalid.yml"), context: context }
-      expect(&result).to raise_error(Runcom::Errors::Syntax)
+      expect(&result).to raise_error(Runcom::Error, /Invalid configuration.+invalid.yml/)
     end
   end
 

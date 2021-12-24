@@ -39,8 +39,8 @@ module Runcom
 
     def process_settings
       load_settings
-    rescue Psych::SyntaxError => error
-      raise Errors::Syntax, error.message
+    rescue Psych::SyntaxError
+      raise Error, "Invalid configuration: #{common.current}."
     rescue StandardError
       context.defaults
       {}
