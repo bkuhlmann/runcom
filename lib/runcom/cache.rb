@@ -12,7 +12,7 @@ module Runcom
     delegate %i[relative namespace file_name current all inspect] => :common
 
     def initialize path, context: DEFAULT_CONTEXT
-      @common = Paths::Common.new path, context: context
+      @common = Paths::Common.new path, context:
     end
 
     private

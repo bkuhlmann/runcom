@@ -8,7 +8,7 @@ module Runcom
 
       self[:home] ||= Paths::Home
       self[:environment] ||= ENV
-      self[:xdg] = xdg.new home: home, environment: environment if xdg
+      self[:xdg] = xdg.new(home:, environment:) if xdg
     end
   end
 end

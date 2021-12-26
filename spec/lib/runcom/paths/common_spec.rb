@@ -5,12 +5,12 @@ require "spec_helper"
 RSpec.describe Runcom::Paths::Common do
   using Refinements::Pathnames
 
-  subject(:custom) { described_class.new path, context: context }
+  subject(:custom) { described_class.new path, context: }
 
   include_context "with temporary directory"
 
   let(:path) { "test/example.txt" }
-  let(:context) { Runcom::Context.new xdg: XDG::Data, environment: environment }
+  let(:context) { Runcom::Context.new xdg: XDG::Data, environment: }
 
   let :environment do
     {

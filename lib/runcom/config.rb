@@ -14,14 +14,13 @@ module Runcom
     delegate %i[relative namespace file_name current all inspect] => :common
 
     def initialize path, defaults: {}, context: DEFAULT_CONTEXT
-      @common = Paths::Common.new path, context: context
-      @context = context
+      @common = Paths::Common.new path, context: @context = context
       @settings = defaults.deep_merge process_settings
       freeze
     end
 
     def merge other
-      self.class.new common.relative, defaults: settings.deep_merge(other.to_h), context: context
+      self.class.new common.relative, defaults: settings.deep_merge(other.to_h), context:
     end
 
     # :reek:FeatureEnvy

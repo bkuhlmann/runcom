@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe Runcom::Config do
   using Refinements::Pathnames
 
-  subject(:configuration) { described_class.new path, defaults: defaults, context: context }
+  subject(:configuration) { described_class.new path, defaults:, context: }
 
   include_context "with temporary directory"
 
@@ -22,7 +22,7 @@ RSpec.describe Runcom::Config do
   end
 
   let(:defaults) { {} }
-  let(:context) { Runcom::Context.new xdg: XDG::Config, environment: environment }
+  let(:context) { Runcom::Context.new xdg: XDG::Config, environment: }
 
   before { config_path.parent.make_path }
 
@@ -30,7 +30,7 @@ RSpec.describe Runcom::Config do
     let(:config_home) { Bundler.root.join "spec", "support" }
 
     it "raises base error" do
-      result = -> { described_class.new Pathname("fixtures/invalid.yml"), context: context }
+      result = -> { described_class.new Pathname("fixtures/invalid.yml"), context: }
       expect(&result).to raise_error(Runcom::Error, /Invalid configuration.+invalid.yml/)
     end
   end
@@ -95,7 +95,7 @@ RSpec.describe Runcom::Config do
       end
 
       it "merges custom configuration" do
-        custom_configuration = described_class.new path, defaults: custom_settings, context: context
+        custom_configuration = described_class.new(path, defaults: custom_settings, context:)
         expect(configuration.merge(custom_settings)).to eq(custom_configuration)
       end
 
@@ -150,7 +150,7 @@ RSpec.describe Runcom::Config do
 
       it "merges custom configuration" do
         expect(configuration.merge(custom_settings)).to eq(
-          described_class.new(path, defaults: modified_settings, context: context)
+          described_class.new(path, defaults: modified_settings, context:)
         )
       end
 

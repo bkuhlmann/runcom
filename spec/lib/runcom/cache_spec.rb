@@ -5,13 +5,13 @@ require "spec_helper"
 RSpec.describe Runcom::Cache do
   using Refinements::Pathnames
 
-  subject(:cache) { described_class.new path, context: context }
+  subject(:cache) { described_class.new path, context: }
 
   include_context "with temporary directory"
 
   let(:path) { Pathname "test/example.txt" }
   let(:home_dir) { temp_dir.join ".cache" }
-  let(:context) { Runcom::Context.new xdg: XDG::Cache, environment: environment }
+  let(:context) { Runcom::Context.new xdg: XDG::Cache, environment: }
   let :environment do
     {
       "HOME" => "/home",
