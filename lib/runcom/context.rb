@@ -8,7 +8,10 @@ module Runcom
 
       self[:home] ||= Paths::Home
       self[:environment] ||= ENV
+
+      # rubocop:disable Style/MethodCallWithArgsParentheses
       self[:xdg] = xdg.new(home:, environment:) if xdg
+      # rubocop:enable Style/MethodCallWithArgsParentheses
     end
   end
 end
