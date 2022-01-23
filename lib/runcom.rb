@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "xdg"
-require "runcom/identity"
 require "runcom/error"
 require "runcom/paths/home"
 require "runcom/paths/common"

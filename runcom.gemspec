@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "lib/runcom/identity"
-
 Gem::Specification.new do |spec|
-  spec.name = Runcom::Identity::NAME
-  spec.version = Runcom::Identity::VERSION
+  spec.name = "runcom"
+  spec.version = "8.0.1"
   spec.platform = Gem::Platform::RUBY
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
@@ -16,6 +14,7 @@ Gem::Specification.new do |spec|
     "bug_tracker_uri" => "https://github.com/bkuhlmann/runcom/issues",
     "changelog_uri" => "https://www.alchemists.io/projects/runcom/versions",
     "documentation_uri" => "https://www.alchemists.io/projects/runcom",
+    "label" => "Runcom",
     "rubygems_mfa_required" => "true",
     "source_code_uri" => "https://github.com/bkuhlmann/runcom"
   }
@@ -27,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "refinements", "~> 9.1"
   spec.add_dependency "xdg", "~> 6.0"
 
-  spec.files = Dir["lib/**/*"]
+  spec.files = Dir["*.gemspec", "lib/**/*"]
   spec.extra_rdoc_files = Dir["README*", "LICENSE*"]
   spec.require_paths = ["lib"]
 end
