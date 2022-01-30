@@ -1,5 +1,14 @@
 = Versions
 
+== 8.2.0 (2022-01-30)
+
+* Fixed common path to answer empty pathname when nil - Brooke Kuhlmann
+* Fixed current common path to only detect files - Brooke Kuhlmann
+* Fixed home path to answer local and global path - Brooke Kuhlmann
+* Updated to XDG 6.2.0 - Brooke Kuhlmann
+* Removed gemspec safe defaults - Brooke Kuhlmann
+* Refactored common path spec subject and let statements - Brooke Kuhlmann
+
 == 8.1.0 (2022-01-23)
 
 * Added Ruby version to Gemfile - Brooke Kuhlmann
