@@ -22,7 +22,7 @@ RSpec.describe Runcom::Paths::Common do
   end
 
   describe "#relative" do
-    it "answers relative path with string" do
+    it "answers relative path when resembling a path" do
       expect(path.relative).to eq(Pathname("test/example.txt"))
     end
 
@@ -37,9 +37,8 @@ RSpec.describe Runcom::Paths::Common do
     context "with nil" do
       let(:test_path) { nil }
 
-      it "fails with type error" do
-        expectation = -> { path.relative }
-        expect(&expectation).to raise_error(TypeError, /conversion of nil/)
+      it "answers empty path" do
+        expect(path.relative).to eq(Pathname(""))
       end
     end
 

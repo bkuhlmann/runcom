@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 require "forwardable"
-require "pathname"
+require "refinements/pathnames"
 
 module Runcom
   module Paths
     # Provides common path/functionality for all XDG enhanced objects.
     class Common
       extend Forwardable
+
+      using Refinements::Pathnames
 
       delegate %i[inspect] => :xdg
 
