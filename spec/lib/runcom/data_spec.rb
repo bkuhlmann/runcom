@@ -40,7 +40,7 @@ RSpec.describe Runcom::Data do
 
   describe "#current" do
     it "answers file path when it exists" do
-      file_path = home_dir.join(path).make_path
+      file_path = home_dir.join(path).deep_touch
       expect(data.current).to eq(file_path)
     end
   end

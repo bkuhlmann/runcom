@@ -80,9 +80,14 @@ RSpec.describe Runcom::Paths::Common do
   end
 
   describe "#current" do
-    it "answers path when path exists" do
+    it "answers path when file exists" do
       file_path = temp_dir.join("test").make_path.join("example.txt").touch
       expect(path.current).to eq(file_path)
+    end
+
+    it "answers nil when path is a directory" do
+      temp_dir.join("one/test/example.txt").make_path
+      expect(path.current).to eq(nil)
     end
 
     it "answers nil when path doesn't exist" do
@@ -92,8 +97,8 @@ RSpec.describe Runcom::Paths::Common do
     context "with empty path" do
       let(:test_path) { "" }
 
-      it "answers home directory" do
-        expect(path.current).to eq(temp_dir)
+      it "answers nil" do
+        expect(path.current).to eq(nil)
       end
     end
   end
