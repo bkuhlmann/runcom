@@ -36,7 +36,7 @@ RSpec.describe Runcom::Paths::Home do
       let(:environment) { home.to_env.merge pair.to_env }
 
       it "answers default path" do
-        expect(path.dynamic).to eq(Pathname("/home/test"))
+        expect(path.dynamic).to eq([Bundler.root.join("test"), Pathname("/home/test")])
       end
     end
 
@@ -44,7 +44,7 @@ RSpec.describe Runcom::Paths::Home do
       let(:environment) { home.to_env.merge pair.key => "dynamic" }
 
       it "answers dynamic path" do
-        expect(path.dynamic).to eq(Pathname("/home/dynamic"))
+        expect(path.dynamic).to eq([Bundler.root.join("test"), Pathname("/home/dynamic")])
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe Runcom::Paths::Home do
 
       it "answers dynamic path" do
         Dir.chdir temp_dir do
-          expect(path.dynamic).to eq(test_path)
+          expect(path.dynamic).to eq([test_path, Pathname("/home/test")])
         end
       end
     end
@@ -65,7 +65,7 @@ RSpec.describe Runcom::Paths::Home do
   describe "#inspect" do
     context "with custom pair" do
       it "answers key and value" do
-        expect(path.inspect).to eq("TEST=/home/test")
+        expect(path.inspect).to eq(%(TEST=#{Bundler.root.join "test"}:/home/test))
       end
     end
 
@@ -73,7 +73,7 @@ RSpec.describe Runcom::Paths::Home do
       let(:pair) { XDG::Pair.new }
 
       it "answers value only" do
-        expect(path.inspect).to eq("/home")
+        expect(path.inspect).to eq(%("#{Bundler.root}:/home").undump)
       end
     end
   end

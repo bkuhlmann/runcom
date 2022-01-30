@@ -105,10 +105,13 @@ RSpec.describe Runcom::Paths::Common do
 
   describe "#all" do
     it "answers paths with namespace and file path" do
-      expect(path.all).to contain_exactly(
-        temp_dir.join("test", "example.txt"),
-        temp_dir.join("one", "test", "example.txt"),
-        temp_dir.join("two", "test", "example.txt")
+      expect(path.all).to eq(
+        [
+          Bundler.root.join(".local/share/test/example.txt"),
+          temp_dir.join("test/example.txt"),
+          temp_dir.join("one/test/example.txt"),
+          temp_dir.join("two/test/example.txt")
+        ]
       )
     end
 
@@ -116,10 +119,13 @@ RSpec.describe Runcom::Paths::Common do
       let(:test_path) { "test" }
 
       it "answers paths with namespace only" do
-        expect(path.all).to contain_exactly(
-          temp_dir.join("test"),
-          temp_dir.join("one", "test"),
-          temp_dir.join("two", "test")
+        expect(path.all).to eq(
+          [
+            Bundler.root.join(".local/share/test"),
+            temp_dir.join("test"),
+            temp_dir.join("one", "test"),
+            temp_dir.join("two", "test")
+          ]
         )
       end
     end
@@ -128,7 +134,14 @@ RSpec.describe Runcom::Paths::Common do
       let(:test_path) { "" }
 
       it "answes something" do
-        expect(path.all).to contain_exactly(temp_dir, temp_dir.join("one"), temp_dir.join("two"))
+        expect(path.all).to eq(
+          [
+            Bundler.root.join(".local/share"),
+            temp_dir,
+            temp_dir.join("one"),
+            temp_dir.join("two")
+          ]
+        )
       end
     end
   end
@@ -136,7 +149,8 @@ RSpec.describe Runcom::Paths::Common do
   describe "#inspect" do
     it "answers environment settings" do
       expect(path.inspect).to eq(
-        "XDG_DATA_HOME=#{temp_dir} XDG_DATA_DIRS=#{temp_dir}/one:#{temp_dir}/two"
+        "XDG_DATA_HOME=#{Bundler.root}/.local/share:#{temp_dir} " \
+        "XDG_DATA_DIRS=#{temp_dir}/one:#{temp_dir}/two"
       )
     end
   end

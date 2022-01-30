@@ -62,10 +62,13 @@ RSpec.describe Runcom::Config do
 
   describe "#all" do
     it "answers all paths" do
-      expect(configuration.all).to contain_exactly(
-        config_home.join("test", "configuration.yml"),
-        temp_dir.join("one", "test", "configuration.yml"),
-        temp_dir.join("two", "test", "configuration.yml")
+      expect(configuration.all).to eq(
+        [
+          Bundler.root.join(".config/test/configuration.yml"),
+          config_home.join("test", "configuration.yml"),
+          temp_dir.join("one", "test", "configuration.yml"),
+          temp_dir.join("two", "test", "configuration.yml")
+        ]
       )
     end
   end
@@ -287,7 +290,8 @@ RSpec.describe Runcom::Config do
   describe "#inspect" do
     it "answers environment settings" do
       expect(configuration.inspect).to eq(
-        "XDG_CONFIG_HOME=#{config_home} XDG_CONFIG_DIRS=#{temp_dir}/one:#{temp_dir}/two"
+        %(XDG_CONFIG_HOME=#{Bundler.root.join ".config"}:#{config_home} ) \
+        "XDG_CONFIG_DIRS=#{temp_dir}/one:#{temp_dir}/two"
       )
     end
   end

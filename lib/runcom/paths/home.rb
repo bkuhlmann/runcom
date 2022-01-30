@@ -17,10 +17,15 @@ module Runcom
 
       def dynamic
         String(value).then { |path| Pathname path }
-                     .then { |path| path.exist? ? path.expand_path : standard.dynamic }
+                     .then { |path| [path.expand_path, standard.dynamic] }
       end
 
-      def inspect = [standard.key, dynamic].compact.join(XDG::PAIR_DELIMITER)
+      def inspect
+        [
+          standard.key,
+          dynamic.join(XDG::Paths::Directory::DELIMITER)
+        ].compact.join(XDG::PAIR_DELIMITER)
+      end
 
       private
 

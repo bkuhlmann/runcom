@@ -46,13 +46,18 @@ RSpec.describe Runcom::Cache do
 
   describe "#all" do
     it "answers all paths" do
-      expect(cache.all).to contain_exactly(home_dir.join(path))
+      expect(cache.all).to eq(
+        [
+          Bundler.root.join(".cache/test/example.txt"),
+          home_dir.join(path)
+        ]
+      )
     end
   end
 
   describe "#inspect" do
     it "answers environment settings" do
-      expect(cache.inspect).to eq("XDG_CACHE_HOME=#{home_dir}")
+      expect(cache.inspect).to eq(%(XDG_CACHE_HOME=#{Bundler.root.join ".cache"}:#{home_dir}))
     end
   end
 end
