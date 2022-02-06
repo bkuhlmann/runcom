@@ -4,13 +4,6 @@
 
 = Runcom
 
-[link=http://badge.fury.io/rb/runcom]
-image::https://badge.fury.io/rb/runcom.svg[Gem Version]
-[link=https://www.alchemists.io/projects/code_quality]
-image::https://img.shields.io/badge/code_style-alchemists-brightgreen.svg[Alchemists Style Guide]
-[link=https://circleci.com/gh/bkuhlmann/runcom]
-image::https://circleci.com/gh/bkuhlmann/runcom.svg?style=svg[Circle CI Status]
-
 Runcom (short for link:https://en.wikipedia.org/wiki/Run_commands[Run Command]) provides common
 functionality for Command Line Interfaces (CLIs) in which to manage global, local, or multiple
 caches, configurations, or data in general. It does this by leveraging the
