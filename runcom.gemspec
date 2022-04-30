@@ -13,6 +13,7 @@ Gem::Specification.new do |spec|
     "bug_tracker_uri" => "https://github.com/bkuhlmann/runcom/issues",
     "changelog_uri" => "https://www.alchemists.io/projects/runcom/versions",
     "documentation_uri" => "https://www.alchemists.io/projects/runcom",
+    "funding_uri" => "https://github.com/sponsors/bkuhlmann",
     "label" => "Runcom",
     "rubygems_mfa_required" => "true",
     "source_code_uri" => "https://github.com/bkuhlmann/runcom"
