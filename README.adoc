@@ -17,12 +17,13 @@ toc::[]
 
 * Wraps the link:https://www.alchemists.io/projects/xdg[XDG] implementation which provides access to
   the following environment variables:
-** `+$XDG_CACHE_HOME+`
-** `+$XDG_CONFIG_HOME+`
-** `+$XDG_CONFIG_DIRS+`
-** `+$XDG_DATA_HOME+`
-** `+$XDG_DATA_DIRS+`
-* Enhances the XDG cache, config, and data implementation. For the config, the following is
+** `$XDG_CACHE_HOME`
+** `$XDG_CONFIG_HOME`
+** `$XDG_CONFIG_DIRS`
+** `$XDG_DATA_HOME`
+** `$XDG_DATA_DIRS`
+** `$XDG_STATE_HOME`
+* Enhances the XDG cache, config, data, and state implementation. For the config, the following is
   supported:
 ** Supports loading of CLI-specific http://yaml.org[YAML] configuration file.
 ** Supports loading and merging of nested/complex configurations.
@@ -63,6 +64,7 @@ instantiate each object individually:
 cache = Runcom::Cache.new "example/data.json"
 config = Runcom::Config.new "example/configuration.yml"
 data = Runcom::Data.new "example/store.dat"
+state = Runcom::State.new "example/history.log"
 ----
 
 Each of the above objects share the same API:

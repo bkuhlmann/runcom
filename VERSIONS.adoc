@@ -1,5 +1,13 @@
 = Versions
 
+== 8.6.0 (2022-09-09)
+
+* Added Circle CI SimpleCov artifacts - Brooke Kuhlmann
+* Added state home - Brooke Kuhlmann
+* Added version release notes - Brooke Kuhlmann
+* Updated SimpleCov configuration to use filters and minimum coverage - Brooke Kuhlmann
+* Updated to XDG 6.6.0 - Brooke Kuhlmann
+
 == 8.5.0 (2022-07-17)
 
 * Updated to Caliber 0.11.0 - Brooke Kuhlmann
