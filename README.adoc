@@ -181,7 +181,7 @@ To contribute, run:
 
 [source,bash]
 ----
-git clone https://github.com/bkuhlmann/runcom.git
+git clone https://github.com/bkuhlmann/runcom
 cd runcom
 bin/setup
 ----
