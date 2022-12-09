@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "yaml"
 require "refinements/hashes"
+require "yaml"
 
 module Runcom
   # A developer friendly wrapper of XDG config.

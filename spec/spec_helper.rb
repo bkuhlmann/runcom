@@ -13,8 +13,8 @@ unless ENV["NO_COVERAGE"]
   end
 end
 
-require "runcom"
 require "refinements"
+require "runcom"
 
 using Refinements::Pathnames
 
