@@ -8,8 +8,9 @@ module Runcom
 
       self[:home] ||= Paths::Home
       self[:environment] ||= ENV
-
       self[:xdg] = xdg.new(home:, environment:) if xdg
+
+      freeze
     end
   end
 end

@@ -21,5 +21,9 @@ RSpec.describe Runcom::Context do
         xdg: XDG::Config
       )
     end
+
+    it "answers frozen instance" do
+      expect(described_class.new.frozen?).to be(true)
+    end
   end
 end
