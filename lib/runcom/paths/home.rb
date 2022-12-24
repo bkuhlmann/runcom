@@ -21,10 +21,7 @@ module Runcom
       end
 
       def inspect
-        [
-          standard.key,
-          dynamic.join(XDG::Paths::Directory::DELIMITER)
-        ].compact.join(XDG::PAIR_DELIMITER)
+        [standard.key, dynamic.join(XDG::Paths::Directory::DELIMITER)].compact.join XDG::DELIMITER
       end
 
       private
