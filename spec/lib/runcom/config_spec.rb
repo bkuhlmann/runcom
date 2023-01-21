@@ -27,7 +27,7 @@ RSpec.describe Runcom::Config do
   before { config_path.parent.make_path }
 
   describe "#initialize" do
-    let(:config_home) { Bundler.root.join "spec", "support" }
+    let(:config_home) { SPEC_ROOT.join "support" }
 
     it "raises base error" do
       result = -> { described_class.new Pathname("fixtures/invalid.yml"), context: }
