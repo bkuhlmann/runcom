@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = "runcom"
-  spec.version = "9.0.0"
+  spec.version = "9.0.1"
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
   spec.homepage = "https://www.alchemists.io/projects/runcom"
