@@ -5,14 +5,14 @@ Gem::Specification.new do |spec|
   spec.version = "9.0.1"
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
-  spec.homepage = "https://www.alchemists.io/projects/runcom"
+  spec.homepage = "https://alchemists.io/projects/runcom"
   spec.summary = "An XDG enhanced run command manager for command line interfaces."
   spec.license = "Hippocratic-2.1"
 
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/bkuhlmann/runcom/issues",
-    "changelog_uri" => "https://www.alchemists.io/projects/runcom/versions",
-    "documentation_uri" => "https://www.alchemists.io/projects/runcom",
+    "changelog_uri" => "https://alchemists.io/projects/runcom/versions",
+    "documentation_uri" => "https://alchemists.io/projects/runcom",
     "funding_uri" => "https://github.com/sponsors/bkuhlmann",
     "label" => "Runcom",
     "rubygems_mfa_required" => "true",

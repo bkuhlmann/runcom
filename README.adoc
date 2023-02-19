@@ -8,14 +8,14 @@ Runcom is a link:https://en.wikipedia.org/wiki/Run_commands[Run Command] portman
 [com]mand = runcom`) which provides common functionality for Command Line Interfaces (CLIs) in which
 to manage global, local, or multiple caches, configurations, or data in general. It does this by
 leveraging the https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html[XDG Base
-Directory Specification] built atop the link:https://www.alchemists.io/projects/xdg[XDG]
+Directory Specification] built atop the link:https://alchemists.io/projects/xdg[XDG]
 implementation. In other words, Runcom is an advanced version of XDG.
 
 toc::[]
 
 == Features
 
-* Wraps the link:https://www.alchemists.io/projects/xdg[XDG] implementation which provides access to
+* Wraps the link:https://alchemists.io/projects/xdg[XDG] implementation which provides access to
   the following environment variables:
 ** `$XDG_CACHE_HOME`
 ** `$XDG_CONFIG_HOME`
@@ -52,7 +52,7 @@ gem "runcom"
 == Usage
 
 The following describes the enhancements built atop the
-link:https://www.alchemists.io/projects/xdg[XDG] implementation.
+link:https://alchemists.io/projects/xdg[XDG] implementation.
 
 === Overview
 
@@ -159,20 +159,20 @@ link:lib/runcom/config.rb[`Runcom::Config`] object.
 
 Examples of gems built atop this gem are:
 
-* link:https://www.alchemists.io/projects/rubysmith[Rubysmith] - A command line interface for
+* link:https://alchemists.io/projects/rubysmith[Rubysmith] - A command line interface for
   smithing Ruby projects.
-* link:https://www.alchemists.io/projects/gemsmith[Gemsmith] - A command line interface for smithing
+* link:https://alchemists.io/projects/gemsmith[Gemsmith] - A command line interface for smithing
   new Ruby gems.
-* link:https://www.alchemists.io/projects/git-lint[Git Lint] - Enforces consistent Git commits.
-* link:https://www.alchemists.io/projects/milestoner[Milestoner] - A command line interface for
+* link:https://alchemists.io/projects/git-lint[Git Lint] - Enforces consistent Git commits.
+* link:https://alchemists.io/projects/milestoner[Milestoner] - A command line interface for
   releasing Git repository milestones.
-* link:https://www.alchemists.io/projects/pennyworth[Pennyworth] - A command line interface that
+* link:https://alchemists.io/projects/pennyworth[Pennyworth] - A command line interface that
   enhances and extends link:https://www.alfredapp.com[Alfred] with Ruby support.
-* link:https://www.alchemists.io/projects/pragmater[Pragmater] - A command line interface for
+* link:https://alchemists.io/projects/pragmater[Pragmater] - A command line interface for
   managing/formatting source file pragma comments.
-* link:https://www.alchemists.io/projects/sublime_text_kit[Sublime Text Kit] - A command line
+* link:https://alchemists.io/projects/sublime_text_kit[Sublime Text Kit] - A command line
   interface for managing Sublime Text metadata.
-* link:https://www.alchemists.io/projects/tocer[Tocer] - A command line interface for generating
+* link:https://alchemists.io/projects/tocer[Tocer] - A command line interface for generating
   table of contents for Markdown files.
 
 == Development
@@ -202,19 +202,19 @@ To test, run:
 bin/rake
 ----
 
-== link:https://www.alchemists.io/policies/license[License]
+== link:https://alchemists.io/policies/license[License]
 
-== link:https://www.alchemists.io/policies/security[Security]
+== link:https://alchemists.io/policies/security[Security]
 
-== link:https://www.alchemists.io/policies/code_of_conduct[Code of Conduct]
+== link:https://alchemists.io/policies/code_of_conduct[Code of Conduct]
 
-== link:https://www.alchemists.io/policies/contributions[Contributions]
+== link:https://alchemists.io/policies/contributions[Contributions]
 
-== link:https://www.alchemists.io/projects/runcom/versions[Versions]
+== link:https://alchemists.io/projects/runcom/versions[Versions]
 
-== link:https://www.alchemists.io/community[Community]
+== link:https://alchemists.io/community[Community]
 
 == Credits
 
-* Built with link:https://www.alchemists.io/projects/gemsmith[Gemsmith].
-* Engineered by link:https://www.alchemists.io/team/brooke_kuhlmann[Brooke Kuhlmann].
+* Built with link:https://alchemists.io/projects/gemsmith[Gemsmith].
+* Engineered by link:https://alchemists.io/team/brooke_kuhlmann[Brooke Kuhlmann].
