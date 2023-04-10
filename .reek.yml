@@ -1,3 +1,5 @@
 detectors:
+  LongParameterList:
+    enabled: false
   IrresponsibleModule:
     enabled: false
