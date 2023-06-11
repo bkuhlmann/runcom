@@ -12,6 +12,7 @@ RSpec.describe Runcom::Data do
   let(:path) { Pathname "test/example.txt" }
   let(:home_dir) { temp_dir.join "data" }
   let(:context) { Runcom::Context.new xdg: XDG::Data, environment: }
+
   let :environment do
     {
       "HOME" => "/home",

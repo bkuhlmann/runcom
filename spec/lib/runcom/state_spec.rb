@@ -12,6 +12,7 @@ RSpec.describe Runcom::State do
   let(:path) { Pathname "test/example.txt" }
   let(:home_dir) { temp_dir.join ".state" }
   let(:context) { Runcom::Context.new xdg: XDG::State, environment: }
+
   let :environment do
     {
       "HOME" => "/home",

@@ -12,6 +12,7 @@ RSpec.describe Runcom::Cache do
   let(:path) { Pathname "test/example.txt" }
   let(:home_dir) { temp_dir.join ".cache" }
   let(:context) { Runcom::Context.new xdg: XDG::Cache, environment: }
+
   let :environment do
     {
       "HOME" => "/home",
