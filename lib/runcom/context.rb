@@ -2,8 +2,8 @@
 
 module Runcom
   # A common context for all XDG custom objects.
-  Context = Struct.new :defaults, :home, :environment, :xdg, keyword_init: true do
-    def initialize *arguments
+  Context = Struct.new :defaults, :home, :environment, :xdg do
+    def initialize(**)
       super
 
       self[:home] ||= Paths::Home
