@@ -24,7 +24,7 @@ module Runcom
 
       def file_name = relative.basename
 
-      def current = all.select(&:file?).find(&:exist?)
+      def active = all.select(&:file?).find(&:exist?)
 
       def all = xdg.all.map { |root| root.join relative }
 

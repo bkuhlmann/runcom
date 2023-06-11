@@ -9,7 +9,7 @@ module Runcom
 
     CONTEXT = Context.new xdg: XDG::Data
 
-    delegate %i[relative namespace file_name current all inspect] => :common
+    delegate %i[relative namespace file_name active all inspect] => :common
 
     def initialize path, context: CONTEXT
       @common = Paths::Common.new path, context:
