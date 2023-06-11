@@ -9,11 +9,11 @@ module Runcom
     extend Forwardable
     using Refinements::Hashes
 
-    DEFAULT_CONTEXT = Context.new xdg: XDG::Config
+    CONTEXT = Context.new xdg: XDG::Config
 
     delegate %i[relative namespace file_name current all inspect] => :common
 
-    def initialize path, defaults: {}, context: DEFAULT_CONTEXT
+    def initialize path, defaults: {}, context: CONTEXT
       @common = Paths::Common.new path, context: @context = context
       @settings = defaults.deep_merge process_settings
       freeze

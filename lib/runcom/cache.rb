@@ -7,11 +7,11 @@ module Runcom
   class Cache
     extend Forwardable
 
-    DEFAULT_CONTEXT = Context.new xdg: XDG::Cache
+    CONTEXT = Context.new xdg: XDG::Cache
 
     delegate %i[relative namespace file_name current all inspect] => :common
 
-    def initialize path, context: DEFAULT_CONTEXT
+    def initialize path, context: CONTEXT
       @common = Paths::Common.new path, context:
     end
 
