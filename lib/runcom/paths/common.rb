@@ -26,6 +26,13 @@ module Runcom
 
       def active = all.select(&:file?).find(&:exist?)
 
+      def global
+        all.tap { |paths| paths.delete local }
+           .first
+      end
+
+      def local = all.first
+
       def all = xdg.all.map { |root| root.join relative }
 
       private

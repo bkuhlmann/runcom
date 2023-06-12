@@ -103,6 +103,18 @@ RSpec.describe Runcom::Paths::Common do
     end
   end
 
+  describe "#global" do
+    it "answers global path" do
+      expect(path.global).to eq(temp_dir.join("test/example.txt"))
+    end
+  end
+
+  describe "#local" do
+    it "relative path as expanded path" do
+      expect(path.local).to eq(Pathname.pwd.join(".local/share/test/example.txt"))
+    end
+  end
+
   describe "#all" do
     it "answers paths with namespace and file path" do
       expect(path.all).to eq(
