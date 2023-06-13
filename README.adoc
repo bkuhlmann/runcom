@@ -2,20 +2,18 @@
 :toclevels: 5
 :figure-caption!:
 
+:xdg_link: link:https://alchemists.io/projects/xdg[XDG]
+:etcher_link: link:https://alchemists.io/projects/etcher[Etcher]
+
 = Runcom
 
-Runcom is a link:https://en.wikipedia.org/wiki/Run_commands[Run Command] portmanteau (i.e. `run +
-[com]mand = runcom`) which provides common functionality for Command Line Interfaces (CLIs) in which
-to manage global, local, or multiple caches, configurations, or data in general. It does this by
-leveraging the https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html[XDG Base
-Directory Specification] built atop the link:https://alchemists.io/projects/xdg[XDG]
-implementation. In other words, Runcom is an advanced version of XDG.
+Runcom is a link:https://en.wikipedia.org/wiki/Run_commands[Run Command] portmanteau (i.e. `run + [com]mand = runcom`) which provides common functionality for Command Line Interfaces (CLIs) in which to manage global/local caches, configurations, data, and/or state. It does this by leveraging the https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html[XDG Base Directory Specification] built atop the {xdg_link} implementation. In other words, Runcom is an enhanced version of {xdg_link}.
 
 toc::[]
 
 == Features
 
-* Wraps the link:https://alchemists.io/projects/xdg[XDG] implementation which provides access to
+* Wraps the {xdg_link} implementation which provides access to
   the following environment variables:
 ** `$XDG_CACHE_HOME`
 ** `$XDG_CONFIG_HOME`
@@ -23,11 +21,7 @@ toc::[]
 ** `$XDG_DATA_HOME`
 ** `$XDG_DATA_DIRS`
 ** `$XDG_STATE_HOME`
-* Enhances the XDG cache, config, data, and state implementation. For the config, the following is
-  supported:
-** Supports loading of CLI-specific http://yaml.org[YAML] configuration file.
-** Supports loading and merging of nested/complex configurations.
-** Supports hash representation of configuration.
+* Enhances the {xdg_link} cache, config, data, and state implementations.
 
 == Requirements
 
@@ -67,46 +61,52 @@ require "runcom"
 
 == Usage
 
-The following describes the enhancements built atop the
-link:https://alchemists.io/projects/xdg[XDG] implementation.
+The following describes the enhancements built atop the {xdg_link} implementation.
 
 === Overview
 
-While there isn’t an environment convenience object as found in the `+XDG+` namespace, you can
-instantiate each object individually:
+While there isn’t an environment convenience object as found with the `XDG` gem, you can instantiate each object individually:
 
 [source,ruby]
 ----
-cache = Runcom::Cache.new "example/data.json"
-config = Runcom::Config.new "example/configuration.yml"
-data = Runcom::Data.new "example/store.dat"
-state = Runcom::State.new "example/history.log"
+cache = Runcom::Cache.new "demo/data.json"
+config = Runcom::Config.new "demo/configuration.yml"
+data = Runcom::Data.new "demo/store.dat"
+state = Runcom::State.new "demo/history.log"
 ----
 
-Each of the above objects share the same API:
+💡 By default, each Runcom object expects a relative path but you can use a fully qualified path as well.
 
-* `#relative` - Answers the relative path from which the object was constructed.
-* `#namespace` - Answers the relative namespace as a pathname object from which the object was
+Each of the above objects share the same Object API:
+
+* `#relative`: Answers the relative path from which the object was constructed.
+* `#namespace`: Answers the relative namespace as a pathname object from which the object was
   constructed. The namespace must be identical across the cache, config, and data objects as this is
   what uniquely identifies and organizes all files associated with your program.
-* `#file_name` - Answers the file name from which the object was constructed.
-* `#current` - Answers first _existing_ file system path computed by `$XDG_*_HOME` followed by each
-  computed `$XDG_*_DIRS` path in order defined. Otherwise, `nil` is answered back.
-* `#all` - Answers all file system paths which is the combined `$XDG_*_HOME` and
+* `#file_name`: Answers the file name from which the object was constructed.
+* `#active`: Answers first _existing_ file path as computed by `+$XDG_*_HOME+` followed by each
+  computed `+$XDG_*_DIRS+` path in order defined. Otherwise, `nil` is answered back.
+* `#global`: Answers the first _existing_ or _non-existing_ global file path only.
+* `#local`: Answers the first _existing_ or _non-existing_ local file path only.
+* `#all`: Answers all file system paths which is the combined `$XDG_*_HOME` and
   `$XDG_*_DIRS` values in order defined. These paths _may_ or _may not_ exist on the file system.
-* `#inspect` - Answers a string representation of default XDG home and directory paths for debugging
+* `#inspect`: Answers a string representation of default XDG home and directory paths for debugging
   purposes.
 
-Using the `cache` object (created above) as an example, here is what each method answers back:
+Using a `cache` object, for example, here is what each method answers back:
 
 [source,ruby]
 ----
-cache.relative # => #<Pathname:example/data.json>
-cache.namespace # #<Pathname:example>
-cache.file_name # #<Pathname:data.json>
-cache.current # #<Pathname:/Users/bkuhlmann/.cache/example/data.json>
-cache.all # [#<Pathname:/Users/bkuhlmann/.cache/example/data.json>]
-cache.inspect # "XDG_CACHE_HOME=/Users/bkuhlmann/.cache"
+cache = Runcom::Cache.new "demo/content.json"
+
+cache.relative   # => #<Pathname:demo/content.json>
+cache.namespace  # #<Pathname:demo>
+cache.file_name  # #<Pathname:content.json>
+cache.active     # nil
+cache.global     # #<Pathname:/Users/demo/.cache/demo/content.json>
+cache.local      # #<Pathname:/Users/demo/Engineering/OSS/runcom/.cache/demo/content.json>
+cache.all        # [#<Pathname:/Users/demo/Engineering/OSS/runcom/.cache/demo/content.json>, #<Pathname:/Users/demo/.cache/demo/content.json>]
+cache.inspect    # "XDG_CACHE_HOME=/Users/demo/Engineering/OSS/runcom/.cache:/Users/demo/.cache"
 ----
 
 === Variable Priority
@@ -120,76 +120,30 @@ Path precedence is determined in the following order (with the first taking high
 . *Global Configuration* - When a local configuration isn’t found, the global configuration is used
   as defined by the _XDG Base Directory Specification_.
 
-=== Configuration Specialization
+=== Building Blocks
 
-The `Runcom::Config` deserves additional highlighting as it provides support for loading custom
-CLI configurations directly from the command line or from custom locations. It is meant to be used
-within your program(s).
-
-An object is initialized as follows:
-
-[source,ruby]
-----
-configuration = Runcom::Config.new "example/configuration.yml"
-----
-
-Default settings can be initialized as well:
-
-[source,ruby]
-----
-configuration = Runcom::Config.new "example/configuration.yml", defaults: {name: "Example"}
-----
-
-Once a configuration has been initialized, a hash representation can be obtained:
-
-[source,ruby]
-----
-configuration.to_h
-----
-
-A configuration can be merged with another hash (handy for runtime overrides):
-
-[source,ruby]
-----
-updated_configuration = configuration.merge {name: "Updated Name"}
-----
-
-A configuration can also be merged with another configuration:
-
-[source,ruby]
-----
-updated_configuration = configuration.merge Runcom::Config.new("other", defaults: {a: 1})
-----
-
-The current path of the configuration can be asked for as well:
-
-[source,ruby]
-----
-configuration.current # "~/.config/example/configuration.yml"
-----
-
-For further details, study the public interface as provided by the
-link:lib/runcom/config.rb[`Runcom::Config`] object.
+While {xdg_link} and Runcom are powerful in their own right, a great building block you can add on top of this gem is the {etcher_link} gem which loads, transforms, validates, and produces structured data from raw Runcom information. For more sophisticated applications, this synergetic coupling of `XDG -> Runcom -> Etcher` makes for nicely designed architectures.
 
 === Examples
 
 Examples of gems built atop this gem are:
 
-* link:https://alchemists.io/projects/rubysmith[Rubysmith] - A command line interface for
+* link:https://alchemists.io/projects/rubysmith[Rubysmith]: A command line interface for
   smithing Ruby projects.
-* link:https://alchemists.io/projects/gemsmith[Gemsmith] - A command line interface for smithing
+* link:https://alchemists.io/projects/gemsmith[Gemsmith]: A command line interface for smithing
   new Ruby gems.
-* link:https://alchemists.io/projects/git-lint[Git Lint] - Enforces consistent Git commits.
-* link:https://alchemists.io/projects/milestoner[Milestoner] - A command line interface for
+* link:https://alchemists.io/projects/hanamismith[Hanamismith]: A command line interace for smithing link:https://hanamirb.org[Hanami] projects.
+* link:https://alchemists.io/projects/git-lint[Git Lint]: Enforces consistent Git commits.
+* link:https://alchemists.io/projects/milestoner[Milestoner]: A command line interface for
   releasing Git repository milestones.
-* link:https://alchemists.io/projects/pennyworth[Pennyworth] - A command line interface that
+* link:https://alchemists.io/projects/pennyworth[Pennyworth]: A command line interface that
   enhances and extends link:https://www.alfredapp.com[Alfred] with Ruby support.
-* link:https://alchemists.io/projects/pragmater[Pragmater] - A command line interface for
+* link:https://alchemists.io/projects/pragmater[Pragmater]: A command line interface for
   managing/formatting source file pragma comments.
-* link:https://alchemists.io/projects/sublime_text_kit[Sublime Text Kit] - A command line
+* link:https://alchemists.io/projects/sublime_text_kit[Sublime Text Kit]: A command line
   interface for managing Sublime Text metadata.
-* link:https://alchemists.io/projects/tocer[Tocer] - A command line interface for generating
-  table of contents for Markdown files.
+* link:https://alchemists.io/projects/tocer[Tocer]: A command line interface for generating
+  Markdown table of contents.
 
 == Development
 

@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |spec|
   spec.name = "runcom"
-  spec.version = "9.0.3"
+  spec.version = "10.0.0"
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
   spec.homepage = "https://alchemists.io/projects/runcom"
-  spec.summary = "An XDG enhanced run command manager for command line interfaces."
+  spec.summary = "A XDG enhanced run command manager for command line interfaces."
   spec.license = "Hippocratic-2.1"
 
   spec.metadata = {

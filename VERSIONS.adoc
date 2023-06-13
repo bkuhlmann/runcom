@@ -1,5 +1,17 @@
 = Versions
 
+== 10.0.0 (2023-06-13)
+
+* Added common global and local paths - Brooke Kuhlmann
+* Updated common path to use active instead of current terminology - Brooke Kuhlmann
+* Updated to Debug 1.8.0 - Brooke Kuhlmann
+* Updated to Refinements 11.0.0 - Brooke Kuhlmann
+* Updated to XDG 7.1.0 - Brooke Kuhlmann
+* Removed config YAML support - Brooke Kuhlmann
+* Removed context keyword init flag - Brooke Kuhlmann
+* Removed default prefix from context constants - Brooke Kuhlmann
+* Refactored cache, data, and state specs to space lets - Brooke Kuhlmann
+
 == 9.0.3 (2023-04-30)
 
 * Updated Reek configuration to disable long parameter lists - Brooke Kuhlmann
