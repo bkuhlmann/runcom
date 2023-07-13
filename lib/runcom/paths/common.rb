@@ -26,6 +26,8 @@ module Runcom
 
       def active = all.select(&:file?).find(&:exist?)
 
+      def passive = active || global
+
       def global
         all.tap { |paths| paths.delete local }
            .first

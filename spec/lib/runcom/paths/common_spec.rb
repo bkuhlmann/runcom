@@ -103,6 +103,33 @@ RSpec.describe Runcom::Paths::Common do
     end
   end
 
+  describe "#passive" do
+    it "answers active path when path exists" do
+      file_path = temp_dir.join("test").make_path.join("example.txt").touch
+      expect(path.passive).to eq(file_path)
+    end
+
+    it "answers passive path when path doesn't exist" do
+      expect(path.passive).to eq(temp_dir.join(test_path))
+    end
+
+    context "with empty path" do
+      let(:test_path) { "" }
+
+      it "answers global path" do
+        expect(path.passive).to eq(temp_dir)
+      end
+    end
+
+    context "with nil path" do
+      let(:test_path) { nil }
+
+      it "answers global path" do
+        expect(path.passive).to eq(temp_dir)
+      end
+    end
+  end
+
   describe "#global" do
     it "answers global path" do
       expect(path.global).to eq(temp_dir.join("test/example.txt"))

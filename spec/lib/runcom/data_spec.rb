@@ -46,6 +46,12 @@ RSpec.describe Runcom::Data do
     end
   end
 
+  describe "#passive" do
+    it "answers global path when it doesn't exist" do
+      expect(data.passive).to eq(temp_dir.join("data", path))
+    end
+  end
+
   describe "#all" do
     it "answers all paths" do
       expect(data.all).to contain_exactly(

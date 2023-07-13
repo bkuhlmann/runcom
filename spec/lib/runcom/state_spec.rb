@@ -45,6 +45,12 @@ RSpec.describe Runcom::State do
     end
   end
 
+  describe "#passive" do
+    it "answers global path when it doesn't exist" do
+      expect(state.passive).to eq(temp_dir.join(".state", path))
+    end
+  end
+
   describe "#all" do
     it "answers all paths" do
       expect(state.all).to eq(

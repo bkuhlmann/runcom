@@ -48,6 +48,12 @@ RSpec.describe Runcom::Config do
     end
   end
 
+  describe "#passive" do
+    it "answers global path when it doesn't exist" do
+      expect(configuration.passive).to eq(temp_dir.join(".config", path))
+    end
+  end
+
   describe "#all" do
     it "answers all paths" do
       expect(configuration.all).to eq(

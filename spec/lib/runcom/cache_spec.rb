@@ -45,6 +45,12 @@ RSpec.describe Runcom::Cache do
     end
   end
 
+  describe "#passive" do
+    it "answers global path when it doesn't exist" do
+      expect(cache.passive).to eq(temp_dir.join(".cache", path))
+    end
+  end
+
   describe "#all" do
     it "answers all paths" do
       expect(cache.all).to eq(
