@@ -54,6 +54,18 @@ RSpec.describe Runcom::Config do
     end
   end
 
+  describe "#global" do
+    it "answers global path" do
+      expect(configuration.global).to eq(temp_dir.join(".config", path))
+    end
+  end
+
+  describe "#local" do
+    it "answers local path" do
+      expect(configuration.local).to eq(Bundler.root.join(".config", path))
+    end
+  end
+
   describe "#all" do
     it "answers all paths" do
       expect(configuration.all).to eq(

@@ -51,6 +51,18 @@ RSpec.describe Runcom::Cache do
     end
   end
 
+  describe "#global" do
+    it "answers global path" do
+      expect(cache.global).to eq(temp_dir.join(".cache", path))
+    end
+  end
+
+  describe "#local" do
+    it "answers local path" do
+      expect(cache.local).to eq(Bundler.root.join(".cache", path))
+    end
+  end
+
   describe "#all" do
     it "answers all paths" do
       expect(cache.all).to eq(

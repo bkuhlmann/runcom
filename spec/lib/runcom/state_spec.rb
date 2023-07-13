@@ -51,6 +51,18 @@ RSpec.describe Runcom::State do
     end
   end
 
+  describe "#global" do
+    it "answers global path" do
+      expect(state.global).to eq(temp_dir.join(".state", path))
+    end
+  end
+
+  describe "#local" do
+    it "answers local path" do
+      expect(state.local).to eq(Bundler.root.join(".local/state", path))
+    end
+  end
+
   describe "#all" do
     it "answers all paths" do
       expect(state.all).to eq(

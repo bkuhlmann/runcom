@@ -52,6 +52,18 @@ RSpec.describe Runcom::Data do
     end
   end
 
+  describe "#global" do
+    it "answers global path" do
+      expect(data.global).to eq(temp_dir.join("data", path))
+    end
+  end
+
+  describe "#local" do
+    it "answers local path" do
+      expect(data.local).to eq(Bundler.root.join(".local/share", path))
+    end
+  end
+
   describe "#all" do
     it "answers all paths" do
       expect(data.all).to contain_exactly(
