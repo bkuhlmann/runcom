@@ -5,11 +5,11 @@ require "spec_helper"
 RSpec.describe Runcom::Config do
   using Refinements::Pathnames
 
-  subject(:configuration) { described_class.new path, context: }
+  subject(:config) { described_class.new path, context: }
 
   include_context "with temporary directory"
 
-  let(:path) { Pathname "test/configuration.yml" }
+  let(:path) { Pathname "test/config.yml" }
   let(:config_path) { config_home.join path }
   let(:config_home) { temp_dir.join ".config" }
 
@@ -25,55 +25,55 @@ RSpec.describe Runcom::Config do
 
   describe "#relative" do
     it "answers relative path" do
-      expect(configuration.relative).to eq(path)
+      expect(config.relative).to eq(path)
     end
   end
 
   describe "#namespace" do
     it "answers namespace" do
-      expect(configuration.namespace).to eq(Pathname("test"))
+      expect(config.namespace).to eq(Pathname("test"))
     end
   end
 
   describe "#file_name" do
     it "answers file name" do
-      expect(configuration.file_name).to eq(Pathname("configuration.yml"))
+      expect(config.file_name).to eq(Pathname("config.yml"))
     end
   end
 
   describe "#active" do
-    it "answers configuration file when path exists" do
+    it "answers config file when path exists" do
       config_path.deep_touch
-      expect(configuration.active).to eq(config_path)
+      expect(config.active).to eq(config_path)
     end
   end
 
   describe "#passive" do
     it "answers global path when it doesn't exist" do
-      expect(configuration.passive).to eq(temp_dir.join(".config", path))
+      expect(config.passive).to eq(temp_dir.join(".config", path))
     end
   end
 
   describe "#global" do
     it "answers global path" do
-      expect(configuration.global).to eq(temp_dir.join(".config", path))
+      expect(config.global).to eq(temp_dir.join(".config", path))
     end
   end
 
   describe "#local" do
     it "answers local path" do
-      expect(configuration.local).to eq(Bundler.root.join(".config", path))
+      expect(config.local).to eq(Bundler.root.join(".config", path))
     end
   end
 
   describe "#all" do
     it "answers all paths" do
-      expect(configuration.all).to eq(
+      expect(config.all).to eq(
         [
-          Bundler.root.join(".config/test/configuration.yml"),
-          config_home.join("test", "configuration.yml"),
-          temp_dir.join("one", "test", "configuration.yml"),
-          temp_dir.join("two", "test", "configuration.yml")
+          Bundler.root.join(".config/test/config.yml"),
+          config_home.join("test", "config.yml"),
+          temp_dir.join("one", "test", "config.yml"),
+          temp_dir.join("two", "test", "config.yml")
         ]
       )
     end
@@ -81,7 +81,7 @@ RSpec.describe Runcom::Config do
 
   describe "#inspect" do
     it "answers environment settings" do
-      expect(configuration.inspect).to eq(
+      expect(config.inspect).to eq(
         %(XDG_CONFIG_HOME=#{Bundler.root.join ".config"}:#{config_home} ) \
         "XDG_CONFIG_DIRS=#{temp_dir}/one:#{temp_dir}/two"
       )
