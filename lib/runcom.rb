@@ -11,4 +11,5 @@ end
 
 # Main namespace.
 module Runcom
+  def self.loader(registry = Zeitwerk::Registry) = registry.loader_for __FILE__
 end
