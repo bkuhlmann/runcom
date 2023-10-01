@@ -2,9 +2,9 @@ cff-version: 1.2.0
 message: Please use the following metadata when citing this project in your work.
 title: Runcom
 abstract: A XDG enhanced run command manager for command line interfaces.
-version: 10.1.0
+version: 10.2.0
 license: Hippocratic-2.1
-date-released: 2023-07-13
+date-released: 2023-09-30
 authors:
   - family-names: Kuhlmann
     given-names: Brooke
