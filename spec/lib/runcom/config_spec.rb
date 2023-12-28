@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Runcom::Config do
-  using Refinements::Pathnames
+  using Refinements::Pathname
 
   subject(:config) { described_class.new path, context: }
 

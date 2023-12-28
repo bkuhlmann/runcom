@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Runcom::Paths::Common do
-  using Refinements::Pathnames
+  using Refinements::Pathname
 
   subject :path do
     described_class.new test_path, context: Runcom::Context.new(xdg: XDG::Data, environment:)

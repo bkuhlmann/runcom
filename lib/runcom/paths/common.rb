@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "forwardable"
-require "refinements/pathnames"
+require "refinements/pathname"
 
 module Runcom
   module Paths
@@ -9,7 +9,7 @@ module Runcom
     class Common
       extend Forwardable
 
-      using Refinements::Pathnames
+      using Refinements::Pathname
 
       delegate %i[inspect] => :xdg
 

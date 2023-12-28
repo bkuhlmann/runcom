@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Runcom::Paths::Home do
-  using Refinements::Pathnames
+  using Refinements::Pathname
 
   subject(:path) { described_class.new pair, environment }
 
