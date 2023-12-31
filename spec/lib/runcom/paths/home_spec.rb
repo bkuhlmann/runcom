@@ -81,17 +81,17 @@ RSpec.describe Runcom::Paths::Home do
   end
 
   describe "#inspect" do
-    context "with custom pair" do
-      it "answers key and value" do
-        expect(path.inspect).to eq(%(TEST=#{Bundler.root.join "test"}:/home/test))
-      end
+    it "answers key and value with custom pair" do
+      expect(path.inspect).to match(
+        %r(\A\#<#{described_class}:\d+ TEST=#{Bundler.root.join "test"}:/home/test>\Z)
+      )
     end
 
     context "with empty pair" do
       let(:pair) { XDG::Pair.new }
 
       it "answers value only" do
-        expect(path.inspect).to eq(%("#{Bundler.root}:/home").undump)
+        expect(path.inspect).to match(%r(\A\#<#{described_class}:\d+ #{Bundler.root}:/home>\Z))
       end
     end
   end
