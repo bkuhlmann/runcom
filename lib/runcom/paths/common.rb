@@ -37,6 +37,10 @@ module Runcom
 
       def all = xdg.all.map { |root| root.join relative }
 
+      def to_s = xdg.to_s
+
+      alias to_str to_s
+
       private
 
       attr_reader :context

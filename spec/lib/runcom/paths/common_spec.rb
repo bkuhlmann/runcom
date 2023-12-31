@@ -185,12 +185,20 @@ RSpec.describe Runcom::Paths::Common do
     end
   end
 
-  describe "#inspect" do
+  shared_examples "a string" do |message|
     it "answers environment settings" do
-      expect(path.inspect).to eq(
+      expect(path.public_send(message)).to eq(
         "XDG_DATA_HOME=#{Bundler.root}/.local/share:#{temp_dir} " \
         "XDG_DATA_DIRS=#{temp_dir}/one:#{temp_dir}/two"
       )
     end
+  end
+
+  describe "#to_s" do
+    it_behaves_like "a string", :to_s
+  end
+
+  describe "#to_str" do
+    it_behaves_like "a string", :to_str
   end
 end
