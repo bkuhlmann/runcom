@@ -7,21 +7,20 @@
 
 = Runcom
 
-Runcom is a link:https://en.wikipedia.org/wiki/Run_commands[Run Command] portmanteau (i.e. `run + [com]mand = runcom`) which provides common functionality for Command Line Interfaces (CLIs) in which to manage global/local caches, configurations, data, and/or state. It does this by leveraging the https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html[XDG Base Directory Specification] built atop the {xdg_link} implementation. In other words, Runcom is an enhanced version of {xdg_link}.
+Runcom is a link:https://en.wikipedia.org/wiki/Run_commands[Run Command] portmanteau (i.e. `run + [com]mand = runcom`) which provides common functionality for Command Line Interfaces (CLIs) in which to manage global/local caches, configurations, data, and/or state. This is done by leveraging the https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html[XDG Base Directory Specification] built atop the {xdg_link} implementation. In other words, Runcom is an enhanced version of {xdg_link} which specializes in dynamic global and local detection.
 
 toc::[]
 
 == Features
 
-* Wraps the {xdg_link} implementation which provides access to
-  the following environment variables:
+* Wraps the {xdg_link} implementation which provides access to the following environment variables:
 ** `+$XDG_CACHE_HOME+`
 ** `+$XDG_CONFIG_HOME+`
 ** `+$XDG_CONFIG_DIRS+`
 ** `+$XDG_DATA_HOME+`
 ** `+$XDG_DATA_DIRS+`
 ** `+$XDG_STATE_HOME+`
-* Enhances the {xdg_link} cache, config, data, and state implementations.
+* Enhances the {xdg_link} cache, config, data, and state implementations with dynamic global and local detection.
 
 == Requirements
 
@@ -65,7 +64,7 @@ The following describes the enhancements built atop the {xdg_link} implementatio
 
 === Overview
 
-While there isn’t an environment convenience object as found with the `XDG` gem, you can instantiate each object individually:
+While there isn’t a sole convenience object as found with the `XDG` gem, you can instantiate each object individually:
 
 [source,ruby]
 ----
@@ -75,46 +74,102 @@ data = Runcom::Data.new "demo/store.dat"
 state = Runcom::State.new "demo/history.log"
 ----
 
-💡 By default, each Runcom object expects a relative path but you can use a fully qualified path as well.
+By default, each Runcom object expects a relative file path but you can also use a fully qualified path when constructing a new instance.
 
 Each of the above objects share the same Object API:
 
-* `#relative`: Answers the relative path from which the object was constructed.
+* `#initial`: Answers the initial path -- which can be a relative or absolute path -- from which the object was constructed.
 * `#namespace`: Answers the namespace as a pathname object from which the instance was constructed. The namespace must be unique and identical across the cache, config, data, and state objects since this is what identifies and organizes all files associated with your program.
 * `#file_name`: Answers the file name from which the object was constructed.
 * `#active`: Answers first _existing file path_ as computed by `+$XDG_*_HOME+` followed by each computed `+$XDG_*_DIRS+` path in order defined. Otherwise, `nil` is answered back when no path exists.
 * `#passive`: Answers first path as computed by `+$XDG_*_HOME+` followed by each computed `+$XDG_*_DIRS+` path in order defined which _may_ or _may not_ exist. This behaves like `#active`  but doesn't care if the path exists. Handy for situations where you'd like the active path but can  fallback to creating the global path if otherwise.
-* `#global`: Answers the first _existing_ or _non-existing_ global path only.
-* `#local`: Answers the first _existing_ or _non-existing_ local path only.
+* `#global`: Answers the first _existing_ or _non-existing_ global path.
+* `#local`: Answers the first _existing_ or _non-existing_ local path.
 * `#all`: Answers all paths which is the combined `+$XDG_*_HOME+` and `+$XDG_*_DIRS+` values in order defined. These paths _may_ or _may not_ exist.
-* `#inspect`: Answers a string representation of default XDG home and directory paths for debugging purposes.
+* `#to_s`: Answers an _explicit_ string cast for the current environment.
+* `#to_str`: Answers an _implicit_ string cast for the current environment.
+* `#inspect`: Answers object inspection complete with object type, object ID, and all environment variables.
 
-Using a `cache` object, for example, here is what each method answers back:
+=== Examples
+
+The following are examples of what you will see when exploring the Runcom objects within an IRB console:
 
 [source,ruby]
 ----
-cache = Runcom::Cache.new "demo/content.json"
+# Initialization
 
-cache.relative   # => #<Pathname:demo/content.json>
-cache.namespace  # #<Pathname:demo>
-cache.file_name  # #<Pathname:content.json>
-cache.active     # nil
-cache.passive    # #<Pathname:/Users/demo/.cache/demo/content.json>
-cache.global     # #<Pathname:/Users/demo/.cache/demo/content.json>
-cache.local      # #<Pathname:/Users/demo/Engineering/OSS/runcom/.cache/demo/content.json>
-cache.all        # [#<Pathname:/Users/demo/Engineering/OSS/runcom/.cache/demo/content.json>, #<Pathname:/Users/demo/.cache/demo/content.json>]
-cache.inspect    # "XDG_CACHE_HOME=/Users/demo/Engineering/OSS/runcom/.cache:/Users/demo/.cache"
+cache = XDG::Cache.new "demo/projects.json"
+config = XDG::Config.new "demo/settings.yml"
+data = XDG::Data.new "demo/vault.store"
+state = XDG::State.new "demo/history.log"
+
+# Paths
+
+cache.initial     # "#<Pathname:demo/projects.json>"
+cache.namespace   # "#<Pathname:demo>"
+cache.file_name   # "#<Pathname:projects.json>"
+cache.active      # nil
+cache.passive     # "#<Pathname:/Users/demo/.cache/demo/projects.json>"
+cache.global      # "#<Pathname:/Users/demo/.cache/demo/projects.json>"
+cache.local       # "#<Pathname:/Users/demo/Engineering/OSS/runcom/.cache/demo/projects.json>"
+cache.all         # ["#<Pathname:/Users/demo/Engineering/OSS/runcom/.cache/demo/projects.json>", "#<Pathname:/Users/demo/.cache/demo/projects.json>"]
+
+config.initial    # "#<Pathname:demo/settings.yml>"
+config.namespace  # "#<Pathname:demo>"
+config.file_name  # "#<Pathname:settings.yml>"
+config.active     # nil
+config.passive    # "#<Pathname:/Users/demo/.config/demo/settings.yml>"
+config.global     # "#<Pathname:/Users/demo/.config/demo/settings.yml>"
+config.local      # "#<Pathname:/Users/demo/Engineering/OSS/runcom/.config/demo/settings.yml>"
+config.all        # ["#<Pathname:/Users/demo/Engineering/OSS/runcom/.config/demo/settings.yml>", "#<Pathname:/Users/demo/.config/demo/settings.yml>", "#<Pathname:/etc/xdg/demo/settings.yml>"]
+
+data.initial      # "#<Pathname:demo/vault.store>"
+data.namespace    # "#<Pathname:demo>"
+data.file_name    # "#<Pathname:vault.store>"
+data.active       # nil
+data.passive      # "#<Pathname:/Users/demo/.local/share/demo/vault.store>"
+data.global       # "#<Pathname:/Users/demo/.local/share/demo/vault.store>"
+data.local        # "#<Pathname:/Users/demo/Engineering/OSS/runcom/.local/share/demo/vault.store>"
+data.all          # ["#<Pathname:/Users/demo/Engineering/OSS/runcom/.local/share/demo/vault.store>", "#<Pathname:/Users/demo/.local/share/demo/vault.store>", "#<Pathname:/usr/local/share/demo/vault.store>", "#<Pathname:/usr/share/demo/vault.store>"]
+
+state.initial     # "#<Pathname:demo/history.log>"
+state.namespace   # "#<Pathname:demo>"
+state.file_name   # "#<Pathname:history.log>"
+state.active      # nil
+state.passive     # "#<Pathname:/Users/demo/.local/state/demo/history.log>"
+state.global      # "#<Pathname:/Users/demo/.local/state/demo/history.log>"
+state.local       # "#<Pathname:/Users/demo/Engineering/OSS/runcom/.local/state/demo/history.log>"
+state.all         # ["#<Pathname:/Users/demo/Engineering/OSS/runcom/.local/state/demo/history.log>", "#<Pathname:/Users/demo/.local/state/demo/history.log>"]
+
+# Casts (explicit and implicit)
+
+cache.to_s        # "XDG_CACHE_HOME=/Users/demo/Engineering/OSS/runcom/.cache:/Users/demo/.cache"
+config.to_s       # "XDG_CONFIG_HOME=/Users/demo/Engineering/OSS/runcom/.config:/Users/demo/.config XDG_CONFIG_DIRS=/etc/xdg"
+data.to_s         # "XDG_DATA_HOME=/Users/demo/Engineering/OSS/runcom/.local/share:/Users/demo/.local/share XDG_DATA_DIRS=/usr/local/share:/usr/share"
+state.to_s        # "XDG_STATE_HOME=/Users/demo/Engineering/OSS/runcom/.local/state:/Users/demo/.local/state"
+
+cache.to_str      # "XDG_CACHE_HOME=/Users/demo/Engineering/OSS/runcom/.cache:/Users/demo/.cache"
+config.to_str     # "XDG_CONFIG_HOME=/Users/demo/Engineering/OSS/runcom/.config:/Users/demo/.config XDG_CONFIG_DIRS=/etc/xdg"
+data.to_str       # "XDG_DATA_HOME=/Users/demo/Engineering/OSS/runcom/.local/share:/Users/demo/.local/share XDG_DATA_DIRS=/usr/local/share:/usr/share"
+state.to_str      # "XDG_STATE_HOME=/Users/demo/Engineering/OSS/runcom/.local/state:/Users/demo/.local/state"
+
+# Inspection
+
+cache.inspect     # "#<Runcom::Cache:2040 XDG_CACHE_HOME=/Users/demo/Engineering/OSS/runcom/.cache:/Users/demo/.cache>"
+config.inspect    # "#<Runcom::Config:2060 XDG_CONFIG_HOME=/Users/demo/Engineering/OSS/runcom/.config:/Users/demo/.config XDG_CONFIG_DIRS=/etc/xdg>"
+data.inspect      # "#<Runcom::Data:2080 XDG_DATA_HOME=/Users/demo/Engineering/OSS/runcom/.local/share:/Users/demo/.local/share XDG_DATA_DIRS=/usr/local/share:/usr/share>"
+state.inspect     # "#<Runcom::State:2100 XDG_STATE_HOME=/Users/demo/Engineering/OSS/runcom/.local/state:/Users/demo/.local/state>"
 ----
 
 === Variable Priority
 
 Path precedence is determined in the following order (with the first taking highest priority):
 
-. *Local Configuration* - If a `+$XDG_*_HOME+` or `+$XDG_*_DIRS+` path relative to the
+. *Local Configuration*: If a `+$XDG_*_HOME+` or `+$XDG_*_DIRS+` path relative to the
   current working directory is detected, it will take precedence over the global configuration.
   This is the same behavior as found in Git where the local `.git/config` takes precedence over the
   global `$HOME/.gitconfig`.
-. *Global Configuration* - When a local configuration isn’t found, the global configuration is used
+. *Global Configuration*: When a local configuration isn’t found, the global configuration is used
   as defined by the _XDG Base Directory Specification_.
 
 === Building Blocks
@@ -158,6 +213,13 @@ You can also use the IRB console for direct access to all objects:
 [source,bash]
 ----
 bin/console
+----
+
+Lastly, there is a `bin/demo` script which displays default functionality for quick visual reference. This is the same script used to generate the usage examples shown at the top of this document.
+
+[source,bash]
+----
+bin/demo
 ----
 
 == Tests
