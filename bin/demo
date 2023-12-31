@@ -1,0 +1,79 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+Bundler.require :tools
+
+require "runcom"
+
+home = Dir.home
+demo = "/Users/demo"
+
+cache = Runcom::Cache.new "demo/projects.json"
+config = Runcom::Config.new "demo/settings.yml"
+data = Runcom::Data.new "demo/vault.store"
+state = Runcom::State.new "demo/history.log"
+
+puts "# Initialization\n\n"
+
+puts %(cache = XDG::Cache.new "demo/projects.json")
+puts %(config = XDG::Config.new "demo/settings.yml")
+puts %(data = XDG::Data.new "demo/vault.store")
+puts %(state = XDG::State.new "demo/history.log")
+
+puts "\n# Paths\n\n"
+
+puts %(cache.initial     # "#{cache.initial.sub(home, demo).inspect}")
+puts %(cache.namespace   # "#{cache.namespace.inspect}")
+puts %(cache.file_name   # "#{cache.file_name.inspect}")
+puts %(cache.active      # #{cache.active.inspect})
+puts %(cache.passive     # "#{cache.passive.sub(home, demo).inspect}")
+puts %(cache.global      # "#{cache.global.sub(home, demo).inspect}")
+puts %(cache.local       # "#{cache.local.sub(home, demo).inspect}")
+puts %(cache.all         # #{cache.all.map { |path| path.sub(home, demo).inspect }})
+puts
+puts %(config.initial    # "#{config.initial.sub(home, demo).inspect}")
+puts %(config.namespace  # "#{config.namespace.inspect}")
+puts %(config.file_name  # "#{config.file_name.inspect}")
+puts %(config.active     # #{config.active.inspect})
+puts %(config.passive    # "#{config.passive.sub(home, demo).inspect}")
+puts %(config.global     # "#{config.global.sub(home, demo).inspect}")
+puts %(config.local      # "#{config.local.sub(home, demo).inspect}")
+puts %(config.all        # #{config.all.map { |path| path.sub(home, demo).inspect }})
+puts
+puts %(data.initial      # "#{data.initial.sub(home, demo).inspect}")
+puts %(data.namespace    # "#{data.namespace.inspect}")
+puts %(data.file_name    # "#{data.file_name.inspect}")
+puts %(data.active       # #{data.active.inspect})
+puts %(data.passive      # "#{data.passive.sub(home, demo).inspect}")
+puts %(data.global       # "#{data.global.sub(home, demo).inspect}")
+puts %(data.local        # "#{data.local.sub(home, demo).inspect}")
+puts %(data.all          # #{data.all.map { |path| path.sub(home, demo).inspect }})
+puts
+puts %(state.initial     # "#{state.initial.sub(home, demo).inspect}")
+puts %(state.namespace   # "#{state.namespace.inspect}")
+puts %(state.file_name   # "#{state.file_name.inspect}")
+puts %(state.active      # #{state.active.inspect})
+puts %(state.passive     # "#{state.passive.sub(home, demo).inspect}")
+puts %(state.global      # "#{state.global.sub(home, demo).inspect}")
+puts %(state.local       # "#{state.local.sub(home, demo).inspect}")
+puts %(state.all         # #{state.all.map { |path| path.sub(home, demo).inspect }})
+
+puts "\n# Casts (explicit and implicit)\n\n"
+
+puts %(cache.to_s        # "#{cache.to_s.gsub home, demo}")
+puts %(config.to_s       # "#{config.to_s.gsub home, demo}")
+puts %(data.to_s         # "#{data.to_s.gsub home, demo}")
+puts %(state.to_s        # "#{state.to_s.gsub home, demo}")
+puts
+puts %(cache.to_str      # "#{cache.to_str.gsub home, demo}")
+puts %(config.to_str     # "#{config.to_str.gsub home, demo}")
+puts %(data.to_str       # "#{data.to_str.gsub home, demo}")
+puts %(state.to_str      # "#{state.to_str.gsub home, demo}")
+
+puts "\n# Inspection\n\n"
+
+puts %(cache.inspect     # "#{cache.inspect.gsub home, demo}")
+puts %(config.inspect    # "#{config.inspect.gsub home, demo}")
+puts %(data.inspect      # "#{data.inspect.gsub home, demo}")
+puts %(state.inspect     # "#{state.inspect.gsub home, demo}")
