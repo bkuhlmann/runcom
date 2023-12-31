@@ -9,11 +9,13 @@ module Runcom
 
     CONTEXT = Context.new xdg: XDG::Config
 
-    delegate %i[relative namespace file_name active passive global local all inspect] => :common
+    delegate %i[relative namespace file_name active passive global local all to_s to_str] => :common
 
     def initialize path, context: CONTEXT
       @common = Paths::Common.new path, context:
     end
+
+    def inspect = "#<#{self.class}:#{object_id} #{common}>"
 
     private
 

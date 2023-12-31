@@ -75,12 +75,38 @@ RSpec.describe Runcom::Data do
     end
   end
 
-  describe "#inspect" do
+  shared_examples "a string" do |message|
     it "answers environment settings" do
-      expect(data.inspect).to eq(
-        %(XDG_DATA_HOME=#{Bundler.root.join ".local/share"}:#{home_dir} ) \
+      expect(data.public_send(message)).to eq(
+        "XDG_DATA_HOME=#{Bundler.root.join ".local/share"}:#{home_dir} " \
         "XDG_DATA_DIRS=#{temp_dir}/one:#{temp_dir}/two"
       )
+    end
+  end
+
+  describe "#to_s" do
+    it_behaves_like "a string", :to_s
+  end
+
+  describe "#to_str" do
+    it_behaves_like "a string", :to_str
+  end
+
+  describe "#inspect" do
+    let :pattern do
+      %r(
+        \A
+        \#<
+        #{described_class}:\d+\s
+        XDG_DATA_HOME=#{Bundler.root.join ".local/share"}:#{home_dir}\s
+        XDG_DATA_DIRS=#{temp_dir}/one:#{temp_dir}/two
+        >
+        \Z
+      )x
+    end
+
+    it "answers current environment" do
+      expect(data.inspect).to match(pattern)
     end
   end
 end

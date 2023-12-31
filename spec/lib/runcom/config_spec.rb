@@ -79,12 +79,38 @@ RSpec.describe Runcom::Config do
     end
   end
 
-  describe "#inspect" do
+  shared_examples "a string" do |message|
     it "answers environment settings" do
-      expect(config.inspect).to eq(
-        %(XDG_CONFIG_HOME=#{Bundler.root.join ".config"}:#{config_home} ) \
+      expect(config.public_send(message)).to eq(
+        "XDG_CONFIG_HOME=#{Bundler.root.join ".config"}:#{config_home} " \
         "XDG_CONFIG_DIRS=#{temp_dir}/one:#{temp_dir}/two"
       )
+    end
+  end
+
+  describe "#to_s" do
+    it_behaves_like "a string", :to_s
+  end
+
+  describe "#to_str" do
+    it_behaves_like "a string", :to_str
+  end
+
+  describe "#inspect" do
+    let :pattern do
+      %r(
+        \A
+        \#<
+        #{described_class}:\d+\s
+        XDG_CONFIG_HOME=#{Bundler.root.join ".config"}:#{config_home}\s
+        XDG_CONFIG_DIRS=#{temp_dir}/one:#{temp_dir}/two
+        >
+        \Z
+      )x
+    end
+
+    it "answers current environment" do
+      expect(config.inspect).to match(pattern)
     end
   end
 end

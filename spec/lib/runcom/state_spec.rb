@@ -74,9 +74,36 @@ RSpec.describe Runcom::State do
     end
   end
 
-  describe "#inspect" do
+  shared_examples "a string" do |message|
     it "answers environment settings" do
-      expect(state.inspect).to eq(%(XDG_STATE_HOME=#{Bundler.root.join ".local/state"}:#{home_dir}))
+      expect(state.public_send(message)).to eq(
+        "XDG_STATE_HOME=#{Bundler.root.join ".local/state"}:#{home_dir}"
+      )
+    end
+  end
+
+  describe "#to_s" do
+    it_behaves_like "a string", :to_s
+  end
+
+  describe "#to_str" do
+    it_behaves_like "a string", :to_str
+  end
+
+  describe "#inspect" do
+    let :pattern do
+      /
+        \A
+        \#<
+        #{described_class}:\d+\s
+        XDG_STATE_HOME=#{Bundler.root.join ".local/state"}:#{home_dir}
+        >
+        \Z
+      /x
+    end
+
+    it "answers current environment" do
+      expect(state.inspect).to match(pattern)
     end
   end
 end

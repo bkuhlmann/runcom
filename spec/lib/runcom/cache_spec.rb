@@ -74,9 +74,36 @@ RSpec.describe Runcom::Cache do
     end
   end
 
-  describe "#inspect" do
+  shared_examples "a string" do |message|
     it "answers environment settings" do
-      expect(cache.inspect).to eq(%(XDG_CACHE_HOME=#{Bundler.root.join ".cache"}:#{home_dir}))
+      expect(cache.public_send(message)).to eq(
+        "XDG_CACHE_HOME=#{Bundler.root.join ".cache"}:#{home_dir}"
+      )
+    end
+  end
+
+  describe "#to_s" do
+    it_behaves_like "a string", :to_s
+  end
+
+  describe "#to_str" do
+    it_behaves_like "a string", :to_str
+  end
+
+  describe "#inspect" do
+    let :pattern do
+      /
+        \A
+        \#<
+        #{described_class}:\d+\s
+        XDG_CACHE_HOME=#{Bundler.root.join ".cache"}:#{home_dir}
+        >
+        \Z
+      /x
+    end
+
+    it "answers current environment" do
+      expect(cache.inspect).to match(pattern)
     end
   end
 end
