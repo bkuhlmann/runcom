@@ -201,4 +201,22 @@ RSpec.describe Runcom::Paths::Common do
   describe "#to_str" do
     it_behaves_like "a string", :to_str
   end
+
+  describe "#inspect" do
+    let :pattern do
+      %r(
+        \A
+        \#<
+        #{described_class}:\d+\s
+        XDG_DATA_HOME=#{Bundler.root}/.local/share:#{temp_dir}\s
+        XDG_DATA_DIRS=#{temp_dir}/one:#{temp_dir}/two
+        >
+        \Z
+      )x
+    end
+
+    it "answers current environment" do
+      expect(path.inspect).to match(pattern)
+    end
+  end
 end

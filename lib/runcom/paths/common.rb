@@ -1,17 +1,12 @@
 # frozen_string_literal: true
 
-require "forwardable"
 require "refinements/pathname"
 
 module Runcom
   module Paths
     # Provides common path/functionality for all XDG enhanced objects.
     class Common
-      extend Forwardable
-
       using Refinements::Pathname
-
-      delegate %i[inspect] => :xdg
 
       attr_reader :relative
 
@@ -40,6 +35,8 @@ module Runcom
       def to_s = xdg.to_s
 
       alias to_str to_s
+
+      def inspect = "#<#{self.class}:#{object_id} #{xdg}>"
 
       private
 
