@@ -3,3 +3,6 @@ detectors:
     enabled: false
   IrresponsibleModule:
     enabled: false
+  ModuleInitialize:
+    exclude:
+      - "Runcom"

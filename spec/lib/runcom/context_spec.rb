@@ -12,7 +12,7 @@ RSpec.describe Runcom::Context do
       )
     end
 
-    it "answers custom context" do
+    it "answers custom context XDG class" do
       context = described_class.new home: XDG::Paths::Home, environment: {b: 2}, xdg: XDG::Config
 
       expect(context).to have_attributes(
@@ -20,6 +20,13 @@ RSpec.describe Runcom::Context do
         environment: {b: 2},
         xdg: XDG::Config
       )
+    end
+
+    it "answers custom context XDG instance" do
+      xdg = XDG::Config.new
+      context = described_class.new(home: XDG::Paths::Home, environment: {b: 2}, xdg:)
+
+      expect(context).to have_attributes(home: XDG::Paths::Home, environment: {b: 2}, xdg:)
     end
 
     it "answers frozen instance" do
