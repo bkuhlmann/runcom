@@ -20,9 +20,13 @@ module Runcom
                      .then { |path| [path.expand_path, standard.dynamic] }
       end
 
-      def inspect
+      def to_s
         [standard.key, dynamic.join(XDG::Paths::Directory::DELIMITER)].compact.join XDG::DELIMITER
       end
+
+      alias to_str to_s
+
+      def inspect = to_s
 
       private
 
