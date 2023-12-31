@@ -23,9 +23,9 @@ RSpec.describe Runcom::Config do
 
   let(:context) { Runcom::Context.new xdg: XDG::Config, environment: }
 
-  describe "#relative" do
-    it "answers relative path" do
-      expect(config.relative).to eq(path)
+  describe "#initial" do
+    it "answers initial path" do
+      expect(config.initial).to eq(path)
     end
   end
 

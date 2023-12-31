@@ -21,9 +21,9 @@ RSpec.describe Runcom::Data do
     }
   end
 
-  describe "#relative" do
-    it "answers relative path" do
-      expect(data.relative).to eq(path)
+  describe "#initial" do
+    it "answers initial path" do
+      expect(data.initial).to eq(path)
     end
   end
 

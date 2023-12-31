@@ -20,9 +20,9 @@ RSpec.describe Runcom::State do
     }
   end
 
-  describe "#relative" do
-    it "answers relative path" do
-      expect(state.relative).to eq(path)
+  describe "#initial" do
+    it "answers initial path" do
+      expect(state.initial).to eq(path)
     end
   end
 

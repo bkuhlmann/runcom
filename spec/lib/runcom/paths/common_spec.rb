@@ -21,16 +21,16 @@ RSpec.describe Runcom::Paths::Common do
     }
   end
 
-  describe "#relative" do
-    it "answers relative path when resembling a path" do
-      expect(path.relative).to eq(Pathname("test/example.txt"))
+  describe "#initial" do
+    it "answers initial path when resembling a path" do
+      expect(path.initial).to eq(Pathname("test/example.txt"))
     end
 
     context "with empty string" do
       let(:test_path) { "" }
 
       it "answers empty path" do
-        expect(path.relative).to eq(Pathname(""))
+        expect(path.initial).to eq(Pathname(""))
       end
     end
 
@@ -38,15 +38,15 @@ RSpec.describe Runcom::Paths::Common do
       let(:test_path) { nil }
 
       it "answers empty path" do
-        expect(path.relative).to eq(Pathname(""))
+        expect(path.initial).to eq(Pathname(""))
       end
     end
 
     context "with pathname" do
       let(:test_path) { Pathname "test/example.txt" }
 
-      it "answers relative path" do
-        expect(path.relative).to eq(Pathname("test/example.txt"))
+      it "answers initial path" do
+        expect(path.initial).to eq(Pathname("test/example.txt"))
       end
     end
   end

@@ -8,16 +8,16 @@ module Runcom
     class Common
       using Refinements::Pathname
 
-      attr_reader :relative
+      attr_reader :initial
 
-      def initialize relative, context: Context.new
-        @relative = Pathname relative
+      def initialize initial, context: Context.new
+        @initial = Pathname initial
         @context = context
       end
 
-      def namespace = relative.parent
+      def namespace = initial.parent
 
-      def file_name = relative.basename
+      def file_name = initial.basename
 
       def active = all.select(&:file?).find(&:exist?)
 
@@ -30,7 +30,7 @@ module Runcom
 
       def local = all.first
 
-      def all = xdg.all.map { |root| root.join relative }
+      def all = xdg.all.map { |root| root.join initial }
 
       def to_s = xdg.to_s
 

@@ -20,9 +20,9 @@ RSpec.describe Runcom::Cache do
     }
   end
 
-  describe "#relative" do
-    it "answers relative path" do
-      expect(cache.relative).to eq(path)
+  describe "#initial" do
+    it "answers initial path" do
+      expect(cache.initial).to eq(path)
     end
   end
 
