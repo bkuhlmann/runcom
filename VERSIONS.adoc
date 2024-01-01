@@ -1,5 +1,22 @@
 = Versions
 
+== 11.0.0 (2024-01-01)
+
+* Added common path to string casting - Brooke Kuhlmann
+* Added demonstration script - Brooke Kuhlmann
+* Added home path string casting - Brooke Kuhlmann
+* Added string casting and improved object inspection - Brooke Kuhlmann
+* Added version release notes - Brooke Kuhlmann
+* Updated Circle CI step names - Brooke Kuhlmann
+* Updated common path inspection to include object type and ID - Brooke Kuhlmann
+* Updated context to be a data object - Brooke Kuhlmann
+* Updated gem dependencies - Brooke Kuhlmann
+* Updated home path inspection to include object type and ID - Brooke Kuhlmann
+* Updated relative path as initial path - Brooke Kuhlmann
+* Updated to Ruby 3.3.0 - Brooke Kuhlmann
+* Removed Gemfile code prefix from quality group - Brooke Kuhlmann
+* Removed Rakefile code prefix from quality task - Brooke Kuhlmann
+
 == 10.2.1 (2023-11-15)
 
 * Fixed gem loader to find by tag and cache instance - Brooke Kuhlmann
