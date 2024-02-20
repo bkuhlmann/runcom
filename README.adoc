@@ -184,7 +184,7 @@ Examples of gems built atop this gem are:
   smithing Ruby projects.
 * link:https://alchemists.io/projects/gemsmith[Gemsmith]: A command line interface for smithing
   new Ruby gems.
-* link:https://alchemists.io/projects/hanamismith[Hanamismith]: A command line interace for smithing link:https://hanamirb.org[Hanami] projects.
+* link:https://alchemists.io/projects/hanamismith[Hanamismith]: A command line interface for smithing link:https://hanamirb.org[Hanami] projects.
 * link:https://alchemists.io/projects/git-lint[Git Lint]: Enforces consistent Git commits.
 * link:https://alchemists.io/projects/milestoner[Milestoner]: A command line interface for
   releasing Git repository milestones.
