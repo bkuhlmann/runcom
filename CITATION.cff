@@ -19,5 +19,6 @@ keywords:
  - configuration
  - data
  - runtime
-repository-code: https://alchemists.io/projects/runcom
+repository-code: https://github.com/bkuhlmann/runcom
 repository-artifact: https://rubygems.org/gems/runcom
+url: https://alchemists.io/projects/runcom
