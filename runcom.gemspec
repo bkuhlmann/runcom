@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = ">= 3.3", "<= 3.4"
   spec.add_dependency "refinements", "~> 12.10"
-  spec.add_dependency "xdg", "~> 8.6"
+  spec.add_dependency "xdg", "~> 8.10"
   spec.add_dependency "zeitwerk", "~> 2.7"
 
   spec.files = Dir["*.gemspec", "lib/**/*"]
