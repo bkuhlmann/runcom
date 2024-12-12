@@ -13,6 +13,7 @@ module Runcom
       def initialize initial, context: Context.new
         @initial = Pathname initial
         @context = context
+        freeze
       end
 
       def namespace = initial.parent

@@ -21,6 +21,12 @@ RSpec.describe Runcom::Data do
     }
   end
 
+  describe "#initialize" do
+    it "is frozen" do
+      expect(data.frozen?).to be(true)
+    end
+  end
+
   describe "#initial" do
     it "answers initial path" do
       expect(data.initial).to eq(path)

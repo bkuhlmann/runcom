@@ -13,6 +13,7 @@ module Runcom
 
       def initialize pair, environment = ENV
         @standard = XDG::Paths::Home.new pair, environment
+        freeze
       end
 
       def dynamic

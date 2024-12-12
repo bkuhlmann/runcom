@@ -21,6 +21,12 @@ RSpec.describe Runcom::Paths::Common do
     }
   end
 
+  describe "#initialize" do
+    it "is frozen" do
+      expect(path.frozen?).to be(true)
+    end
+  end
+
   describe "#initial" do
     it "answers initial path when resembling a path" do
       expect(path.initial).to eq(Pathname("test/example.txt"))

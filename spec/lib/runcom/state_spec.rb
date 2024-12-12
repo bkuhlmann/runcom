@@ -20,6 +20,12 @@ RSpec.describe Runcom::State do
     }
   end
 
+  describe "#initialize" do
+    it "is frozen" do
+      expect(state.frozen?).to be(true)
+    end
+  end
+
   describe "#initial" do
     it "answers initial path" do
       expect(state.initial).to eq(path)

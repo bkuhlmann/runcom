@@ -12,7 +12,8 @@ module Runcom
     delegate %i[initial namespace file_name active passive global local all to_s to_str] => :common
 
     def initialize path, context: CONTEXT
-      @common = Paths::Common.new path, context:
+      @common = Paths::Common.new(path, context:)
+      freeze
     end
 
     def inspect = "#<#{self.class}:#{object_id} #{common}>"

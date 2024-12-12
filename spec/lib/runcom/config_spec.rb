@@ -23,6 +23,12 @@ RSpec.describe Runcom::Config do
 
   let(:context) { Runcom::Context.new xdg: XDG::Config, environment: }
 
+  describe "#initialize" do
+    it "is frozen" do
+      expect(config.frozen?).to be(true)
+    end
+  end
+
   describe "#initial" do
     it "answers initial path" do
       expect(config.initial).to eq(path)

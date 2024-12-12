@@ -13,6 +13,12 @@ RSpec.describe Runcom::Paths::Home do
   let(:home) { XDG::Pair.new "HOME", "/home" }
   let(:environment) { home.to_env }
 
+  describe "#initialize" do
+    it "is frozen" do
+      expect(path.frozen?).to be(true)
+    end
+  end
+
   describe "#key" do
     it "answers key" do
       expect(path.key).to eq(pair.key)
