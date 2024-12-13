@@ -55,9 +55,7 @@ RSpec.describe Runcom::Paths::Home do
       before { test_path.make_path }
 
       it "answers dynamic path" do
-        Dir.chdir temp_dir do
-          expect(path.dynamic).to eq([test_path, Pathname("/home/test")])
-        end
+        temp_dir.change_dir { expect(path.dynamic).to eq([test_path, Pathname("/home/test")]) }
       end
     end
   end
