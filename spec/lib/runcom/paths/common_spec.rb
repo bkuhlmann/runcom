@@ -87,12 +87,12 @@ RSpec.describe Runcom::Paths::Common do
 
   describe "#active" do
     it "answers path when file exists" do
-      file_path = temp_dir.join("test").make_path.join("example.txt").touch
+      file_path = temp_dir.join("test").mkpath.join("example.txt").touch
       expect(path.active).to eq(file_path)
     end
 
     it "answers nil when path is a directory" do
-      temp_dir.join("one/test/example.txt").make_path
+      temp_dir.join("one/test/example.txt").mkpath
       expect(path.active).to be(nil)
     end
 
@@ -111,7 +111,7 @@ RSpec.describe Runcom::Paths::Common do
 
   describe "#passive" do
     it "answers active path when path exists" do
-      file_path = temp_dir.join("test").make_path.join("example.txt").touch
+      file_path = temp_dir.join("test").mkpath.join("example.txt").touch
       expect(path.passive).to eq(file_path)
     end
 

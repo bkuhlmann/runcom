@@ -58,7 +58,7 @@ RSpec.describe Runcom::Paths::Home do
       let(:environment) { home.to_env.merge pair.to_env }
       let(:test_path) { temp_dir.join "test" }
 
-      before { test_path.make_path }
+      before { test_path.mkpath }
 
       it "answers dynamic path" do
         temp_dir.change_dir { expect(path.dynamic).to eq([test_path, Pathname("/home/test")]) }
