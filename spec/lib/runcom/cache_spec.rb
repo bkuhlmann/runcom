@@ -46,7 +46,7 @@ RSpec.describe Runcom::Cache do
 
   describe "#active" do
     it "answers file path when it exists" do
-      file_path = home_dir.join(path).deep_touch
+      file_path = home_dir.join(path).touch_deep
       expect(cache.active).to eq(file_path)
     end
   end

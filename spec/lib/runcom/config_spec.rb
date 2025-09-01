@@ -49,7 +49,7 @@ RSpec.describe Runcom::Config do
 
   describe "#active" do
     it "answers config file when path exists" do
-      config_path.deep_touch
+      config_path.touch_deep
       expect(config.active).to eq(config_path)
     end
   end
