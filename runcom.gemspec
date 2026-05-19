@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "refinements", "~> 14.0"
   spec.add_dependency "xdg", "~> 10.0"
-  spec.add_dependency "zeitwerk", "~> 2.7"
+  spec.add_dependency "zeitwerk", "~> 2.8"
 
   spec.files = Dir["*.gemspec", "lib/**/*"]
   spec.extra_rdoc_files = Dir["README*", "LICENSE*"]
