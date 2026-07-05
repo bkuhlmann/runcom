@@ -3,7 +3,7 @@
 require "forwardable"
 
 module Runcom
-  # A developer friendly wrapper of XDG data.
+  # A developer friendly XDG data wrapper.
   class Data
     extend Forwardable
 

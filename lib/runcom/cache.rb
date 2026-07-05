@@ -3,7 +3,7 @@
 require "forwardable"
 
 module Runcom
-  # A developer friendly wrapper of XDG cache.
+  # A developer friendly XDG cache wrapper.
   class Cache
     extend Forwardable
 

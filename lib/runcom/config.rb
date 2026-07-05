@@ -3,7 +3,7 @@
 require "forwardable"
 
 module Runcom
-  # A developer friendly wrapper of XDG config.
+  # A developer friendly XDG config wrapper.
   class Config
     extend Forwardable
 

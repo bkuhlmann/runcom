@@ -3,7 +3,7 @@
 require "forwardable"
 
 module Runcom
-  # A developer friendly wrapper of XDG state.
+  # A developer friendly XDG state wrapper.
   class State
     extend Forwardable
 
