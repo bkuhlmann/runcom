@@ -6,3 +6,5 @@ detectors:
   ModuleInitialize:
     exclude:
       - "Runcom"
+  UnusedParameters:
+    enabled: false
