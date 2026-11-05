@@ -5,9 +5,9 @@ require "forwardable"
 module Runcom
   # A developer friendly XDG data wrapper.
   class Data
-    extend Forwardable
-
     CONTEXT = Context.new xdg: XDG::Data
+
+    extend Forwardable
 
     delegate %i[initial namespace file_name active passive global local all to_s to_str] => :common
 

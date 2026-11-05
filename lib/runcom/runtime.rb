@@ -5,9 +5,9 @@ require "forwardable"
 module Runcom
   # A developer friendly XDG runtime wrapper.
   class Runtime
-    extend Forwardable
-
     CONTEXT = Context.new xdg: XDG::Runtime
+
+    extend Forwardable
 
     delegate %i[initial namespace file_name active passive global local all to_s to_str] => :common
 
